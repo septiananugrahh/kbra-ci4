@@ -1,0 +1,33 @@
+CRITICAL - 2025-05-28 13:18:02 --> ErrorException: Undefined variable $kelasList
+[Method: GET, Route: dashboard]
+in APPPATH\Views\admin\v_dashboard.php on line 18.
+ 1 APPPATH\Views\admin\v_dashboard.php(18): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $kelasList', 'D:\\laragon\\www\\kbra-ci\\app\\Views\\admin\\v_dashboard.php', 18)
+ 2 SYSTEMPATH\View\View.php(224): include('D:\\laragon\\www\\kbra-ci\\app\\Views\\admin\\v_dashboard.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\View\View.php(475): CodeIgniter\View\View->render('admin/v_dashboard', null, true)
+ 5 APPPATH\Views\layouts\base.php(803): CodeIgniter\View\View->include('admin/v_dashboard')
+ 6 SYSTEMPATH\View\View.php(224): include('D:\\laragon\\www\\kbra-ci\\app\\Views\\layouts\\base.php')
+ 7 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 8 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('layouts/base', [], true)
+ 9 APPPATH\Controllers\CustomController.php(21): view('layouts/base', [...])
+10 APPPATH\Controllers\Dashboard.php(14): App\Controllers\CustomController->render('admin/v_dashboard', [...])
+11 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Dashboard->index()
+12 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dashboard))
+13 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+14 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+15 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+16 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+17 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+CRITICAL - 2025-05-28 13:24:27 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "form_kelas.php"
+[Method: GET, Route: guru/pilih-kelas]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('form_kelas.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('form_kelas', [], true)
+ 3 APPPATH\Controllers\Pegawai.php(109): view('form_kelas', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Pegawai->formPilihKelas()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pegawai))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')

@@ -1,0 +1,355 @@
+CRITICAL - 2025-05-14 11:07:53 --> ErrorException: Trying to access array offset on value of type null
+[Method: POST, Route: login/auth]
+in APPPATH\Controllers\Login.php on line 37.
+ 1 APPPATH\Controllers\Login.php(37): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', 'D:\\laragon\\www\\kbra-ci\\app\\Controllers\\Login.php', 37)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Login->auth()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Login))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+ERROR - 2025-05-14 12:40:16 --> mysqli_sql_exception: Unknown column 'user.id' in 'on clause' in D:\laragon\www\kbra-ci\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 D:\laragon\www\kbra-ci\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT *\nFROM `...', 0)
+#1 D:\laragon\www\kbra-ci\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *\nFROM `...')
+#2 D:\laragon\www\kbra-ci\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *\nFROM `...')
+#3 D:\laragon\www\kbra-ci\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 D:\laragon\www\kbra-ci\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#5 D:\laragon\www\kbra-ci\system\BaseModel.php(679): CodeIgniter\Model->doFindAll(0, 0)
+#6 D:\laragon\www\kbra-ci\app\Controllers\Kelas.php(147): CodeIgniter\BaseModel->findAll()
+#7 D:\laragon\www\kbra-ci\system\CodeIgniter.php(933): App\Controllers\Kelas->get_guru_by_kelas('4')
+#8 D:\laragon\www\kbra-ci\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Kelas))
+#9 D:\laragon\www\kbra-ci\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 D:\laragon\www\kbra-ci\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#11 D:\laragon\www\kbra-ci\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 D:\laragon\www\kbra-ci\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 D:\laragon\www\kbra-ci\system\rewrite.php(44): require_once('D:\\laragon\\www\\...')
+#14 {main}
+CRITICAL - 2025-05-14 12:40:16 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'user.id' in 'on clause'
+[Method: GET, Route: kelas/get_guru_by_kelas/4]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `guru`
+JOIN `guru_kelas` ON `user`.`id` = `guru_kelas`.`guru_id`
+WHERE `guru_kelas`.`kelas_id` = :guru_kelas.kelas_id:', [...], false)
+ 2 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(679): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Controllers\Kelas.php(147): CodeIgniter\BaseModel->findAll()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Kelas->get_guru_by_kelas('4')
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Kelas))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+CRITICAL - 2025-05-14 12:40:16 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'user.id' in 'on clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `guru`
+JOIN `guru_kelas` ON `user`.`id` = `guru_kelas`.`guru_id`
+WHERE `guru_kelas`.`kelas_id` = \'4\'')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `guru`
+JOIN `guru_kelas` ON `user`.`id` = `guru_kelas`.`guru_id`
+WHERE `guru_kelas`.`kelas_id` = \'4\'')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `guru`
+JOIN `guru_kelas` ON `user`.`id` = `guru_kelas`.`guru_id`
+WHERE `guru_kelas`.`kelas_id` = :guru_kelas.kelas_id:', [...], false)
+ 4 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(679): CodeIgniter\Model->doFindAll(0, 0)
+ 6 APPPATH\Controllers\Kelas.php(147): CodeIgniter\BaseModel->findAll()
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Kelas->get_guru_by_kelas('4')
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Kelas))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+13 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+CRITICAL - 2025-05-14 12:40:16 --> [Caused by] mysqli_sql_exception: Unknown column 'user.id' in 'on clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT *
+FROM `guru`
+JOIN `guru_kelas` ON `user`.`id` = `guru_kelas`.`guru_id`
+WHERE `guru_kelas`.`kelas_id` = \'4\'', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `guru`
+JOIN `guru_kelas` ON `user`.`id` = `guru_kelas`.`guru_id`
+WHERE `guru_kelas`.`kelas_id` = \'4\'')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `guru`
+JOIN `guru_kelas` ON `user`.`id` = `guru_kelas`.`guru_id`
+WHERE `guru_kelas`.`kelas_id` = \'4\'')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `guru`
+JOIN `guru_kelas` ON `user`.`id` = `guru_kelas`.`guru_id`
+WHERE `guru_kelas`.`kelas_id` = :guru_kelas.kelas_id:', [...], false)
+ 5 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(679): CodeIgniter\Model->doFindAll(0, 0)
+ 7 APPPATH\Controllers\Kelas.php(147): CodeIgniter\BaseModel->findAll()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Kelas->get_guru_by_kelas('4')
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Kelas))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+CRITICAL - 2025-05-14 13:11:07 --> CodeIgniter\Database\Exceptions\DataException: There is no data to insert.
+[Method: POST, Route: kelas/tambah_santri_ke_kelas]
+in SYSTEMPATH\BaseModel.php on line 829.
+ 1 SYSTEMPATH\BaseModel.php(829): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('insert')
+ 2 SYSTEMPATH\Model.php(800): CodeIgniter\BaseModel->insert([], false)
+ 3 SYSTEMPATH\BaseModel.php(754): CodeIgniter\Model->insert([...], false)
+ 4 APPPATH\Controllers\Kelas.php(182): CodeIgniter\BaseModel->save([...])
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Kelas->tambah_santri_ke_kelas()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Kelas))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+CRITICAL - 2025-05-14 13:12:56 --> CodeIgniter\Database\Exceptions\DataException: There is no data to insert.
+[Method: POST, Route: kelas/tambah_santri_ke_kelas]
+in SYSTEMPATH\BaseModel.php on line 829.
+ 1 SYSTEMPATH\BaseModel.php(829): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('insert')
+ 2 SYSTEMPATH\Model.php(800): CodeIgniter\BaseModel->insert([], false)
+ 3 SYSTEMPATH\BaseModel.php(754): CodeIgniter\Model->insert([...], false)
+ 4 APPPATH\Controllers\Kelas.php(182): CodeIgniter\BaseModel->save([...])
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Kelas->tambah_santri_ke_kelas()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Kelas))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+CRITICAL - 2025-05-14 13:15:47 --> CodeIgniter\Database\Exceptions\DataException: There is no data to insert.
+[Method: POST, Route: kelas/tambah_santri_ke_kelas]
+in SYSTEMPATH\BaseModel.php on line 829.
+ 1 SYSTEMPATH\BaseModel.php(829): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('insert')
+ 2 SYSTEMPATH\Model.php(800): CodeIgniter\BaseModel->insert([], false)
+ 3 SYSTEMPATH\BaseModel.php(754): CodeIgniter\Model->insert([...], false)
+ 4 APPPATH\Controllers\Kelas.php(182): CodeIgniter\BaseModel->save([...])
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Kelas->tambah_santri_ke_kelas()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Kelas))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+CRITICAL - 2025-05-14 13:33:21 --> CodeIgniter\Database\Exceptions\DataException: There is no data to insert.
+[Method: POST, Route: kelas/tambah_santri_ke_kelas]
+in SYSTEMPATH\BaseModel.php on line 829.
+ 1 SYSTEMPATH\BaseModel.php(829): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('insert')
+ 2 SYSTEMPATH\Model.php(800): CodeIgniter\BaseModel->insert([], false)
+ 3 SYSTEMPATH\BaseModel.php(754): CodeIgniter\Model->insert([...], false)
+ 4 APPPATH\Controllers\Kelas.php(190): CodeIgniter\BaseModel->save([...])
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Kelas->tambah_santri_ke_kelas()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Kelas))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+CRITICAL - 2025-05-14 13:40:19 --> CodeIgniter\Database\Exceptions\DataException: There is no data to insert.
+[Method: POST, Route: kelas/tambah_santri_ke_kelas]
+in SYSTEMPATH\BaseModel.php on line 829.
+ 1 SYSTEMPATH\BaseModel.php(829): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('insert')
+ 2 SYSTEMPATH\Model.php(800): CodeIgniter\BaseModel->insert([], false)
+ 3 SYSTEMPATH\BaseModel.php(754): CodeIgniter\Model->insert([...], false)
+ 4 APPPATH\Controllers\Kelas.php(190): CodeIgniter\BaseModel->save([...])
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Kelas->tambah_santri_ke_kelas()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Kelas))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+CRITICAL - 2025-05-14 13:51:29 --> CodeIgniter\Database\Exceptions\DataException: There is no data to insert.
+[Method: POST, Route: kelas/tambah_santri_ke_kelas]
+in SYSTEMPATH\BaseModel.php on line 829.
+ 1 SYSTEMPATH\BaseModel.php(829): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('insert')
+ 2 SYSTEMPATH\Model.php(800): CodeIgniter\BaseModel->insert([], false)
+ 3 SYSTEMPATH\BaseModel.php(754): CodeIgniter\Model->insert([...], false)
+ 4 APPPATH\Controllers\Kelas.php(190): CodeIgniter\BaseModel->save([...])
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Kelas->tambah_santri_ke_kelas()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Kelas))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+ERROR - 2025-05-14 14:16:06 --> mysqli_sql_exception: Unknown column 'kelas_idx' in 'where clause' in D:\laragon\www\kbra-ci\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 D:\laragon\www\kbra-ci\system\Database\MySQLi\Connection.php(327): mysqli->query('DELETE FROM `ru...', 0)
+#1 D:\laragon\www\kbra-ci\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('DELETE FROM `ru...')
+#2 D:\laragon\www\kbra-ci\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM `ru...')
+#3 D:\laragon\www\kbra-ci\system\Database\BaseBuilder.php(2848): CodeIgniter\Database\BaseConnection->query('DELETE FROM `ru...', Array, false)
+#4 D:\laragon\www\kbra-ci\system\Model.php(521): CodeIgniter\Database\BaseBuilder->delete()
+#5 D:\laragon\www\kbra-ci\system\BaseModel.php(1161): CodeIgniter\Model->doDelete(NULL, false)
+#6 D:\laragon\www\kbra-ci\app\Controllers\Kelas.php(202): CodeIgniter\BaseModel->delete()
+#7 D:\laragon\www\kbra-ci\system\CodeIgniter.php(933): App\Controllers\Kelas->hapus_santri_dari_kelas()
+#8 D:\laragon\www\kbra-ci\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Kelas))
+#9 D:\laragon\www\kbra-ci\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 D:\laragon\www\kbra-ci\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#11 D:\laragon\www\kbra-ci\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 D:\laragon\www\kbra-ci\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 D:\laragon\www\kbra-ci\system\rewrite.php(44): require_once('D:\\laragon\\www\\...')
+#14 {main}
+CRITICAL - 2025-05-14 14:16:07 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'kelas_idx' in 'where clause'
+[Method: POST, Route: kelas/hapus_santri]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2848): CodeIgniter\Database\BaseConnection->query('DELETE FROM `ruang_kelas`
+WHERE `santri_id` = :santri_id:
+AND `kelas_idx` = :kelas_idx:', [...], false)
+ 2 SYSTEMPATH\Model.php(521): CodeIgniter\Database\BaseBuilder->delete()
+ 3 SYSTEMPATH\BaseModel.php(1161): CodeIgniter\Model->doDelete(null, false)
+ 4 APPPATH\Controllers\Kelas.php(202): CodeIgniter\BaseModel->delete()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Kelas->hapus_santri_dari_kelas()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Kelas))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+CRITICAL - 2025-05-14 14:16:07 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'kelas_idx' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('DELETE FROM `ruang_kelas`
+WHERE `santri_id` = \'3\'
+AND `kelas_idx` = \'5\'')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM `ruang_kelas`
+WHERE `santri_id` = \'3\'
+AND `kelas_idx` = \'5\'')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(2848): CodeIgniter\Database\BaseConnection->query('DELETE FROM `ruang_kelas`
+WHERE `santri_id` = :santri_id:
+AND `kelas_idx` = :kelas_idx:', [...], false)
+ 4 SYSTEMPATH\Model.php(521): CodeIgniter\Database\BaseBuilder->delete()
+ 5 SYSTEMPATH\BaseModel.php(1161): CodeIgniter\Model->doDelete(null, false)
+ 6 APPPATH\Controllers\Kelas.php(202): CodeIgniter\BaseModel->delete()
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Kelas->hapus_santri_dari_kelas()
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Kelas))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+13 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+CRITICAL - 2025-05-14 14:16:07 --> [Caused by] mysqli_sql_exception: Unknown column 'kelas_idx' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('DELETE FROM `ruang_kelas`
+WHERE `santri_id` = \'3\'
+AND `kelas_idx` = \'5\'', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('DELETE FROM `ruang_kelas`
+WHERE `santri_id` = \'3\'
+AND `kelas_idx` = \'5\'')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM `ruang_kelas`
+WHERE `santri_id` = \'3\'
+AND `kelas_idx` = \'5\'')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2848): CodeIgniter\Database\BaseConnection->query('DELETE FROM `ruang_kelas`
+WHERE `santri_id` = :santri_id:
+AND `kelas_idx` = :kelas_idx:', [...], false)
+ 5 SYSTEMPATH\Model.php(521): CodeIgniter\Database\BaseBuilder->delete()
+ 6 SYSTEMPATH\BaseModel.php(1161): CodeIgniter\Model->doDelete(null, false)
+ 7 APPPATH\Controllers\Kelas.php(202): CodeIgniter\BaseModel->delete()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Kelas->hapus_santri_dari_kelas()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Kelas))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+ERROR - 2025-05-14 14:24:27 --> mysqli_sql_exception: Unknown column 'guru_id' in 'field list' in D:\laragon\www\kbra-ci\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 D:\laragon\www\kbra-ci\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `guru_id...', 0)
+#1 D:\laragon\www\kbra-ci\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `guru_id...')
+#2 D:\laragon\www\kbra-ci\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `guru_id...')
+#3 D:\laragon\www\kbra-ci\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `guru_id...', Array, false)
+#4 D:\laragon\www\kbra-ci\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#5 D:\laragon\www\kbra-ci\system\BaseModel.php(679): CodeIgniter\Model->doFindAll(0, 0)
+#6 D:\laragon\www\kbra-ci\app\Controllers\Kelas.php(215): CodeIgniter\BaseModel->findAll()
+#7 D:\laragon\www\kbra-ci\system\CodeIgniter.php(933): App\Controllers\Kelas->get_guru('4')
+#8 D:\laragon\www\kbra-ci\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Kelas))
+#9 D:\laragon\www\kbra-ci\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 D:\laragon\www\kbra-ci\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#11 D:\laragon\www\kbra-ci\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 D:\laragon\www\kbra-ci\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 D:\laragon\www\kbra-ci\system\rewrite.php(44): require_once('D:\\laragon\\www\\...')
+#14 {main}
+CRITICAL - 2025-05-14 14:24:27 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'guru_id' in 'field list'
+[Method: GET, Route: kelas/get_guru/4]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `guru_id`
+FROM `ruang_kelas`
+JOIN `kelas` ON `kelas`.`id` = `guru_kelas`.`kelas_id`
+WHERE `kelas`.`set` = :kelas.set:', [...], false)
+ 2 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(679): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Controllers\Kelas.php(215): CodeIgniter\BaseModel->findAll()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Kelas->get_guru('4')
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Kelas))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+CRITICAL - 2025-05-14 14:24:27 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'guru_id' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `guru_id`
+FROM `ruang_kelas`
+JOIN `kelas` ON `kelas`.`id` = `guru_kelas`.`kelas_id`
+WHERE `kelas`.`set` = \'1\'')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `guru_id`
+FROM `ruang_kelas`
+JOIN `kelas` ON `kelas`.`id` = `guru_kelas`.`kelas_id`
+WHERE `kelas`.`set` = \'1\'')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `guru_id`
+FROM `ruang_kelas`
+JOIN `kelas` ON `kelas`.`id` = `guru_kelas`.`kelas_id`
+WHERE `kelas`.`set` = :kelas.set:', [...], false)
+ 4 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(679): CodeIgniter\Model->doFindAll(0, 0)
+ 6 APPPATH\Controllers\Kelas.php(215): CodeIgniter\BaseModel->findAll()
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Kelas->get_guru('4')
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Kelas))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+13 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+CRITICAL - 2025-05-14 14:24:27 --> [Caused by] mysqli_sql_exception: Unknown column 'guru_id' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `guru_id`
+FROM `ruang_kelas`
+JOIN `kelas` ON `kelas`.`id` = `guru_kelas`.`kelas_id`
+WHERE `kelas`.`set` = \'1\'', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `guru_id`
+FROM `ruang_kelas`
+JOIN `kelas` ON `kelas`.`id` = `guru_kelas`.`kelas_id`
+WHERE `kelas`.`set` = \'1\'')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `guru_id`
+FROM `ruang_kelas`
+JOIN `kelas` ON `kelas`.`id` = `guru_kelas`.`kelas_id`
+WHERE `kelas`.`set` = \'1\'')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `guru_id`
+FROM `ruang_kelas`
+JOIN `kelas` ON `kelas`.`id` = `guru_kelas`.`kelas_id`
+WHERE `kelas`.`set` = :kelas.set:', [...], false)
+ 5 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(679): CodeIgniter\Model->doFindAll(0, 0)
+ 7 APPPATH\Controllers\Kelas.php(215): CodeIgniter\BaseModel->findAll()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Kelas->get_guru('4')
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Kelas))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+CRITICAL - 2025-05-14 14:25:39 --> Error: Class "App\Models\GuruKelasModel" not found
+[Method: GET, Route: kelas]
+in APPPATH\Controllers\Kelas.php on line 25.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Kelas->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')

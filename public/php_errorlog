@@ -1,0 +1,26 @@
+[04-Aug-2025 13:30:26 UTC] PHP Fatal error:  Uncaught CodeIgniter\Exceptions\ConfigException: Config\App::$baseURL "/" is not a valid URL. in /home/customer/www/kbra.saicponorogo.com/kbra/system/HTTP/SiteURI.php:201
+Stack trace:
+#0 /home/customer/www/kbra.saicponorogo.com/kbra/system/HTTP/SiteURI.php(147): CodeIgniter\HTTP\SiteURI->normalizeBaseURL(Object(Config\App))
+#1 /home/customer/www/kbra.saicponorogo.com/kbra/system/HTTP/SiteURI.php(102): CodeIgniter\HTTP\SiteURI->determineBaseURL(Object(Config\App), NULL, NULL)
+#2 /home/customer/www/kbra.saicponorogo.com/kbra/system/HTTP/SiteURIFactory.php(212): CodeIgniter\HTTP\SiteURI->__construct(Object(Config\App), 'dimensiprofil', NULL)
+#3 /home/customer/www/kbra.saicponorogo.com/kbra/system/HTTP/SiteURIFactory.php(42): CodeIgniter\HTTP\SiteURIFactory->createURIFromRoutePath('dimensiprofil')
+#4 /home/customer/www/kbra.saicponorogo.com/kbra/system/Config/Services.php(816): CodeIgniter\HTTP\SiteURIFactory->createFromGlobals()
+#5 /home/customer/www/kbra.saicponorogo.com/kbra/system/Config/BaseService.php(312): CodeIgniter\Config\Services::uri(NULL, false)
+#6 /home/customer/www/kbra.saicponorogo.com/kbra/system/Config/BaseService.php(251): CodeIgniter\Config\BaseService::__callStatic('uri', Array)
+#7 /home/customer/www/kbra.saicponorogo.com/kbra/system/Config/Services.php(809): CodeIgniter\Config\BaseService::getSharedInstance('uri', NULL)
+#8 /home/customer/www/kbra.saicponorogo.com/kbra/system/Config/BaseService.php(312): CodeIgniter\Config\Services::uri()
+#9 /home/customer/www/kbra.saicponorogo.com/kbra/system/Config/BaseService.php(202): CodeIgniter\Config\BaseService::__callStatic('uri', Array)
+#10 /home/customer/www/kbra.saicponorogo.com/kbra/system/Config/Services.php(570): CodeIgniter\Config\BaseService::get('uri')
+#11 /home/customer/www/kbra.saicponorogo.com/kbra/system/Config/BaseService.php(312): CodeIgniter\Config\Services::incomingrequest(Object(Config\App), false)
+#12 /home/customer/www/kbra.saicponorogo.com/kbra/system/Config/Services.php(528): CodeIgniter\Config\BaseService::__callStatic('incomingrequest', Array)
+#13 /home/customer/www/kbra.saicponorogo.com/kbra/system/Config/BaseService.php(312): CodeIgniter\Config\Services::request(NULL, false)
+#14 /home/customer/www/kbra.saicponorogo.com/kbra/system/Config/BaseService.php(251): CodeIgniter\Config\BaseService::__callStatic('request', Array)
+#15 /home/customer/www/kbra.saicponorogo.com/kbra/system/Config/Services.php(524): CodeIgniter\Config\BaseService::getSharedInstance('request', NULL)
+#16 /home/customer/www/kbra.saicponorogo.com/kbra/system/Config/BaseService.php(312): CodeIgniter\Config\Services::request()
+#17 /home/customer/www/kbra.saicponorogo.com/kbra/system/Config/BaseService.php(202): CodeIgniter\Config\BaseService::__callStatic('request', Array)
+#18 /home/customer/www/kbra.saicponorogo.com/kbra/system/Common.php(1000): CodeIgniter\Config\BaseService::get('request')
+#19 /home/customer/www/kbra.saicponorogo.com/kbra/system/Debug/Exceptions.php(128): service('request')
+#20 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(CodeIgniter\Exceptions\ConfigException))
+#21 {main}
+  thrown in /home/customer/www/kbra.saicponorogo.com/kbra/system/HTTP/SiteURI.php on line 201
+[06-Jan-2026 08:53:51 UTC] PHP Fatal error:  Cannot redeclare App\Controllers\Kelas::ambil_data_kelas() in /home/customer/www/kbra.saicponorogo.com/kbra/app/Controllers/Kelas.php on line 168

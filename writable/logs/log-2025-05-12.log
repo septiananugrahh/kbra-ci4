@@ -1,0 +1,200 @@
+CRITICAL - 2025-05-12 02:07:51 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "admin/pegawai.php"
+[Method: GET, Route: pegawai]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('admin/pegawai.php')
+ 2 SYSTEMPATH\View\View.php(475): CodeIgniter\View\View->render('admin/pegawai', null, true)
+ 3 APPPATH\Views\layouts\base.php(739): CodeIgniter\View\View->include('admin/pegawai')
+ 4 SYSTEMPATH\View\View.php(224): include('D:\\laragon\\www\\kbra-ci\\app\\Views\\layouts\\base.php')
+ 5 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('layouts/base', [], true)
+ 7 APPPATH\Controllers\CustomController.php(21): view('layouts/base', [...])
+ 8 APPPATH\Controllers\Pegawai.php(14): App\Controllers\CustomController->render('admin/pegawai', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Pegawai->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pegawai))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-12 05:08:47 --> Error: Class "App\Controllers\PegawaiModel" not found
+[Method: GET, Route: pegawai]
+in APPPATH\Controllers\Pegawai.php on line 13.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Pegawai->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-12 05:20:21 --> ParseError: syntax error, unexpected token "if"
+[Method: GET, Route: pegawai]
+in APPPATH\Controllers\Pegawai.php on line 20.
+ 1 SYSTEMPATH\Autoloader\Autoloader.php(295): CodeIgniter\Autoloader\Autoloader->includeFile('D:\\laragon\\www\\kbra-ci\\app\\Controllers\\Pegawai.php')
+ 2 SYSTEMPATH\Autoloader\Autoloader.php(271): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\Pegawai')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\Pegawai')
+ 4 SYSTEMPATH\CodeIgniter.php(885): class_exists('\\App\\Controllers\\Pegawai', true)
+ 5 SYSTEMPATH\CodeIgniter.php(494): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-12 06:33:33 --> ErrorException: Undefined property: CodeIgniter\View\View::$session
+[Method: GET, Route: pegawai]
+in APPPATH\Views\admin\v_pegawai.php on line 178.
+ 1 APPPATH\Views\admin\v_pegawai.php(178): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: CodeIgniter\\View\\View::$session', 'D:\\laragon\\www\\kbra-ci\\app\\Views\\admin\\v_pegawai.php', 178)
+ 2 SYSTEMPATH\View\View.php(224): include('D:\\laragon\\www\\kbra-ci\\app\\Views\\admin\\v_pegawai.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\View\View.php(475): CodeIgniter\View\View->render('admin/v_pegawai', null, true)
+ 5 APPPATH\Views\layouts\base.php(743): CodeIgniter\View\View->include('admin/v_pegawai')
+ 6 SYSTEMPATH\View\View.php(224): include('D:\\laragon\\www\\kbra-ci\\app\\Views\\layouts\\base.php')
+ 7 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 8 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('layouts/base', [], true)
+ 9 APPPATH\Controllers\CustomController.php(21): view('layouts/base', [...])
+10 APPPATH\Controllers\Pegawai.php(101): App\Controllers\CustomController->render('admin/v_pegawai', [...])
+11 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Pegawai->index()
+12 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pegawai))
+13 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+14 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+15 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+16 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+17 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+CRITICAL - 2025-05-12 06:34:23 --> ErrorException: Undefined property: CodeIgniter\View\View::$session
+[Method: GET, Route: pegawai]
+in APPPATH\Views\admin\v_pegawai.php on line 183.
+ 1 APPPATH\Views\admin\v_pegawai.php(183): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: CodeIgniter\\View\\View::$session', 'D:\\laragon\\www\\kbra-ci\\app\\Views\\admin\\v_pegawai.php', 183)
+ 2 SYSTEMPATH\View\View.php(224): include('D:\\laragon\\www\\kbra-ci\\app\\Views\\admin\\v_pegawai.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\View\View.php(475): CodeIgniter\View\View->render('admin/v_pegawai', null, true)
+ 5 APPPATH\Views\layouts\base.php(743): CodeIgniter\View\View->include('admin/v_pegawai')
+ 6 SYSTEMPATH\View\View.php(224): include('D:\\laragon\\www\\kbra-ci\\app\\Views\\layouts\\base.php')
+ 7 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 8 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('layouts/base', [], true)
+ 9 APPPATH\Controllers\CustomController.php(21): view('layouts/base', [...])
+10 APPPATH\Controllers\Pegawai.php(101): App\Controllers\CustomController->render('admin/v_pegawai', [...])
+11 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Pegawai->index()
+12 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pegawai))
+13 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+14 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+15 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+16 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+17 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+CRITICAL - 2025-05-12 07:55:21 --> CodeIgniter\Database\Exceptions\DataException: There is no data to update.
+[Method: POST, Route: role/hapusdata_soft]
+in SYSTEMPATH\BaseModel.php on line 1014.
+ 1 SYSTEMPATH\BaseModel.php(1014): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('update')
+ 2 SYSTEMPATH\Model.php(863): CodeIgniter\BaseModel->update([...], [])
+ 3 APPPATH\Controllers\Role.php(88): CodeIgniter\Model->update('1', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Role->hapusdata_soft()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Role))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+CRITICAL - 2025-05-12 07:57:14 --> CodeIgniter\Database\Exceptions\DataException: There is no data to update.
+[Method: POST, Route: role/hapusdata_soft]
+in SYSTEMPATH\BaseModel.php on line 1014.
+ 1 SYSTEMPATH\BaseModel.php(1014): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('update')
+ 2 SYSTEMPATH\Model.php(863): CodeIgniter\BaseModel->update([...], [])
+ 3 APPPATH\Controllers\Role.php(88): CodeIgniter\Model->update('1', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Role->hapusdata_soft()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Role))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+ERROR - 2025-05-12 08:39:10 --> mysqli_sql_exception: Unknown column 'ull.user_id' in 'where clause' in D:\laragon\www\kbra-ci\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 D:\laragon\www\kbra-ci\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `uld`.`i...', 0)
+#1 D:\laragon\www\kbra-ci\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `uld`.`i...')
+#2 D:\laragon\www\kbra-ci\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `uld`.`i...')
+#3 D:\laragon\www\kbra-ci\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `uld`.`i...', Array, false)
+#4 D:\laragon\www\kbra-ci\app\Models\UserRoleModel.php(19): CodeIgniter\Database\BaseBuilder->get()
+#5 D:\laragon\www\kbra-ci\app\Controllers\Pegawai.php(153): App\Models\UserRoleModel->getUserRoles('1')
+#6 D:\laragon\www\kbra-ci\system\CodeIgniter.php(933): App\Controllers\Pegawai->get_roles_by_user('1')
+#7 D:\laragon\www\kbra-ci\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pegawai))
+#8 D:\laragon\www\kbra-ci\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 D:\laragon\www\kbra-ci\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#10 D:\laragon\www\kbra-ci\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#11 D:\laragon\www\kbra-ci\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#12 D:\laragon\www\kbra-ci\system\rewrite.php(44): require_once('D:\\laragon\\www\\...')
+#13 {main}
+CRITICAL - 2025-05-12 08:39:10 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'ull.user_id' in 'where clause'
+[Method: GET, Route: pegawai/get_roles_by_user/1]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `uld`.`id`, `uld`.`nama`
+FROM `user_level_list` `ull`
+JOIN `user_level_desc` `uld` ON `uld`.`id` = `ull`.`level_id`
+WHERE `ull`.`user_id` = :ull.user_id:', [...], false)
+ 2 APPPATH\Models\UserRoleModel.php(19): CodeIgniter\Database\BaseBuilder->get()
+ 3 APPPATH\Controllers\Pegawai.php(153): App\Models\UserRoleModel->getUserRoles('1')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Pegawai->get_roles_by_user('1')
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pegawai))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+CRITICAL - 2025-05-12 08:39:10 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'ull.user_id' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `uld`.`id`, `uld`.`nama`
+FROM `user_level_list` `ull`
+JOIN `user_level_desc` `uld` ON `uld`.`id` = `ull`.`level_id`
+WHERE `ull`.`user_id` = \'1\'')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `uld`.`id`, `uld`.`nama`
+FROM `user_level_list` `ull`
+JOIN `user_level_desc` `uld` ON `uld`.`id` = `ull`.`level_id`
+WHERE `ull`.`user_id` = \'1\'')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `uld`.`id`, `uld`.`nama`
+FROM `user_level_list` `ull`
+JOIN `user_level_desc` `uld` ON `uld`.`id` = `ull`.`level_id`
+WHERE `ull`.`user_id` = :ull.user_id:', [...], false)
+ 4 APPPATH\Models\UserRoleModel.php(19): CodeIgniter\Database\BaseBuilder->get()
+ 5 APPPATH\Controllers\Pegawai.php(153): App\Models\UserRoleModel->getUserRoles('1')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Pegawai->get_roles_by_user('1')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pegawai))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+CRITICAL - 2025-05-12 08:39:10 --> [Caused by] mysqli_sql_exception: Unknown column 'ull.user_id' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `uld`.`id`, `uld`.`nama`
+FROM `user_level_list` `ull`
+JOIN `user_level_desc` `uld` ON `uld`.`id` = `ull`.`level_id`
+WHERE `ull`.`user_id` = \'1\'', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `uld`.`id`, `uld`.`nama`
+FROM `user_level_list` `ull`
+JOIN `user_level_desc` `uld` ON `uld`.`id` = `ull`.`level_id`
+WHERE `ull`.`user_id` = \'1\'')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `uld`.`id`, `uld`.`nama`
+FROM `user_level_list` `ull`
+JOIN `user_level_desc` `uld` ON `uld`.`id` = `ull`.`level_id`
+WHERE `ull`.`user_id` = \'1\'')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `uld`.`id`, `uld`.`nama`
+FROM `user_level_list` `ull`
+JOIN `user_level_desc` `uld` ON `uld`.`id` = `ull`.`level_id`
+WHERE `ull`.`user_id` = :ull.user_id:', [...], false)
+ 5 APPPATH\Models\UserRoleModel.php(19): CodeIgniter\Database\BaseBuilder->get()
+ 6 APPPATH\Controllers\Pegawai.php(153): App\Models\UserRoleModel->getUserRoles('1')
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Pegawai->get_roles_by_user('1')
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pegawai))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+13 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+CRITICAL - 2025-05-12 13:26:54 --> CodeIgniter\Database\Exceptions\DataException: There is no data to insert.
+[Method: POST, Route: semester/simpandata]
+in SYSTEMPATH\BaseModel.php on line 829.
+ 1 SYSTEMPATH\BaseModel.php(829): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('insert')
+ 2 SYSTEMPATH\Model.php(800): CodeIgniter\BaseModel->insert([], false)
+ 3 SYSTEMPATH\BaseModel.php(754): CodeIgniter\Model->insert([...], false)
+ 4 APPPATH\Controllers\Semester.php(39): CodeIgniter\BaseModel->save([...])
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Semester->simpandata()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Semester))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')

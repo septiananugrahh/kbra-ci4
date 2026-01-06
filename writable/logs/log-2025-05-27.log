@@ -1,0 +1,70 @@
+ERROR - 2025-05-27 12:52:06 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in D:\laragon\www\kbra-ci\system\Database\MySQLi\Connection.php:201
+Stack trace:
+#0 D:\laragon\www\kbra-ci\system\Database\MySQLi\Connection.php(201): mysqli->real_connect('localhost', 'root', Object(SensitiveParameterValue), 'new_kbra', 3306, '', 0)
+#1 D:\laragon\www\kbra-ci\system\Database\BaseConnection.php(421): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 D:\laragon\www\kbra-ci\system\Database\BaseConnection.php(620): CodeIgniter\Database\BaseConnection->initialize()
+#3 D:\laragon\www\kbra-ci\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 D:\laragon\www\kbra-ci\system\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+#5 D:\laragon\www\kbra-ci\system\BaseModel.php(717): CodeIgniter\Model->doFirst()
+#6 D:\laragon\www\kbra-ci\app\Controllers\Login.php(29): CodeIgniter\BaseModel->first()
+#7 D:\laragon\www\kbra-ci\system\CodeIgniter.php(933): App\Controllers\Login->auth()
+#8 D:\laragon\www\kbra-ci\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Login))
+#9 D:\laragon\www\kbra-ci\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 D:\laragon\www\kbra-ci\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#11 D:\laragon\www\kbra-ci\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 D:\laragon\www\kbra-ci\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 D:\laragon\www\kbra-ci\system\rewrite.php(44): require_once('D:\\laragon\\www\\...')
+#14 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in D:\laragon\www\kbra-ci\system\Database\MySQLi\Connection.php:246
+Stack trace:
+#0 D:\laragon\www\kbra-ci\system\Database\BaseConnection.php(421): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 D:\laragon\www\kbra-ci\system\Database\BaseConnection.php(620): CodeIgniter\Database\BaseConnection->initialize()
+#2 D:\laragon\www\kbra-ci\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 D:\laragon\www\kbra-ci\system\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+#4 D:\laragon\www\kbra-ci\system\BaseModel.php(717): CodeIgniter\Model->doFirst()
+#5 D:\laragon\www\kbra-ci\app\Controllers\Login.php(29): CodeIgniter\BaseModel->first()
+#6 D:\laragon\www\kbra-ci\system\CodeIgniter.php(933): App\Controllers\Login->auth()
+#7 D:\laragon\www\kbra-ci\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Login))
+#8 D:\laragon\www\kbra-ci\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 D:\laragon\www\kbra-ci\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#10 D:\laragon\www\kbra-ci\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#11 D:\laragon\www\kbra-ci\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#12 D:\laragon\www\kbra-ci\system\rewrite.php(44): require_once('D:\\laragon\\www\\...')
+#13 {main}
+CRITICAL - 2025-05-27 12:52:06 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+[Method: POST, Route: login/auth]
+in SYSTEMPATH\Database\BaseConnection.php on line 467.
+ 1 SYSTEMPATH\Database\BaseConnection.php(620): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `semester`
+WHERE `tahun` = :tahun:
+AND `semester` = :semester:
+ LIMIT 1', [...], false)
+ 3 SYSTEMPATH\Model.php(330): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(717): CodeIgniter\Model->doFirst()
+ 5 APPPATH\Controllers\Login.php(29): CodeIgniter\BaseModel->first()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Login->auth()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Login))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')
+CRITICAL - 2025-05-27 13:36:03 --> ErrorException: Undefined variable $session
+[Method: GET, Route: pegawai]
+in APPPATH\Views\layouts\base.php on line 169.
+ 1 APPPATH\Views\layouts\base.php(169): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $session', 'D:\\laragon\\www\\kbra-ci\\app\\Views\\layouts\\base.php', 169)
+ 2 SYSTEMPATH\View\View.php(224): include('D:\\laragon\\www\\kbra-ci\\app\\Views\\layouts\\base.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('layouts/base', [], true)
+ 5 APPPATH\Controllers\CustomController.php(21): view('layouts/base', [...])
+ 6 APPPATH\Controllers\Pegawai.php(133): App\Controllers\CustomController->render('admin/v_pegawai', [...])
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Pegawai->index()
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pegawai))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+13 SYSTEMPATH\rewrite.php(44): require_once('D:\\laragon\\www\\kbra-ci\\public\\index.php')

@@ -1,0 +1,54 @@
+CRITICAL - 2025-06-02 13:12:41 --> ErrorException: Undefined array key "tujuan_pembelajaran"
+[Method: POST, Route: modulajar/ubahdata]
+in APPPATH\Controllers\ModulAjar.php on line 153.
+ 1 APPPATH\Controllers\ModulAjar.php(153): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "tujuan_pembelajaran"', 'C:\\xampp8\\htdocs\\kbra-ci\\app\\Controllers\\ModulAjar.php', 153)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\ModulAjar->ubahdata()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ModulAjar))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-02 13:13:19 --> ErrorException: Undefined array key "tujuan_pembelajaran"
+[Method: POST, Route: modulajar/ubahdata]
+in APPPATH\Controllers\ModulAjar.php on line 153.
+ 1 APPPATH\Controllers\ModulAjar.php(153): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "tujuan_pembelajaran"', 'C:\\xampp8\\htdocs\\kbra-ci\\app\\Controllers\\ModulAjar.php', 153)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\ModulAjar->ubahdata()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ModulAjar))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-02 13:20:25 --> ErrorException: Undefined array key "tujuan_pembelajaran"
+[Method: POST, Route: modulajar/ubahdata]
+in APPPATH\Controllers\ModulAjar.php on line 153.
+ 1 APPPATH\Controllers\ModulAjar.php(153): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "tujuan_pembelajaran"', 'C:\\xampp8\\htdocs\\kbra-ci\\app\\Controllers\\ModulAjar.php', 153)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\ModulAjar->ubahdata()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\ModulAjar))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-02 13:27:21 --> ParseError: syntax error, unexpected variable "$validationRules"
+[Method: GET, Route: modulajar]
+in APPPATH\Controllers\ModulAjar.php on line 105.
+ 1 SYSTEMPATH\Autoloader\Autoloader.php(295): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp8\\htdocs\\kbra-ci\\app\\Controllers\\ModulAjar.php')
+ 2 SYSTEMPATH\Autoloader\Autoloader.php(271): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\ModulAjar')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\ModulAjar')
+ 4 SYSTEMPATH\CodeIgniter.php(885): class_exists('\\App\\Controllers\\ModulAjar', true)
+ 5 SYSTEMPATH\CodeIgniter.php(494): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-06-02 14:04:47 --> ParseError: syntax error, unexpected identifier "log_message"
+[Method: GET, Route: modulajar]
+in APPPATH\Controllers\ModulAjar.php on line 96.
+ 1 SYSTEMPATH\Autoloader\Autoloader.php(295): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp8\\htdocs\\kbra-ci\\app\\Controllers\\ModulAjar.php')
+ 2 SYSTEMPATH\Autoloader\Autoloader.php(271): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\ModulAjar')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\ModulAjar')
+ 4 SYSTEMPATH\CodeIgniter.php(885): class_exists('\\App\\Controllers\\ModulAjar', true)
+ 5 SYSTEMPATH\CodeIgniter.php(494): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
