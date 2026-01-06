@@ -20,7 +20,7 @@ jobs:
 
       # Set directory permissions
       - name: Directory Permissions
-        run: chmod -R 777 storage bootstrap/cache
+        run: chmod -R 777 storage
 
       - name: Siapkan file Private untuk deploy (tanpa index.php dan .env)
         run: |
