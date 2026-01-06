@@ -18,15 +18,14 @@ jobs:
         with:
           php-version: "8.3"
 
+      # Set directory permissions
+      - name: Directory Permissions
+        run: chmod -R 777 storage bootstrap/cache
+
       - name: Siapkan file Private untuk deploy (tanpa index.php dan .env)
         run: |
           mkdir .deploy_private
           rsync -av --exclude='index.php' --exclude='.env' ./ .deploy_private/
-
-      - name: Debug deployment files
-        run: |
-          ls -la .deploy_private
-          cat .deploy_private/your_file_to_check
 
       - name: SERVER FILES | Sync files to server via rsync untuk server files
         uses: burnett01/rsync-deployments@7.1.0
