@@ -1,11 +1,11 @@
-name: Laravel & Vue 3 CI/CD
+name: CI4 CI/CD
 
 on:
   push:
     branches: ["main"]
 
 jobs:
-  laravel-vue-deploy:
+  ci4-deploy:
     if: contains(github.event.head_commit.message, '[deploy]')
     runs-on: ubuntu-latest
 
