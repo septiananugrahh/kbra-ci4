@@ -1,0 +1,35 @@
+name: Laravel & Vue 3 CI/CD
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  laravel-vue-deploy:
+    if: contains(github.event.head_commit.message, '[deploy]')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repo
+        uses: actions/checkout@v4
+
+      # Setup PHP
+      - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+        with:
+          php-version: "8.3"
+
+      - name: Siapkan file Private untuk deploy (tanpa index.php dan .env)
+        run: |
+          mkdir .deploy_private
+          rsync -av --exclude='index.php' --exclude='.env' ./ .deploy_private/
+
+      - name: SERVER FILES | Sync files to server via rsync untuk server files
+        uses: burnett01/rsync-deployments@7.1.0
+        with:
+          switches: -avzr
+          path: ".deploy_private/"
+          remote_path: "/www/kbra.saicponorogo.com/kbra"
+          remote_host: ${{ secrets.SSH_HOST }}
+          remote_port: 18765
+          remote_user: ${{ secrets.SSH_USER }}
+          remote_key: ${{ secrets.SSH_KEY }}
