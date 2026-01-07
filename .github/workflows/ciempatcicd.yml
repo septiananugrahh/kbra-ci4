@@ -17,7 +17,7 @@ jobs:
       - name: 🐘 Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.2" # Sesuaikan dengan versi PHP kamu
+          php-version: "8.2"
           extensions: intl, mbstring, json
           tools: composer:v2
 
