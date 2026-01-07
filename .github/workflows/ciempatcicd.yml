@@ -13,6 +13,17 @@ jobs:
       - name: 📥 Checkout Repo
         uses: actions/checkout@v4
 
+      # TAMBAHKAN INI
+      - name: 🐘 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2" # Sesuaikan dengan versi PHP kamu
+          extensions: intl, mbstring, json
+          tools: composer:v2
+
+      - name: 📦 Install Dependencies
+        run: composer install --no-dev --optimize-autoloader --no-interaction
+
       - name: 📦 Siapkan file deploy
         run: |
           mkdir .deploy
@@ -29,9 +40,6 @@ jobs:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
-
           local-dir: .deploy/
           server-dir: /kbra.saicponorogo.com/kbra/
-
-          # INI KUNCI UTAMANYA
           dangerous-clean-slate: false
