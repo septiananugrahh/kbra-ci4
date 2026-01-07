@@ -1,42 +1,37 @@
-name: CI4 CI/CD
+name: CI4 FTP Deploy
 
 on:
   push:
     branches: ["main"]
 
 jobs:
-  ci4-deploy:
+  deploy:
     if: contains(github.event.head_commit.message, '[deploy]')
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout repo
+      - name: 📥 Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.3"
-
-      - name: Siapkan file Private untuk deploy (tanpa index.php dan .env)
+      - name: 📦 Siapkan file deploy
         run: |
-          mkdir .deploy_private
+          mkdir .deploy
           rsync -av \
+            --exclude='.git/' \
+            --exclude='.github/' \
             --exclude='index.php' \
             --exclude='.env' \
-            --exclude='.git*' \
-            ./ .deploy_private/
+            ./ .deploy/
 
-      - name: 🚀 FTP Deploy ke Server
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: 📤 FTP Incremental Deploy
+        uses: SamKirkland/FTP-Deploy-Action@v4
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASS }}
-          local-dir: .deploy_private/
-          server-dir: /kbra.saicponorogo.com/kbra/test/
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+
+          local-dir: .deploy/
+          server-dir: /kbra.saicponorogo.com/kbra/
+
+          # INI KUNCI UTAMANYA
           dangerous-clean-slate: false
-          exclude: |
-            **/.git*
-            **/.env
-            **/writable/uploads/**
