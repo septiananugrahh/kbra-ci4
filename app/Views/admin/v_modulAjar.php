@@ -1397,6 +1397,28 @@
       });
     },
 
+    // ✅ FUNGSI BARU: Refresh semua select options DPL/KBC
+    refreshAllSelectOptions() {
+      // Cari semua select dengan class selectbox-options
+      $('.selectbox-options').each(function() {
+        const $select = $(this);
+        const selectId = $select.attr('id');
+
+        if (!selectId) return;
+
+        // Extract uniqueId dari id select (format: select-{uniqueId})
+        const uniqueId = selectId.replace('select-', '');
+
+        // Ambil nilai yang sedang dipilih (jika ada)
+        const currentValue = $select.val();
+
+        // Populate ulang dengan nilai yang sama (jika masih valid)
+        DynamicInputManager.populateSelectOptions(uniqueId, currentValue);
+      });
+
+      console.log('All DPL/KBC select options refreshed');
+    },
+
     // Template HTML untuk input group
     // Template HTML untuk input group
     createInputGroupHtml(uniqueId, inputName, value, useSelect, placeholder, labelValue = '') {
@@ -1584,6 +1606,8 @@
       $wrapper.append(html);
     }
   };
+
+
 
   // =====================================================
   // FORM MANAGER
@@ -1792,7 +1816,7 @@
       if (type === 'add') {
         FormManager.reset();
         $title.text('Tambah Modul Ajar');
-        $btnSave.text('Tambah modulajar');
+        $btnSave.text('Simpan');
         State.currentAction = 'add';
       }
 
@@ -2829,6 +2853,8 @@
           if ($container.find('.dimensi-item, .kurikulumcinta-item').length > 1) {
             $parent.fadeOut(300, function() {
               $(this).remove();
+
+              DynamicInputManager.refreshAllSelectOptions();
             });
           } else {
             SwalHelper.error('Minimal harus ada 1 item');
@@ -3136,8 +3162,43 @@
       }
 
       $btn.prop('disabled', false).text(originalText);
-    }
+    },
+
+    async handleAddDimensi() {
+      const $clone = $('.dimensi-item:first').clone();
+      $clone.find('select').val('').removeAttr('id');
+      $clone.find('.selected-info').remove();
+      $('#dimensi-container').append($clone);
+      await Select2Manager.loadDimensi($clone.find('select'));
+
+      // ✅ TAMBAHKAN BARIS INI
+      setTimeout(() => {
+        DynamicInputManager.refreshAllSelectOptions();
+      }, 100);
+    },
+
+    async handleAddKurikulum() {
+      const $clone = $('.kurikulumcinta-item:first').clone();
+      $clone.find('select').val('').removeAttr('id');
+      $clone.find('.selected-info').remove();
+      $('#kurikulumcinta-container').append($clone);
+      await Select2Manager.loadKurikulum($clone.find('select'));
+
+      // ✅ TAMBAHKAN BARIS INI
+      setTimeout(() => {
+        DynamicInputManager.refreshAllSelectOptions();
+      }, 100);
+    },
   };
+
+  // ✅ TAMBAHAN: Auto-refresh ketika dimensi/kurikulum berubah
+  $(document).off('change.modulajar', '.dimensi-select, .kurikulumcinta-select')
+    .on('change.modulajar', '.dimensi-select, .kurikulumcinta-select', function() {
+      // Delay sedikit untuk memastikan value sudah terupdate
+      setTimeout(() => {
+        DynamicInputManager.refreshAllSelectOptions();
+      }, 100);
+    });
 
   // =====================================================
   // INITIALIZATION
