@@ -1,0 +1,12 @@
+# Ignore logs & debug
+logs/*
+debugbar/*
+cache/*
+session/*
+
+# Allow uploads
+!uploads/
+!uploads/**
+
+# Keep gitignore
+!.gitignore
