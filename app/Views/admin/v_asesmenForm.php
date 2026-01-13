@@ -165,7 +165,7 @@
     ======================================== */
   @media (max-width: 767px) {
     .form-floating-action-bar {
-      bottom: 15px;
+      bottom: 105px;
       right: 15px;
     }
 
@@ -606,7 +606,7 @@
   /* ========================================
            MOBILE RESPONSIVE
         ======================================== */
-  @media (max-width: 767px) {
+  @media (max-width: 167px) {
     .card-body {
       padding: 1rem;
     }
