@@ -228,11 +228,11 @@
         <table class="table-checklist" style="width:100%;">
           <?php
           // Pengaturan lebar kolom
-          $lebar_tujuan = '20%';
+          $lebar_tujuan = '23%';
           $lebar_sudah_muncul = '5%';
-          $lebar_konteks = '25%';
-          $lebar_tempat_waktu = '25%';
-          $lebar_kejadian = '25%';
+          $lebar_konteks = '20%';
+          $lebar_tempat_waktu = '20%';
+          $lebar_kejadian = '32%';
           ?>
 
           <colgroup>
