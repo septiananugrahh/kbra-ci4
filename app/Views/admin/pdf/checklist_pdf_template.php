@@ -4,6 +4,32 @@
 <head>
   <title>Laporan Checklist <?= esc($modul_ajar_id) ?></title>
   <style>
+    .table-checklist td:nth-child(1),
+    .table-checklist th:nth-child(1) {
+      width: 20%;
+    }
+
+    .table-checklist td:nth-child(2),
+    .table-checklist th:nth-child(2) {
+      width: 5%;
+      text-align: center;
+    }
+
+    .table-checklist td:nth-child(3),
+    .table-checklist th:nth-child(3) {
+      width: 25%;
+    }
+
+    .table-checklist td:nth-child(4),
+    .table-checklist th:nth-child(4) {
+      width: 25%;
+    }
+
+    .table-checklist td:nth-child(5),
+    .table-checklist th:nth-child(5) {
+      width: 25%;
+    }
+
     @page {
       margin-top: 0.7cm;
       margin-bottom: 2cm;
@@ -115,6 +141,8 @@
       border-collapse: collapse;
       /* Ini sangat penting untuk border tunggal */
       margin-bottom: 20px;
+      table-layout: fixed;
+      /* TAMBAHKAN INI */
       /* Jarak bawah tabel */
     }
 
@@ -150,6 +178,8 @@
     } */
   </style>
 </head>
+
+
 
 <body>
 
@@ -195,7 +225,24 @@
       </div>
 
       <div class="record-card">
-        <table class="table-checklist">
+        <table class="table-checklist" style="width:100%;">
+          <?php
+          // Pengaturan lebar kolom
+          $lebar_tujuan = '20%';
+          $lebar_sudah_muncul = '5%';
+          $lebar_konteks = '25%';
+          $lebar_tempat_waktu = '25%';
+          $lebar_kejadian = '25%';
+          ?>
+
+          <colgroup>
+            <col style="width: <?php echo $lebar_tujuan; ?>">
+            <col style="width: <?php echo $lebar_sudah_muncul; ?>">
+            <col style="width: <?php echo $lebar_konteks; ?>">
+            <col style="width: <?php echo $lebar_tempat_waktu; ?>">
+            <col style="width: <?php echo $lebar_kejadian; ?>">
+          </colgroup>
+
           <thead>
             <tr>
               <td>Tujuan Pembelajaran</td>
@@ -257,8 +304,8 @@
                     $statusClass = ($statusItem['status'] == 'belum_muncul') ? '' : '✔️';
 
                     echo "<tr>";
-                    echo "<td style='width:35%'>" . htmlspecialchars($item['tujuan_nama']) . "</td>";
-                    echo "<td style='width:10%; text-align:center'>" . $statusClass . "</td>";
+                    echo "<td>" . htmlspecialchars($item['tujuan_nama']) . "</td>";
+                    echo "<td style='text-align:center'>" . $statusClass . "</td>";
 
                     // Cetak kolom dengan rowspan hanya pada baris pertama dari record ini
                     // if (!$firstRowPrintedForRecord) {
