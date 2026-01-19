@@ -59,6 +59,11 @@
       /* Example: Medium grey color */
     }
 
+    .header-info table {
+      font-size: 7pt;
+      margin-bottom: 5px;
+    }
+
 
     .header-info {
       text-align: center;
@@ -84,22 +89,67 @@
     }
 
     .photo-table img {
-      max-width: 100%;
-      height: 140px;
+      width: auto;
+      height: 100px;
+      max-width: 120px;
       object-fit: contain;
       display: block;
-      margin: 0 auto;
+      margin-left: auto;
+      /* Ubah dari margin: 0 auto ke margin-left: auto untuk rata kanan */
+      margin-right: 0;
       border: 1px solid #ddd;
-      padding: 3px;
+      padding: 2px;
       background-color: #fff;
     }
 
     .photo-caption {
-      font-size: 8pt;
+      font-size: 7pt;
       color: #555;
-      margin-top: 5px;
+      margin: 0;
+      padding-left: 10px;
       word-wrap: break-word;
+      vertical-align: top;
+      text-align: left;
+      /* Pastikan teks rata kiri */
     }
+
+
+    .photo-cell {
+      padding: 5px !important;
+      width: 33.33%;
+      /* Tambahkan ini agar setiap kolom sama besar (100%/3) */
+    }
+
+    .inner-table {
+      border: 0 !important;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+    .inner-table td {
+      border: 0 !important;
+      padding: 3px !important;
+      vertical-align: top;
+    }
+
+    .inner-table td:first-child {
+      text-align: right;
+      /* Gambar rata kanan */
+      width: 120px;
+    }
+
+    .inner-table td:last-child {
+      text-align: left;
+      /* Teks rata kiri */
+    }
+
+    .photo-wrapper {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+
 
     .section-title {
       margin-top: 25px;
@@ -135,6 +185,40 @@
       background-color: #f2f2f2;
       /* Warna latar belakang header */
       font-weight: bold;
+    }
+
+
+    .header-info td {
+      padding: 1px 3px;
+    }
+
+    /* Kecilkan section title */
+    .section-title {
+      margin-top: 10px;
+      font-size: 8pt;
+      padding-bottom: 3px;
+      margin-bottom: 5px;
+    }
+
+    /* Kecilkan record card */
+    .record-card {
+      padding: 2px;
+      margin-bottom: 10px;
+    }
+
+    .record-card table {
+      font-size: 7pt;
+      margin-bottom: 8px;
+    }
+
+    .record-card td {
+      padding: 2px 3px;
+    }
+
+    /* Kecilkan legend */
+    .record-card>div:last-of-type {
+      margin-top: 10px;
+      font-size: 7pt;
     }
   </style>
 </head>
@@ -193,52 +277,54 @@
         <table class="photo-table">
           <tr>
             <?php if (!empty($record['foto1'])): ?>
-              <td> Bagian 1 </td>
+              <th style="font-size: 7pt; padding: 3px; width: 33.33%;">Bagian 1</th>
             <?php endif; ?>
             <?php if (!empty($record['foto2'])): ?>
-              <td> Bagian 2 </td>
+              <th style="font-size: 7pt; padding: 3px; width: 33.33%;">Bagian 2</th>
             <?php endif; ?>
             <?php if (!empty($record['foto3'])): ?>
-              <td> Bagian 3 </td>
+              <th style="font-size: 7pt; padding: 3px; width: 33.33%;">Bagian 3</th>
             <?php endif; ?>
           </tr>
           <tr>
             <?php if (!empty($record['foto1'])): ?>
-              <td>
-                <table>
+              <td class="photo-cell">
+                <table class="inner-table">
                   <tr>
-                    <td style="border: 0px;">
+                    <td style="width: 120px; text-align: right;">
                       <img src="<?= base_url('uploads/penilaian/' . $record['foto1']) ?>" alt="Foto 1">
                     </td>
-                    <td style="border: 0px;padding-left:20px;">
+                    <td style="text-align: left;">
                       <div class="photo-caption"><?= esc($record['ket_foto1']) ?: 'Tanpa Keterangan' ?></div>
                     </td>
                   </tr>
                 </table>
               </td>
             <?php endif; ?>
+
             <?php if (!empty($record['foto2'])): ?>
-              <td>
-                <table>
+              <td class="photo-cell">
+                <table class="inner-table">
                   <tr>
-                    <td style="border: 0px;">
+                    <td style="width: 120px; text-align: right;">
                       <img src="<?= base_url('uploads/penilaian/' . $record['foto2']) ?>" alt="Foto 2">
                     </td>
-                    <td style="border: 0px;padding-left:20px;">
+                    <td style="text-align: left;">
                       <div class="photo-caption"><?= esc($record['ket_foto2']) ?: 'Tanpa Keterangan' ?></div>
                     </td>
                   </tr>
                 </table>
               </td>
             <?php endif; ?>
+
             <?php if (!empty($record['foto3'])): ?>
-              <td>
-                <table>
+              <td class="photo-cell">
+                <table class="inner-table">
                   <tr>
-                    <td style="border: 0px;">
+                    <td style="width: 120px; text-align: right;">
                       <img src="<?= base_url('uploads/penilaian/' . $record['foto3']) ?>" alt="Foto 3">
                     </td>
-                    <td style="border: 0px;padding-left:20px;">
+                    <td style="text-align: left;">
                       <div class="photo-caption"><?= esc($record['ket_foto3']) ?: 'Tanpa Keterangan' ?></div>
                     </td>
                   </tr>
@@ -249,12 +335,11 @@
         </table>
 
 
-
         <table>
           <tr>
-            <td>Analisis Guru</td>
-            <td>:</td>
-            <td>
+            <td style="vertical-align: top;">Analisis Guru</td>
+            <td style="vertical-align: top;">:</td>
+            <td style="vertical-align: top;">
               <?php
               // Menyusun array warna berdasarkan capaian
               $capaianWarna = [];
@@ -312,9 +397,9 @@
           </tr>
 
           <tr>
-            <td>Umpan Balik</td>
-            <td>:</td>
-            <td><?= nl2br(esc($record['umpan_balik'])) ?></td>
+            <td style="vertical-align: top;">Umpan Balik</td>
+            <td style="vertical-align: top;">:</td>
+            <td style="vertical-align: top;"><?= nl2br(esc($record['umpan_balik'])) ?></td>
           </tr>
         </table>
 

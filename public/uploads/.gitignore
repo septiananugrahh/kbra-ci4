@@ -1,0 +1,7 @@
+# Ignore logs & debug
+foto_modulajar/*
+foto_santri/*
+penilaian/*
+
+# Keep gitignore
+!.gitignore

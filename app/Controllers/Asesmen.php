@@ -85,6 +85,8 @@ class Asesmen extends CustomController
     ]);
   }
 
+
+
   /**
    * Process Foto Berseri
    */
@@ -129,8 +131,26 @@ class Asesmen extends CustomController
 
         // Move new file
         $newName = $foto->getRandomName();
-        $foto->move(FCPATH . 'uploads/penilaian', $newName);
-        $fotoPaths[$fieldName] = $newName; // ✅ Simpan dengan key foto1, foto2, foto3
+        $tempPath = FCPATH . 'uploads/penilaian/temp_' . $newName;
+        $finalPath = FCPATH . 'uploads/penilaian/' . $newName;
+
+        // Upload ke temporary path dulu
+        $foto->move(FCPATH . 'uploads/penilaian', 'temp_' . $newName);
+
+        // COMPRESS & RESIZE IMAGE
+        if ($this->compressImage($tempPath, $finalPath, 1920, 75)) {
+          // Hapus file temporary setelah kompresi berhasil
+          if (file_exists($tempPath)) {
+            unlink($tempPath);
+          }
+          $fotoPaths[$fieldName] = $newName;
+        } else {
+          // Jika kompresi gagal, gunakan file asli (rename dari temp)
+          if (file_exists($tempPath)) {
+            rename($tempPath, $finalPath);
+          }
+          $fotoPaths[$fieldName] = $newName;
+        }
       } else {
         // ✅ PENTING: Keep old file name if no new file uploaded
         if ($oldFotoName) {
@@ -318,8 +338,26 @@ class Asesmen extends CustomController
 
       // Move new file
       $newName_hk = $foto_hk->getRandomName();
-      $foto_hk->move(FCPATH . 'uploads/penilaian', $newName_hk);
-      $foto_hasil_karya_name = $newName_hk;
+      $tempPath = FCPATH . 'uploads/penilaian/temp_' . $newName_hk;
+      $finalPath = FCPATH . 'uploads/penilaian/' . $newName_hk;
+
+      // Upload ke temporary path dulu
+      $foto_hk->move(FCPATH . 'uploads/penilaian', 'temp_' . $newName_hk);
+
+      // COMPRESS & RESIZE IMAGE
+      if ($this->compressImage($tempPath, $finalPath, 1920, 75)) {
+        // Hapus file temporary setelah kompresi berhasil
+        if (file_exists($tempPath)) {
+          unlink($tempPath);
+        }
+        $foto_hasil_karya_name = $newName_hk;
+      } else {
+        // Jika kompresi gagal, gunakan file asli (rename dari temp)
+        if (file_exists($tempPath)) {
+          rename($tempPath, $finalPath);
+        }
+        $foto_hasil_karya_name = $newName_hk;
+      }
     } else {
       // Keep old file name if no new file uploaded
       if ($existingAsesmenKarya && !empty($existingAsesmenKarya['foto'])) {
@@ -350,6 +388,28 @@ class Asesmen extends CustomController
     }
   }
 
+  private function compressImage($sourcePath, $destinationPath, $maxWidth = 1920, $quality = 75)
+  {
+    try {
+      $image = \Config\Services::image()->withFile($sourcePath);
+
+      // Cek apakah gambar perlu di-resize
+      if ($image->getWidth() > $maxWidth) {
+        $ratio = $maxWidth / $image->getWidth();
+        $newHeight = (int)($image->getHeight() * $ratio);
+
+        $image->resize($maxWidth, $newHeight, true, 'height');
+      }
+
+      // Save dengan kompresi
+      $image->save($destinationPath, $quality);
+
+      return true;
+    } catch (\Exception $e) {
+      log_message('error', 'Image compression failed: ' . $e->getMessage());
+      return false;
+    }
+  }
 
   public function hapusdata_soft()
   {
