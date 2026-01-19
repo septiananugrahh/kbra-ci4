@@ -796,6 +796,9 @@ class Asesmen extends CustomController
       $options->set('isHtml5ParserEnabled', true);
       $options->set('isRemoteEnabled', true); // Penting untuk gambar eksternal (CDN) atau jika jalur gambar diatur relatif ke root project
       $options->set('defaultFont', 'sans-serif'); // Set font default
+      $options->set('tempDir', WRITEPATH . 'dompdf');
+      $options->set('fontDir', WRITEPATH . 'dompdf/fonts');
+      $options->set('fontCache', WRITEPATH . 'dompdf/fonts');
 
       $dompdf = new Dompdf($options);
       $dompdf->set_option('isHtml5ParserEnabled', true);
@@ -892,6 +895,9 @@ class Asesmen extends CustomController
       $options->set('isHtml5ParserEnabled', true);
       $options->set('isRemoteEnabled', true); // Penting untuk gambar eksternal (CDN) atau jika jalur gambar diatur relatif ke root project
       $options->set('defaultFont', 'sans-serif'); // Set font default
+      $options->set('tempDir', WRITEPATH . 'dompdf');
+      $options->set('fontDir', WRITEPATH . 'dompdf/fonts');
+      $options->set('fontCache', WRITEPATH . 'dompdf/fonts');
 
       $dompdf = new Dompdf($options);
       $dompdf->set_option('isHtml5ParserEnabled', true);
