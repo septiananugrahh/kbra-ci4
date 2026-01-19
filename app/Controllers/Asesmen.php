@@ -793,6 +793,7 @@ class Asesmen extends CustomController
 
       // Inisialisasi Dompdf
       $options = new Options();
+      $options->set('chroot', FCPATH);
       $options->set('isHtml5ParserEnabled', true);
       $options->set('isRemoteEnabled', true); // Penting untuk gambar eksternal (CDN) atau jika jalur gambar diatur relatif ke root project
       $options->set('defaultFont', 'sans-serif'); // Set font default
@@ -892,6 +893,7 @@ class Asesmen extends CustomController
 
       // Inisialisasi Dompdf
       $options = new Options();
+      $options->set('chroot', FCPATH);
       $options->set('isHtml5ParserEnabled', true);
       $options->set('isRemoteEnabled', true); // Penting untuk gambar eksternal (CDN) atau jika jalur gambar diatur relatif ke root project
       $options->set('defaultFont', 'sans-serif'); // Set font default

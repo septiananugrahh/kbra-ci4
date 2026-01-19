@@ -196,7 +196,7 @@
           </tr>
           <tr>
             <td style="text-align: center;">
-              <img src="<?= base_url('uploads/penilaian/' . $record['foto']) ?>" alt="Foto Hasil Karya">
+              <img src="<?= FCPATH . 'uploads/penilaian/' . $record['foto'] ?>" alt="Foto Hasil Karya">
             </td>
           </tr>
         </table>

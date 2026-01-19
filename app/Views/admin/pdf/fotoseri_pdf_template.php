@@ -292,7 +292,7 @@
                 <table class="inner-table">
                   <tr>
                     <td style="width: 120px; text-align: right;">
-                      <img src="<?= base_url('uploads/penilaian/' . $record['foto1']) ?>" alt="Foto 1">
+                      <img src="<?= FCPATH . 'uploads/penilaian/' . $record['foto1'] ?>" alt="Foto 1">
                     </td>
                     <td style="text-align: left;">
                       <div class="photo-caption"><?= esc($record['ket_foto1']) ?: 'Tanpa Keterangan' ?></div>
@@ -307,7 +307,7 @@
                 <table class="inner-table">
                   <tr>
                     <td style="width: 120px; text-align: right;">
-                      <img src="<?= base_url('uploads/penilaian/' . $record['foto2']) ?>" alt="Foto 2">
+                      <img src="<?= FCPATH . 'uploads/penilaian/' . $record['foto2'] ?>" alt="Foto 2">
                     </td>
                     <td style="text-align: left;">
                       <div class="photo-caption"><?= esc($record['ket_foto2']) ?: 'Tanpa Keterangan' ?></div>
@@ -322,7 +322,7 @@
                 <table class="inner-table">
                   <tr>
                     <td style="width: 120px; text-align: right;">
-                      <img src="<?= base_url('uploads/penilaian/' . $record['foto3']) ?>" alt="Foto 3">
+                      <img src="<?= FCPATH . 'uploads/penilaian/' . $record['foto3'] ?>" alt="Foto 3">
                     </td>
                     <td style="text-align: left;">
                       <div class="photo-caption"><?= esc($record['ket_foto3']) ?: 'Tanpa Keterangan' ?></div>
