@@ -314,24 +314,40 @@
                     //   $firstRowPrintedForRecord = true; // Set flag menjadi true setelah dicetak
                     // }
 
-                    if (isset($konteks_data[$kejadianIndex]) && isset($konteks_data[$kejadianIndex]['konteks'])) {
-                      echo "<td style='color: {$item['warna']}'>" . htmlspecialchars($konteks_data[$kejadianIndex]['konteks']) . "</td>";
+                    // Tentukan warna text
+                    $warnaText = $item['warna'] ?? 'black';
+
+                    if (isset($statusItem['status']) && $statusItem['status'] === 'belum_muncul') {
+                      $warnaText = 'black';
+                    }
+
+                    // 1️⃣ Konteks
+                    if (isset($konteks_data[$kejadianIndex]['konteks'])) {
+                      echo "<td style='color: {$warnaText}'>"
+                        . htmlspecialchars($konteks_data[$kejadianIndex]['konteks'])
+                        . "</td>";
                     } else {
                       echo "<td>-</td>";
                     }
 
-                    if (isset($tempat_waktu_data[$kejadianIndex]) && isset($tempat_waktu_data[$kejadianIndex]['tempat_waktu'])) {
-                      echo "<td style='color: {$item['warna']}'>" . htmlspecialchars($tempat_waktu_data[$kejadianIndex]['tempat_waktu']) . "</td>";
+                    // 2️⃣ Tempat & Waktu
+                    if (isset($tempat_waktu_data[$kejadianIndex]['tempat_waktu'])) {
+                      echo "<td style='color: {$warnaText}'>"
+                        . htmlspecialchars($tempat_waktu_data[$kejadianIndex]['tempat_waktu'])
+                        . "</td>";
                     } else {
                       echo "<td>-</td>";
                     }
 
-                    // Tampilkan kejadian berdasarkan kejadianIndex
-                    if (isset($kejadian_data[$kejadianIndex]) && isset($kejadian_data[$kejadianIndex]['kejadian'])) {
-                      echo "<td style='color: {$item['warna']}'>" . htmlspecialchars($kejadian_data[$kejadianIndex]['kejadian']) . "</td>";
+                    // 3️⃣ Kejadian
+                    if (isset($kejadian_data[$kejadianIndex]['kejadian'])) {
+                      echo "<td style='color: {$warnaText}'>"
+                        . htmlspecialchars($kejadian_data[$kejadianIndex]['kejadian'])
+                        . "</td>";
                     } else {
                       echo "<td>-</td>";
                     }
+
 
                     $kejadianIndex++; // Tingkatkan indeks untuk kejadian berikutnya
                     echo "</tr>";
