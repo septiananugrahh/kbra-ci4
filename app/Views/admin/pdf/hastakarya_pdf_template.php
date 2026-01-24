@@ -301,7 +301,7 @@
 
 
 
-        <table width="100%" border="0" style="text-align: center; margin-top:15px">
+        <table width="100%" border="0" style="text-align: center; margin-top:35px">
           <tr>
             <td width="50%">Mengetahui</td>
             <td width="50%"></td>
