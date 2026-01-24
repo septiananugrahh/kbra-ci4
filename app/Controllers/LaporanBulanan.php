@@ -264,8 +264,17 @@ class LaporanBulanan extends CustomController
         $keterangan = [];
 
         // Decode keterangan sesuai jenis asesmen
-        if ($key === 'checklist' && isset($laporan['kejadian'])) {
-          $keterangan = json_decode($laporan['kejadian'], true) ?: [];
+        if ($key === 'checklist' && isset($laporan['kejadian']) && isset($laporan['isi'])) {
+          $kejadian = json_decode($laporan['kejadian'], true) ?: [];
+          $isi = json_decode($laporan['isi'], true) ?: [];
+
+          // Filter kejadian berdasarkan status 'sudah_muncul' di kolom isi
+          $keterangan = [];
+          foreach ($kejadian as $index => $item) {
+            if (isset($isi[$index]) && $isi[$index]['status'] === 'sudah_muncul') {
+              $keterangan[] = $item;
+            }
+          }
         } elseif ($key === 'fotoberseri' && isset($laporan['analisis_guru'])) {
           $keterangan = json_decode($laporan['analisis_guru'], true) ?: [];
         } elseif ($key === 'hastakarya' && isset($laporan['catatan'])) {
