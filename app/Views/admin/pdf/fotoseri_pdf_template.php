@@ -9,7 +9,7 @@
       margin-bottom: 2cm;
       margin-right: 1cm;
       margin-left: 3cm;
-      size: 210mm 330mm;
+      size: 330mm 210mm;
       /* F4 */
       margin: 10mm;
     }
