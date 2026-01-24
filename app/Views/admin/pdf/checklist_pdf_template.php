@@ -7,7 +7,7 @@
     /* Ukuran Tabel  */
     .table-checklist td:nth-child(1),
     .table-checklist th:nth-child(1) {
-      width: 25%;
+      width: 30%;
     }
 
     .table-checklist td:nth-child(2),
@@ -18,17 +18,17 @@
 
     .table-checklist td:nth-child(3),
     .table-checklist th:nth-child(3) {
-      width: 25%;
+      width: 15%;
     }
 
     .table-checklist td:nth-child(4),
     .table-checklist th:nth-child(4) {
-      width: 18%;
+      width: 15%;
     }
 
     .table-checklist td:nth-child(5),
     .table-checklist th:nth-child(5) {
-      width: 27%;
+      width: 35%;
     }
 
     @page {
