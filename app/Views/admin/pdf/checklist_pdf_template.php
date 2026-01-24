@@ -4,9 +4,10 @@
 <head>
   <title>Laporan Checklist <?= esc($modul_ajar_id) ?></title>
   <style>
+    /* Ukuran Tabel  */
     .table-checklist td:nth-child(1),
     .table-checklist th:nth-child(1) {
-      width: 20%;
+      width: 25%;
     }
 
     .table-checklist td:nth-child(2),
@@ -22,12 +23,12 @@
 
     .table-checklist td:nth-child(4),
     .table-checklist th:nth-child(4) {
-      width: 25%;
+      width: 18%;
     }
 
     .table-checklist td:nth-child(5),
     .table-checklist th:nth-child(5) {
-      width: 25%;
+      width: 27%;
     }
 
     @page {
@@ -35,9 +36,6 @@
       margin-bottom: 2cm;
       margin-right: 1cm;
       margin-left: 3cm;
-      size: 330mm 210mm;
-      /* F4 */
-      margin: 10mm;
     }
 
     .page:last-child {
@@ -188,7 +186,7 @@
 
 
   <?php if (empty($records)): ?>
-    <p style="text-align: center; color: #777;">Belum ada penilaian checklist untuk tanggal ini.</p>
+    <p style="text-align: center; color: #777;">Belum ada penilaian anekdot untuk tanggal ini.</p>
   <?php else: ?>
     <?php foreach ($records as $record): ?>
       <center>
@@ -229,22 +227,6 @@
 
       <div class="record-card">
         <table class="table-checklist" style="width:100%;">
-          <?php
-          // Pengaturan lebar kolom
-          $lebar_tujuan = '28%';
-          $lebar_sudah_muncul = '5%';
-          $lebar_konteks = '20%';
-          $lebar_tempat_waktu = '10%';
-          $lebar_kejadian = '37%';
-          ?>
-
-          <colgroup>
-            <col style="width: <?php echo $lebar_tujuan; ?>">
-            <col style="width: <?php echo $lebar_sudah_muncul; ?>">
-            <col style="width: <?php echo $lebar_konteks; ?>">
-            <col style="width: <?php echo $lebar_tempat_waktu; ?>">
-            <col style="width: <?php echo $lebar_kejadian; ?>">
-          </colgroup>
 
           <thead>
             <tr>
