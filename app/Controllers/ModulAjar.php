@@ -534,6 +534,7 @@ class ModulAjar extends CustomController
       ->join('guru', 'guru.id = modul_ajar.pembuat', 'left')
       ->join('desain_pembelajaran', 'desain_pembelajaran.modulajar_id_dp = modul_ajar.id', 'left') // Assuming the foreign key in modul_ajar is 'semester_id'
       ->join('data_select_dpl_kbc', 'data_select_dpl_kbc.modulajar_id_select = modul_ajar.id', 'left') // Assuming the foreign key in modul_ajar is 'semester_id'
+      ->orderBy('modul_ajar.id', 'DESC')
       ->findAll();
 
     $result = [

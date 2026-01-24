@@ -188,7 +188,7 @@
 
 
   <?php if (empty($records)): ?>
-    <p style="text-align: center; color: #777;">Belum ada penilaian anekdot untuk tanggal ini.</p>
+    <p style="text-align: center; color: #777;">Belum ada penilaian checklist untuk tanggal ini.</p>
   <?php else: ?>
     <?php foreach ($records as $record): ?>
       <center>

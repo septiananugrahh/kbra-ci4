@@ -265,7 +265,7 @@
           <tr>
             <td>Topik/SubTopik</td>
             <td>:</td>
-            <td></strong> <?= esc($record['topik_pembelajaran']) ?> /<?= esc($record['matched_topik_value']) ?> </td>
+            <td></strong> <?= esc($record['topik_pembelajaran']) ?> /<?= esc($record['subtopik_pembelajaran']) ?> </td>
           </tr>
 
           <tr>
@@ -294,7 +294,7 @@
               <td class="photo-cell">
                 <table class="inner-table">
                   <tr>
-                    <td style="width: 120px; text-align: right;">
+                    <td style="width: 160px; text-align: right;">
                       <img src="<?= FCPATH . 'uploads/penilaian/' . $record['foto1'] ?>" alt="Foto 1">
                     </td>
                     <td style="text-align: left;">

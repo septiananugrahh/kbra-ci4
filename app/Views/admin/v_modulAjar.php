@@ -2564,6 +2564,7 @@
         processing: true,
         scrollX: true,
         serverSide: false,
+        ordering: false,
         responsive: {
           details: {
             display: $.fn.dataTable.Responsive.display.childRowImmediate,
