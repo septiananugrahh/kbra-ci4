@@ -807,7 +807,7 @@ class Asesmen extends CustomController
       $dompdf->set_option('defaultFont', 'Times New Roman');
       $html = preg_replace('/>\s+</', "><", $html);
       $dompdf->loadHtml($html);
-      $dompdf->setPaper([0, 0, 210, 330], 'landscape');
+      $dompdf->setPaper('A4', 'landscape');
       $dompdf->render();
 
       $filename = 'fotoseri_modul_' . $modulId . '_tanggal_' . $tanggalUrut . '.pdf';
@@ -907,8 +907,7 @@ class Asesmen extends CustomController
       $dompdf->set_option('defaultFont', 'Times New Roman');
       $html = preg_replace('/>\s+</', "><", $html);
       $dompdf->loadHtml($html);
-      $dompdf->setPaper([0, 0, 210, 330], 'portrait');
-
+      $dompdf->setPaper('A4', 'portrait');
       $dompdf->render();
 
 
@@ -1007,7 +1006,7 @@ class Asesmen extends CustomController
       $dompdf->set_option('defaultFont', 'Times New Roman');
       $html = preg_replace('/>\s+</', "><", $html);
       $dompdf->loadHtml($html);
-      $dompdf->setPaper([0, 0, 210, 330], 'landscape');
+      $dompdf->setPaper('A4', 'landscape');
       $dompdf->render();
 
 
@@ -1116,7 +1115,7 @@ class Asesmen extends CustomController
       $dompdf->set_option('defaultFont', 'Times New Roman');
       $html = preg_replace('/>\s+</', "><", $html);
       $dompdf->loadHtml($html);
-      $dompdf->setPaper([0, 0, 210, 330], 'landscape');
+      $dompdf->setPaper('A4', 'landscape');
       $dompdf->render();
 
 
@@ -1348,7 +1347,7 @@ class Asesmen extends CustomController
     $dompdf->set_option('defaultFont', 'Times New Roman');
     $html = view('admin/pdf/bulanan_pdf_template', $data);
     $dompdf->loadHtml($html);
-    $dompdf->setPaper([0, 0, 210, 330], 'landscape');
+    $dompdf->setPaper('A4', 'landscape');
     $dompdf->render();
 
     // Download PDF
