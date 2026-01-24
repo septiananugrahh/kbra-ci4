@@ -297,14 +297,14 @@
         }
         ?>
 
-        <div style="margin-top: 20px;">
+        <div style="margin-top: 20px;margin-bottom: 70px;">
           <?php echo implode("\n", $capaian_list); ?>
         </div>
         <!-- legend detail -->
 
 
 
-        <table width="100%" border="0" style="text-align: center; margin-top:75px">
+        <table width="100%" border="0" style="text-align: center; margin-top:15px">
           <tr>
             <td width="50%">Mengetahui</td>
             <td width="50%"></td>
