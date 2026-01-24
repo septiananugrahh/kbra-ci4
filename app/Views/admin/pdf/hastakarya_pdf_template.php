@@ -297,7 +297,7 @@
         }
         ?>
 
-        <div style="margin-top: 20px;margin-bottom: 70px;">
+        <div style="margin-top: 20px;margin-bottom: 100px;">
           <?php echo implode("\n", $capaian_list); ?>
         </div>
         <!-- legend detail -->
