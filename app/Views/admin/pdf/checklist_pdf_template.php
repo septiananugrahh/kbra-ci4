@@ -8,7 +8,7 @@
     /* Tujuan Pembelajaran */
     .table-checklist td:nth-child(1),
     .table-checklist th:nth-child(1) {
-      width: 23%;
+      width: 25%;
     }
 
     /* Sudah Muncul */
@@ -21,19 +21,19 @@
     /* Konteks */
     .table-checklist td:nth-child(3),
     .table-checklist th:nth-child(3) {
-      width: 15%;
+      width: 22%;
     }
 
     /* Tempat Dan Waktu */
     .table-checklist td:nth-child(4),
     .table-checklist th:nth-child(4) {
-      width: 27%;
+      width: 15%;
     }
 
     /* Kejadian Teramati */
     .table-checklist td:nth-child(5),
     .table-checklist th:nth-child(5) {
-      width: 32%;
+      width: 33%;
     }
 
     @page {
