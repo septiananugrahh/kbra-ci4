@@ -5,27 +5,32 @@
   <title>Laporan Checklist <?= esc($modul_ajar_id) ?></title>
   <style>
     /* Ukuran Tabel  */
+    /* Tujuan Pembelajaran */
     .table-checklist td:nth-child(1),
     .table-checklist th:nth-child(1) {
-      width: 30%;
+      width: 25%;
     }
 
+    /* Sudah Muncul */
     .table-checklist td:nth-child(2),
     .table-checklist th:nth-child(2) {
       width: 5%;
       text-align: center;
     }
 
+    /* Konteks */
     .table-checklist td:nth-child(3),
     .table-checklist th:nth-child(3) {
       width: 15%;
     }
 
+    /* Tempat Dan Waktu */
     .table-checklist td:nth-child(4),
     .table-checklist th:nth-child(4) {
-      width: 15%;
+      width: 20%;
     }
 
+    /* Kejadian Teramati */
     .table-checklist td:nth-child(5),
     .table-checklist th:nth-child(5) {
       width: 35%;
@@ -186,7 +191,7 @@
 
 
   <?php if (empty($records)): ?>
-    <p style="text-align: center; color: #777;">Belum ada penilaian anekdot untuk tanggal ini.</p>
+    <p style="text-align: center; color: #777;">Belum ada penilaian checklist untuk tanggal ini.</p>
   <?php else: ?>
     <?php foreach ($records as $record): ?>
       <?php
