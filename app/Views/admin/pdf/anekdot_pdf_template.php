@@ -149,6 +149,14 @@
     <p style="text-align: center; color: #777;">Belum ada penilaian anekdot untuk tanggal ini.</p>
   <?php else: ?>
     <?php foreach ($records as $record): ?>
+      <?php
+      // ===== TAMBAHKAN PENGECEKAN INI DI AWAL =====
+      // Cek apakah santri memiliki data peristiwa atau keterangan
+      if (empty($record['peristiwa']) && empty($record['keterangan'])) {
+        continue; // Skip santri ini, lanjut ke santri berikutnya
+      }
+      // ===== AKHIR PENGECEKAN =====
+      ?>
       <center>
         <h2>CATATAN ANEKDOT</h2>
         <h2><?= esc($nama_tingkat) ?></h2>

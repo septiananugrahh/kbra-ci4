@@ -233,6 +233,17 @@
     <p style="text-align: center; color: #777;">Belum ada penilaian foto berseri untuk tanggal ini.</p>
   <?php else: ?>
     <?php foreach ($records as $record): ?>
+      <?php
+      // ===== TAMBAHKAN PENGECEKAN INI DI AWAL =====
+      // Cek apakah santri memiliki minimal 1 foto
+      $hasFoto = !empty($record['foto1']) || !empty($record['foto2']) || !empty($record['foto3']);
+
+      // Skip santri ini jika tidak ada foto sama sekali
+      if (!$hasFoto) {
+        continue; // Lanjut ke santri berikutnya
+      }
+      // ===== AKHIR PENGECEKAN =====
+      ?>
       <center>
         <h2>PENILAIAN FOTO BERSERI</h2>
         <h2><?= esc($nama_tingkat) ?></h2>

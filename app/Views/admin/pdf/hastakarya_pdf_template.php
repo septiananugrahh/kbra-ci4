@@ -149,6 +149,14 @@
     <p style="text-align: center; color: #777;">Belum ada penilaian hasil karya untuk tanggal ini.</p>
   <?php else: ?>
     <?php foreach ($records as $record): ?>
+      <?php
+      // ===== TAMBAHKAN PENGECEKAN INI DI AWAL =====
+      // Cek apakah santri memiliki foto hasil karya
+      if (empty($record['foto'])) {
+        continue; // Skip santri ini, lanjut ke santri berikutnya
+      }
+      // ===== AKHIR PENGECEKAN =====
+      ?>
       <center>
         <h2>PENILAIAN HASIL KARYA</h2>
         <h2><?= esc($nama_tingkat) ?></h2>

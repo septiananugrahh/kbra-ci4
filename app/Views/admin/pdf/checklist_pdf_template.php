@@ -189,6 +189,29 @@
     <p style="text-align: center; color: #777;">Belum ada penilaian anekdot untuk tanggal ini.</p>
   <?php else: ?>
     <?php foreach ($records as $record): ?>
+      <?php
+      // ===== TAMBAHKAN PENGECEKAN INI DI AWAL =====
+      // Decode data status untuk pengecekan awal
+      $statusData = json_decode($record['isi'], true);
+
+      // Hitung apakah ada baris yang valid
+      $dynamicRowspan = 0;
+      if (!empty($statusData)) {
+        foreach ($statusData as $statusItem) {
+          foreach ($tujuan_pembelajaran as $item) {
+            if ($item['tujuan_id'] == $statusItem['id']) {
+              $dynamicRowspan++;
+            }
+          }
+        }
+      }
+
+      // Skip santri ini jika tidak ada data penilaian
+      if ($dynamicRowspan === 0) {
+        continue; // Lanjut ke santri berikutnya
+      }
+      // ===== AKHIR PENGECEKAN =====
+      ?>
       <center>
         <h2>CHECKLIST PENILAIAN</h2>
         <h2><?= esc($nama_tingkat) ?></h2>
