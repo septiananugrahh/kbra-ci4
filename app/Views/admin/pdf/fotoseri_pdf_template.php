@@ -10,8 +10,6 @@
       margin-right: 1cm;
       margin-left: 3cm;
       size: 330mm 210mm;
-      /* F4 */
-      margin: 10mm;
     }
 
     .page:last-child {

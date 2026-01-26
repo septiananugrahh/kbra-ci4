@@ -55,8 +55,6 @@ function getSelectStyle($select_key, $dpl_color, $dpl_bg_color, $kbc_color, $kbc
       margin-right: 1cm;
       margin-left: 3cm;
       size: 210mm 330mm;
-      /* F4 */
-      margin: 10mm;
     }
 
     .page:last-child {

@@ -41,6 +41,7 @@
       margin-bottom: 2cm;
       margin-right: 1cm;
       margin-left: 3cm;
+      size: 330mm 210mm;
     }
 
     .page:last-child {
