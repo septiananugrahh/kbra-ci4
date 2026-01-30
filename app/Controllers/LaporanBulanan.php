@@ -420,6 +420,21 @@ class LaporanBulanan extends CustomController
   }
 
   /**
+   * Get data untuk DataTables (AJAX)
+   */
+  public function getData()
+  {
+    $kelas_id = session()->get('kelas_id');
+    $tahun = session()->get('tahun');
+    $semester = session()->get('semester');
+
+    // Ambil daftar laporan yang sudah dibuat
+    $laporanList = $this->laporanModel->getLaporanByKelas($kelas_id, $tahun, $semester);
+
+    return $this->response->setJSON($laporanList);
+  }
+
+  /**
    * Simpan detail laporan dari data asesmen
    */
   private function saveDetailFromAsesmen($laporan_id, $filteredData)

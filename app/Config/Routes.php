@@ -191,6 +191,7 @@ $routes->post('profil/simpan', 'Profile::simpan');
 // start laporan bulanan
 $routes->group('laporan-bulanan', ['filter' => 'auth'], function ($routes) {
   $routes->get('/', 'LaporanBulanan::index');
+  $routes->get('laporan-bulanan/get-data', 'LaporanBulanan::getData');
   $routes->post('generate', 'LaporanBulanan::generate');
   $routes->get('edit/(:num)', 'LaporanBulanan::edit/$1');
   $routes->post('update-detail', 'LaporanBulanan::updateDetail');
