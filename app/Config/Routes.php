@@ -197,6 +197,8 @@ $routes->group('laporan-bulanan', ['filter' => 'auth'], function ($routes) {
   $routes->post('update-detail', 'LaporanBulanan::updateDetail');
   $routes->delete('delete/(:num)', 'LaporanBulanan::delete/$1');
   $routes->get('download-pdf/(:num)', 'LaporanBulanan::downloadPDF/$1');
+  // Route BARU untuk print per santri
+  $routes->get('laporan-bulanan/download-pdf-per-santri/(:num)/(:num)', 'LaporanBulanan::downloadPDFPerSantri/$1/$2');
 });
 
 // end laporan bulanan
