@@ -18,37 +18,51 @@
 
     body {
       font-family: "Times New Roman", "DejaVu Sans", serif;
-      font-size: 10pt;
-      line-height: 1.08;
+      font-size: 9pt;
+      line-height: 1;
       margin: 0;
       padding: 0;
     }
 
-    h4 {
-      line-height: 0.5em;
-    }
-
-    h2 {
-      line-height: 0.8em;
-      margin-top: 0.5em;
-      margin-bottom: 0.5em;
-      padding: 0;
-      text-align: center;
-      color: #333;
-    }
-
     p {
-      line-height: 1.1em;
-      margin-top: 0.5em;
-      margin-bottom: 0.5em;
+      line-height: 0.9em;
+      margin-top: 0.2em;
+      margin-bottom: 0.2em;
       padding: 0;
       text-align: justify;
       color: #555;
     }
 
+    h4 {
+      line-height: 0.3em;
+      margin: 0;
+      padding: 0;
+    }
+
+    h2 {
+      line-height: 0.5em;
+      margin-top: 0.2em;
+      margin-bottom: 0.2em;
+      padding: 0;
+      text-align: center;
+      color: #333;
+      font-size: 12pt;
+    }
+
+
     .header-info {
       text-align: center;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
+      margin-top: 2px;
+    }
+
+    .header-info table {
+      line-height: 0.9;
+      font-size: 9pt;
+    }
+
+    .header-info td {
+      padding: 1px 3px;
     }
 
     .record-card {
@@ -80,8 +94,7 @@
     .table-bulanan th,
     .table-bulanan td {
       border: 1px solid black;
-      padding: 5px 8px;
-      /* Lebih kecil padding */
+      padding: 3px 5px;
       text-align: left;
       vertical-align: top;
     }
@@ -96,14 +109,10 @@
 
     .keterangan-item {
       display: block;
-      margin-bottom: 2px;
-      /* Mengurangi margin bawah */
+      margin-bottom: 1px;
       padding: 0;
-      /* Menghilangkan padding */
-      line-height: 1.2;
-      /* Menurunkan jarak antar teks */
-      font-size: 9pt;
-      /* Menurunkan ukuran font */
+      line-height: 1;
+      font-size: 8.5pt;
     }
 
     .page-break {
@@ -140,13 +149,13 @@
     //   continue;
     // }
     ?>
-    <center>
-      <h2>PENILAIAN BULANAN</h2>
-      <h2><?= esc($nama_tingkat) ?></h2>
-      <h4>Tahun Pelajaran <?= esc($tahun) ?></h4>
+    <center style="margin-bottom: 3px;">
+      <h2 style="margin-bottom: 1px;">PENILAIAN BULANAN</h2>
+      <h2 style="margin-top: 1px; margin-bottom: 1px;"><?= esc($nama_tingkat) ?></h2>
+      <h4 style="margin-top: 1px;">Tahun Pelajaran <?= esc($tahun) ?></h4>
     </center>
-    <img src="<?= base_url('logo-200px.png') ?>" alt="" style="position:absolute; top:0px; width:80px;">
-    <hr>
+    <img src="<?= base_url('logo-200px.png') ?>" alt="" style="position:absolute; top:0px; width:70px;">
+    <hr style="margin: 3px 0;">
 
     <div>
       <div class="header-info">
