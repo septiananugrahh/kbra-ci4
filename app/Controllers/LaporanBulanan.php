@@ -146,6 +146,10 @@ class LaporanBulanan extends CustomController
       $dataLaporanHastaKarya,
       $dataLaporanFotoBerseri
     );
+    // echo '<pre>';
+    // var_dump($filteredData);
+    // echo '</pre>';
+    // die;
 
     if (
       empty($filteredData['checklist']) && empty($filteredData['anekdot']) &&
@@ -188,65 +192,229 @@ class LaporanBulanan extends CustomController
   {
     $result = ['checklist' => [], 'anekdot' => [], 'hastakarya' => [], 'fotoberseri' => []];
 
-    // Filter checklist
-    foreach ($dataChecklist as $laporan) {
-      if (isset($laporan['tanggal'])) {
+    // ============================================
+    // LOG AWAL: Cek data yang masuk
+    // ============================================
+    log_message('debug', '========== MULAI FILTER BULAN ==========');
+    log_message('debug', 'Target Bulan: ' . $bulanNama);
+    log_message('debug', 'Total data checklist: ' . count($dataChecklist));
+    log_message('debug', 'Total data anekdot: ' . count($dataAnekdot));
+    log_message('debug', 'Total data hastakarya: ' . count($dataHastaKarya));
+    log_message('debug', 'Total data fotoberseri: ' . count($dataFotoBerseri));
+    log_message('debug', '========================================');
+
+    // ============================================
+    // FILTER CHECKLIST
+    // ============================================
+    log_message('debug', '');
+    log_message('debug', '--- PROSES FILTER CHECKLIST ---');
+    $checklistCounter = 0;
+
+    foreach ($dataChecklist as $index => $laporan) {
+      $checklistCounter++;
+      $tanggal = $laporan['tanggal'] ?? 'NULL';
+      $santriNama = $laporan['santri_nama'] ?? 'Unknown';
+
+      log_message('debug', "Checklist #{$checklistCounter} - Santri: {$santriNama}");
+      log_message('debug', "  Tanggal Raw: {$tanggal}");
+
+      if (isset($laporan['tanggal']) && !empty($laporan['tanggal'])) {
         $parts = explode(",", $laporan['tanggal']);
+        log_message('debug', "  Explode koma, parts count: " . count($parts));
+        log_message('debug', "  Parts: " . json_encode($parts));
+
         if (count($parts) > 1) {
           $bulanTeks = trim($parts[1]);
-          $bulanNamaDB = explode(" ", $bulanTeks)[1] ?? '';
+          log_message('debug', "  Bulan Teks (setelah trim): '{$bulanTeks}'");
+
+          $dateArray = explode(" ", $bulanTeks);
+          log_message('debug', "  Explode spasi, array count: " . count($dateArray));
+          log_message('debug', "  Date Array: " . json_encode($dateArray));
+
+          $bulanNamaDB = $dateArray[1] ?? '';
+          log_message('debug', "  Bulan Extracted: '{$bulanNamaDB}'");
+          log_message('debug', "  Perbandingan: '{$bulanNamaDB}' == '{$bulanNama}' ? " . ($bulanNamaDB == $bulanNama ? 'TRUE' : 'FALSE'));
 
           if ($bulanNamaDB == $bulanNama) {
             $result['checklist'][] = $laporan;
+            log_message('debug', "  ✓ MATCH! Data ditambahkan ke result");
+          } else {
+            log_message('debug', "  ✗ TIDAK MATCH!");
           }
+        } else {
+          log_message('debug', "  ✗ Format tanggal tidak ada koma atau parts < 2");
         }
+      } else {
+        log_message('debug', "  ✗ Tanggal kosong atau null");
       }
+      log_message('debug', '');
     }
 
-    // Filter anekdot
-    foreach ($dataAnekdot as $laporan) {
-      if (isset($laporan['tanggal'])) {
+    log_message('debug', "HASIL FILTER CHECKLIST: " . count($result['checklist']) . " dari " . $checklistCounter . " data");
+    log_message('debug', '========================================');
+
+    // ============================================
+    // FILTER ANEKDOT
+    // ============================================
+    log_message('debug', '');
+    log_message('debug', '--- PROSES FILTER ANEKDOT ---');
+    $anekdotCounter = 0;
+
+    foreach ($dataAnekdot as $index => $laporan) {
+      $anekdotCounter++;
+      $tanggal = $laporan['tanggal'] ?? 'NULL';
+      $santriNama = $laporan['santri_nama'] ?? 'Unknown';
+
+      log_message('debug', "Anekdot #{$anekdotCounter} - Santri: {$santriNama}");
+      log_message('debug', "  Tanggal Raw: {$tanggal}");
+
+      if (isset($laporan['tanggal']) && !empty($laporan['tanggal'])) {
         $parts = explode(",", $laporan['tanggal']);
+        log_message('debug', "  Explode koma, parts count: " . count($parts));
+        log_message('debug', "  Parts: " . json_encode($parts));
+
         if (count($parts) > 1) {
           $bulanTeks = trim($parts[1]);
-          $bulanNamaDB = explode(" ", $bulanTeks)[1] ?? '';
+          log_message('debug', "  Bulan Teks (setelah trim): '{$bulanTeks}'");
+
+          $dateArray = explode(" ", $bulanTeks);
+          log_message('debug', "  Explode spasi, array count: " . count($dateArray));
+          log_message('debug', "  Date Array: " . json_encode($dateArray));
+
+          $bulanNamaDB = $dateArray[1] ?? '';
+          log_message('debug', "  Bulan Extracted: '{$bulanNamaDB}'");
+          log_message('debug', "  Perbandingan: '{$bulanNamaDB}' == '{$bulanNama}' ? " . ($bulanNamaDB == $bulanNama ? 'TRUE' : 'FALSE'));
 
           if ($bulanNamaDB == $bulanNama) {
             $result['anekdot'][] = $laporan;
+            log_message('debug', "  ✓ MATCH! Data ditambahkan ke result");
+          } else {
+            log_message('debug', "  ✗ TIDAK MATCH!");
           }
+        } else {
+          log_message('debug', "  ✗ Format tanggal tidak ada koma atau parts < 2");
         }
+      } else {
+        log_message('debug', "  ✗ Tanggal kosong atau null");
       }
+      log_message('debug', '');
     }
 
-    // Filter hasta karya
-    foreach ($dataHastaKarya as $laporan) {
-      if (isset($laporan['tanggal'])) {
+    log_message('debug', "HASIL FILTER ANEKDOT: " . count($result['anekdot']) . " dari " . $anekdotCounter . " data");
+    log_message('debug', '========================================');
+
+    // ============================================
+    // FILTER HASTA KARYA
+    // ============================================
+    log_message('debug', '');
+    log_message('debug', '--- PROSES FILTER HASTA KARYA ---');
+    $hastaCounter = 0;
+
+    foreach ($dataHastaKarya as $index => $laporan) {
+      $hastaCounter++;
+      $tanggal = $laporan['tanggal'] ?? 'NULL';
+      $santriNama = $laporan['santri_nama'] ?? 'Unknown';
+
+      log_message('debug', "Hasta Karya #{$hastaCounter} - Santri: {$santriNama}");
+      log_message('debug', "  Tanggal Raw: {$tanggal}");
+
+      if (isset($laporan['tanggal']) && !empty($laporan['tanggal'])) {
         $parts = explode(",", $laporan['tanggal']);
+        log_message('debug', "  Explode koma, parts count: " . count($parts));
+        log_message('debug', "  Parts: " . json_encode($parts));
+
         if (count($parts) > 1) {
           $bulanTeks = trim($parts[1]);
-          $bulanNamaDB = explode(" ", $bulanTeks)[1] ?? '';
+          log_message('debug', "  Bulan Teks (setelah trim): '{$bulanTeks}'");
+
+          $dateArray = explode(" ", $bulanTeks);
+          log_message('debug', "  Explode spasi, array count: " . count($dateArray));
+          log_message('debug', "  Date Array: " . json_encode($dateArray));
+
+          $bulanNamaDB = $dateArray[1] ?? '';
+          log_message('debug', "  Bulan Extracted: '{$bulanNamaDB}'");
+          log_message('debug', "  Perbandingan: '{$bulanNamaDB}' == '{$bulanNama}' ? " . ($bulanNamaDB == $bulanNama ? 'TRUE' : 'FALSE'));
 
           if ($bulanNamaDB == $bulanNama) {
             $result['hastakarya'][] = $laporan;
+            log_message('debug', "  ✓ MATCH! Data ditambahkan ke result");
+          } else {
+            log_message('debug', "  ✗ TIDAK MATCH!");
           }
+        } else {
+          log_message('debug', "  ✗ Format tanggal tidak ada koma atau parts < 2");
         }
+      } else {
+        log_message('debug', "  ✗ Tanggal kosong atau null");
       }
+      log_message('debug', '');
     }
 
-    // Filter foto berseri
-    foreach ($dataFotoBerseri as $laporan) {
-      if (isset($laporan['tanggal'])) {
+    log_message('debug', "HASIL FILTER HASTA KARYA: " . count($result['hastakarya']) . " dari " . $hastaCounter . " data");
+    log_message('debug', '========================================');
+
+    // ============================================
+    // FILTER FOTO BERSERI
+    // ============================================
+    log_message('debug', '');
+    log_message('debug', '--- PROSES FILTER FOTO BERSERI ---');
+    $fotoBerseriCounter = 0;
+
+    foreach ($dataFotoBerseri as $index => $laporan) {
+      $fotoBerseriCounter++;
+      $tanggal = $laporan['tanggal'] ?? 'NULL';
+      $santriNama = $laporan['santri_nama'] ?? 'Unknown';
+
+      log_message('debug', "Foto Berseri #{$fotoBerseriCounter} - Santri: {$santriNama}");
+      log_message('debug', "  Tanggal Raw: {$tanggal}");
+
+      if (isset($laporan['tanggal']) && !empty($laporan['tanggal'])) {
         $parts = explode(",", $laporan['tanggal']);
+        log_message('debug', "  Explode koma, parts count: " . count($parts));
+        log_message('debug', "  Parts: " . json_encode($parts));
+
         if (count($parts) > 1) {
           $bulanTeks = trim($parts[1]);
-          $bulanNamaDB = explode(" ", $bulanTeks)[1] ?? '';
+          log_message('debug', "  Bulan Teks (setelah trim): '{$bulanTeks}'");
+
+          $dateArray = explode(" ", $bulanTeks);
+          log_message('debug', "  Explode spasi, array count: " . count($dateArray));
+          log_message('debug', "  Date Array: " . json_encode($dateArray));
+
+          $bulanNamaDB = $dateArray[1] ?? '';
+          log_message('debug', "  Bulan Extracted: '{$bulanNamaDB}'");
+          log_message('debug', "  Perbandingan: '{$bulanNamaDB}' == '{$bulanNama}' ? " . ($bulanNamaDB == $bulanNama ? 'TRUE' : 'FALSE'));
 
           if ($bulanNamaDB == $bulanNama) {
             $result['fotoberseri'][] = $laporan;
+            log_message('debug', "  ✓ MATCH! Data ditambahkan ke result");
+          } else {
+            log_message('debug', "  ✗ TIDAK MATCH!");
           }
+        } else {
+          log_message('debug', "  ✗ Format tanggal tidak ada koma atau parts < 2");
         }
+      } else {
+        log_message('debug', "  ✗ Tanggal kosong atau null");
       }
+      log_message('debug', '');
     }
+
+    log_message('debug', "HASIL FILTER FOTO BERSERI: " . count($result['fotoberseri']) . " dari " . $fotoBerseriCounter . " data");
+    log_message('debug', '========================================');
+
+    // ============================================
+    // RINGKASAN AKHIR
+    // ============================================
+    log_message('debug', '');
+    log_message('debug', '========== RINGKASAN HASIL FILTER ==========');
+    log_message('debug', "Bulan Target: {$bulanNama}");
+    log_message('debug', "Checklist   : " . count($result['checklist']) . " / {$checklistCounter}");
+    log_message('debug', "Anekdot     : " . count($result['anekdot']) . " / {$anekdotCounter}");
+    log_message('debug', "Hasta Karya : " . count($result['hastakarya']) . " / {$hastaCounter}");
+    log_message('debug', "Foto Berseri: " . count($result['fotoberseri']) . " / {$fotoBerseriCounter}");
+    log_message('debug', '============================================');
+    log_message('debug', '');
 
     return $result;
   }
