@@ -192,6 +192,11 @@
       processing: true,
       scrollX: true,
       serverSide: false,
+      ajax: {
+        url: BASE_URL + 'laporan-bulanan/get-data',
+        type: 'GET',
+        dataSrc: ''
+      },
       responsive: {
         details: {
           display: $.fn.dataTable.Responsive.display.childRowImmediate,
@@ -199,7 +204,6 @@
           renderer: renderResponsiveCard
         }
       },
-      data: <?= json_encode($laporan_list) ?>,
       columns: [{
           data: "id",
           visible: false
@@ -364,7 +368,7 @@
             timer: 2000,
             showConfirmButton: false
           }).then(() => {
-            location.reload();
+            dataTable.ajax.reload(null, false);
           });
         } else {
           Swal.fire({
@@ -428,7 +432,7 @@
             timer: 2000,
             showConfirmButton: false
           }).then(() => {
-            location.reload();
+            dataTable.ajax.reload(null, false);
           });
         } else {
           Swal.fire({

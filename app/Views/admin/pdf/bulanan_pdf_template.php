@@ -5,9 +5,9 @@
   <title>Laporan Bulanan <?= esc($bulan) ?></title>
   <style>
     @page {
-      margin-top: 1.3cm;
-      margin-bottom: 2cm;
-      margin-right: 1cm;
+      margin-top: 0.5cm;
+      margin-bottom: 0.5cm;
+      margin-right: 0.8cm;
       margin-left: 3cm;
       size: 330mm 210mm;
     }
