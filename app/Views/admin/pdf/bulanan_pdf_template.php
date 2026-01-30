@@ -5,9 +5,9 @@
   <title>Laporan Bulanan <?= esc($bulan) ?></title>
   <style>
     @page {
-      margin-top: 0.5cm;
-      margin-bottom: 0.5cm;
-      margin-right: 0.8cm;
+      margin-top: 0.9cm;
+      margin-bottom: 0.9cm;
+      margin-right: 0.9cm;
       margin-left: 3cm;
       size: 330mm 210mm;
     }
@@ -150,11 +150,11 @@
     // }
     ?>
     <center style="margin-bottom: 3px;">
-      <h2 style="margin-bottom: 1px;">PENILAIAN BULANAN</h2>
-      <h2 style="margin-top: 1px; margin-bottom: 1px;"><?= esc($nama_tingkat) ?></h2>
+      <h2 style="margin-bottom: 13px;">PENILAIAN BULANAN</h2>
+      <h2 style="margin-bottom: 13px;"><?= esc($nama_tingkat) ?></h2>
       <h4 style="margin-top: 1px;">Tahun Pelajaran <?= esc($tahun) ?></h4>
     </center>
-    <img src="<?= base_url('logo-200px.png') ?>" alt="" style="position:absolute; top:0px; width:70px;">
+    <img src="<?= base_url('logo-200px.png') ?>" alt="" style="position:absolute; top:0px; width:50px;">
     <hr style="margin: 3px 0;">
 
     <div>
