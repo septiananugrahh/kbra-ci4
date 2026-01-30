@@ -604,6 +604,93 @@ class LaporanBulanan extends CustomController
   }
 
   /**
+   * Download/Print PDF laporan per santri
+   */
+  public function downloadPDFPerSantri($laporan_id, $santri_id)
+  {
+    $laporan = $this->laporanModel->find($laporan_id);
+
+    if (!$laporan) {
+      throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+    }
+
+    // Ambil data santri
+    $santri = $this->santriModel->find($santri_id);
+    if (!$santri) {
+      throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+    }
+
+    // Ambil data yang diperlukan
+    $kelas = $this->kelasModel->find($laporan['kelas_id']);
+    $semester = $this->semesterModel
+      ->where('tingkat', $kelas['jenjang'])
+      ->where('tahun', $laporan['tahun'])
+      ->where('semester', $laporan['semester'])
+      ->first();
+
+    $kepala = $this->guruModel->find($semester['kepala']);
+    $wali = $this->guruModel->find($kelas['wali']);
+
+    // Ambil detail laporan untuk santri tertentu
+    $laporan_data = $this->detailModel->getDetailForSingleSantri($laporan_id, $santri_id);
+
+    // Ambil capaian pembelajaran
+    $capaian_pembelajaran = $this->capaianModel->where('setting', $laporan['tahun'])->findAll();
+
+    $capaian_list = [];
+    $capaian_list_id = [];
+    $capaian_list_warna = [];
+
+    foreach ($capaian_pembelajaran as $item) {
+      $capaian_list[] = $item['nama'];
+      $capaian_list_id[] = $item['id'];
+      $capaian_list_warna[] = $item['warna'];
+    }
+
+    // Tentukan nama tingkat
+    if ($kelas['jenjang'] == 'RA') {
+      $nama_tingkat = "RA ISLAMIC CENTER ABDULLAH GHANIM AS SAMAIL";
+      $nama_kepala = "Kepala Sekolah";
+    } else {
+      $nama_tingkat = "KB IT ISLAMIC CENTER PONOROGO";
+      $nama_kepala = "Kepala KB IT Islamic Center";
+    }
+
+    $data = [
+      'kepala' => $kepala['nama'],
+      'wali' => $wali['nama'],
+      'capaian_pembelajaran' => $capaian_pembelajaran,
+      'semester' => $laporan['semester'],
+      'tahun' => $laporan['tahun'],
+      'nama_tingkat' => $nama_tingkat,
+      'nama_kepala' => $nama_kepala,
+      'bulan' => $laporan['nama_bulan'],
+      'santri' => $santri,
+      'capaian_list' => $capaian_list,
+      'capaian_list_id' => $capaian_list_id,
+      'capaian_list_warna' => $capaian_list_warna,
+      'laporan_data' => $laporan_data,
+    ];
+
+    // Generate PDF
+    $options = new Options();
+    $options->setIsRemoteEnabled(true);
+    $dompdf = new Dompdf($options);
+    $dompdf->set_option('isHtml5ParserEnabled', true);
+    $dompdf->set_option('isRemoteEnabled', true);
+    $dompdf->set_option('defaultFont', 'Times New Roman');
+    $data['print_mode'] = 'single'; // tambahkan ini
+    $data['selected_santri_id'] = $santri_id; // tambahkan ini
+    $html = view('admin/pdf/bulanan_pdf_template', $data);
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('A4', 'portrait');
+    $dompdf->render();
+
+    $pdfFileName = 'laporan_' . strtolower(str_replace(' ', '_', $santri['nama'])) . '_' . $laporan['bulan'] . '_' . str_replace('/', '-', $laporan['tahun']) . '.pdf';
+    $dompdf->stream($pdfFileName, ['Attachment' => 0]);
+  }
+
+  /**
    * Download/Print PDF laporan
    */
   public function downloadPDF($laporan_id)
@@ -676,7 +763,7 @@ class LaporanBulanan extends CustomController
     $dompdf->set_option('isHtml5ParserEnabled', true);
     $dompdf->set_option('isRemoteEnabled', true);
     $dompdf->set_option('defaultFont', 'Times New Roman');
-
+    $data['print_mode'] = 'all';
     $html = view('admin/pdf/bulanan_pdf_template', $data);
     $dompdf->loadHtml($html);
     $dompdf->setPaper('A4', 'landscape');

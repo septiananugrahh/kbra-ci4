@@ -124,7 +124,13 @@
 
 <body>
 
-  <?php foreach ($listSantris as $santri): ?>
+  <?php
+  $print_mode = $print_mode ?? 'all';
+  $selected_santri_id = $selected_santri_id ?? null;
+  foreach ($listSantris as $santri):
+    if ($print_mode === 'single' && $santri['santri_id'] != $selected_santri_id) {
+      continue;
+    } ?>
     <?php
     // Cek apakah semua capaian berisi data atau tidak
     // $has_data = false;

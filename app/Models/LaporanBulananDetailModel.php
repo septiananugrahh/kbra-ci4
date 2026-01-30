@@ -123,6 +123,18 @@ class LaporanBulananDetailModel extends Model
     return $grouped;
   }
 
+
+  public function getDetailForSingleSantri($laporan_id, $santri_id)
+  {
+    return $this->select('laporan_bulanan_detail.*, santri.nama as santri_nama, capaian_pembelajaran.id as capaian_id, capaian_pembelajaran.nama as capaian_nama')
+      ->join('santri', 'santri.id = laporan_bulanan_detail.santri_id')
+      ->join('capaian_pembelajaran', 'capaian_pembelajaran.id = laporan_bulanan_detail.capaian_pembelajaran_id')
+      ->where('laporan_bulanan_detail.laporan_bulanan_id', $laporan_id)
+      ->where('laporan_bulanan_detail.santri_id', $santri_id)
+      ->orderBy('laporan_bulanan_detail.urutan', 'ASC')
+      ->findAll();
+  }
+
   /**
    * Hapus semua detail berdasarkan laporan_id
    */

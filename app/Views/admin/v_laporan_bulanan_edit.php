@@ -68,9 +68,15 @@
                         <?php foreach ($details as $santri_id => $santri_data): ?>
                             <div class="card mb-4">
                                 <div class="card-header bg-light">
-                                    <h5 class="mb-0">
-                                        <i class="ri-user-line"></i> <?= esc($santri_data['santri_nama']) ?>
-                                    </h5>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0">
+                                            <i class="ri-user-line"></i> <?= esc($santri_data['santri_nama']) ?>
+                                        </h5>
+                                        <a href="<?= base_url('laporan-bulanan/download-pdf-per-santri/' . $laporan['id'] . '/' . $santri_id) ?>"
+                                            class="btn btn-sm btn-success no-print" target="_blank">
+                                            <i class="ri-printer-line"></i> Print
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
