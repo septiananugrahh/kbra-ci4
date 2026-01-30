@@ -116,7 +116,30 @@
 <body>
 
   <?php foreach ($listSantris as $santri): ?>
+    <?php
+    // Cek apakah semua capaian berisi data atau tidak
+    $has_data = false;
 
+    if (isset($laporan_data[$santri['id']])) {
+      $santri_data = $laporan_data[$santri['id']];
+
+      foreach ($capaian_list_id as $id_capaian) {
+        if (
+          isset($santri_data['capaian'][$id_capaian]) &&
+          is_array($santri_data['capaian'][$id_capaian]) &&
+          !empty($santri_data['capaian'][$id_capaian])
+        ) {
+          $has_data = true;
+          break;
+        }
+      }
+    }
+
+    // Skip santri jika tidak ada data
+    if (!$has_data) {
+      continue;
+    }
+    ?>
     <center>
       <h2>PENILAIAN BULANAN</h2>
       <h2><?= esc($nama_tingkat) ?></h2>
