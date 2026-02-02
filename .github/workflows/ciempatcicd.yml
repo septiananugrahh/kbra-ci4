@@ -13,7 +13,7 @@ jobs:
       - name: 📥 Checkout Repo
         uses: actions/checkout@v4
 
-      # TAMBAHKAN INI
+      # TAMBAHKAN INI s
       - name: 🐘 Setup PHP
         uses: shivammathur/setup-php@v2
         with:
