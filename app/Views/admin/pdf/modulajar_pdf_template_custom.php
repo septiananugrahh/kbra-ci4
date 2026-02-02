@@ -245,10 +245,20 @@ function getSelectStyle($select_key, $dpl_color, $dpl_bg_color, $kbc_color, $kbc
           <td style="vertical-align: top;">:</td>
           <td>
             <table class="myDataTable">
-              <?php foreach ($dataCapaianPembelajarans as $dataCapaianPembelajaran): ?>
+              <?php
+              $lastNama = null;
+              foreach ($dataCapaianPembelajarans as $dataCapaianPembelajaran):
+                $nama = $dataCapaianPembelajaran['nama_capaian_pembelajaran'];
+
+                // skip kalau sama dengan sebelumnya
+                if ($nama === $lastNama) {
+                  continue;
+                }
+                $lastNama = $nama;
+              ?>
                 <tr>
                   <td>&#8594;</td>
-                  <td><?= esc($dataCapaianPembelajaran['nama_capaian_pembelajaran']) ?></td>
+                  <td><?= esc($nama) ?></td>
                 </tr>
               <?php endforeach; ?>
             </table>
