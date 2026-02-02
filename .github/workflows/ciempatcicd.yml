@@ -22,7 +22,7 @@ jobs:
           tools: composer:v2
 
       - name: 📦 Install Dependencies
-        run: composer install --no-dev --optimize-autoloader --no-interaction
+        run: composer update
 
       - name: 📦 Siapkan file deploy
         run: |
