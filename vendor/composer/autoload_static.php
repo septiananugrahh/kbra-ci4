@@ -7,8 +7,8 @@ namespace Composer\Autoload;
 class ComposerStaticInit57fb627e72e5d52016f9166943084f79
 {
     public static $files = array (
-        'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
@@ -16,18 +16,100 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '23c18046f52bef3eea034657bafda50f' => __DIR__ . '/..' . '/symfony/polyfill-php81/bootstrap.php',
+        '9d2b9fc6db0f153a0a149fefb182415e' => __DIR__ . '/..' . '/symfony/polyfill-php84/bootstrap.php',
+        '72243e5536b63e298acb6476f01f1aff' => __DIR__ . '/..' . '/thecodingmachine/safe/lib/special_cases.php',
+        '3f648889e687f31c52f949ba8a9d0873' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/apache.php',
+        'eeb4581d958421a4244aaa4167c6a575' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/apcu.php',
+        '04cb0b3c1dac5b5ddb23c14e3d66dbe9' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/array.php',
+        '450b332a74a9a21e043c5e953485a791' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/bzip2.php',
+        '6e9b7954ecfd7cbb9ca239319d1acdb6' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/calendar.php',
+        '2c6d7e8bd2de9a272a9d4d43b0a4304a' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/classobj.php',
+        '0b8231c1ad0865447c988a4c16b4001f' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/com.php',
+        '7643a71fe1c3256058c8fee234cb86e5' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/cubrid.php',
+        '68e1365710575942efc1d55000032cee' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/curl.php',
+        '02fd26bca803106c5b942a7197c3ad8b' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/datetime.php',
+        'f4817dcbd956cd221b1c31f6fbd5749c' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/dir.php',
+        '51c3f2d10ca61a70dbcea0e38d8e902d' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/eio.php',
+        '1d34f34327ca3e81535963016e3be2c3' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/errorfunc.php',
+        '4fd0ba2d3717b0424d474bebfdafa2b4' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/exec.php',
+        '98f4dae054bc7fb19c13be14935cbdd3' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/fileinfo.php',
+        '5530ae063ba88323eaf0a07904efdf85' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/filesystem.php',
+        '633f4f134975d70e97bddad83348e91a' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/filter.php',
+        'fbd163fc68c5faf73d5ed4002ffd836d' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/fpm.php',
+        '21b511999d61411fab0692ff8795bbed' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/ftp.php',
+        '85fbd73fc92365cd90526b0ea03cae3a' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/funchand.php',
+        'a2e4c6dfdbf36f56f1945ddcbd54e289' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/gettext.php',
+        '51df9c146e0b7dcbdf358d8abd24dbdc' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/gmp.php',
+        '93bb7fe678d7dcfb1322f8e3475a48b0' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/gnupg.php',
+        'c171ba99cf316379ff66468392bf4950' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/hash.php',
+        '5ab4aad4c28e468209fbfcceb2e5e6a5' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/ibase.php',
+        '4d57409c5e8e576b0c64c08d9d731cfb' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/ibmDb2.php',
+        'eeb246d5403972a9d62106e4a4883496' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/iconv.php',
+        'c28a05f498c01b810a714f7214b7a8da' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/image.php',
+        '8063cd92acdf00fd978b5599eb7cc142' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/imap.php',
+        '8bd26dbe768e9c9599edad7b198e5446' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/info.php',
+        'd4362910bde43c0f956b52527effd7d4' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/inotify.php',
+        '696ba49197d9b55f0428a12bb5a818e1' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/json.php',
+        '9818aaa99c8647c63f8ef62b7a368160' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/ldap.php',
+        'bcf523ff2a195eb08e0fbb668ed784d0' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/libxml.php',
+        '68be68a9a8b95bb56cab6109ff03bc88' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/lzf.php',
+        'bdca804bb0904ea9f53f328dfc0bb8a5' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/mailparse.php',
+        'b0a3fcac3eaf55445796d6af26b89366' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/mbstring.php',
+        '98de16b8db03eb0cb4d318b4402215a6' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/misc.php',
+        '7cefd81607cd21b8b3a15656eb6465f5' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/mysql.php',
+        'aaf438b080089c6d0686679cd34aa72e' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/mysqli.php',
+        'cbac956836b72483dcff1ac39d5c0a0f' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/network.php',
+        '6c8f89dfbdc117d7871f572269363f25' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/oci8.php',
+        '169a669966a45c06bf55ed029122729b' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/opcache.php',
+        'def61bf4fecd4d4bca7354919cd69302' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/openssl.php',
+        '26bb010649a6d32d4120181458aa6ef2' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/outcontrol.php',
+        '002ebcb842e2c0d5b7f67fe64cc93158' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/pcntl.php',
+        '86df38612982dade72c7085ce7eca81f' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/pcre.php',
+        '1fc22f445c69ea8706e82fce301c0831' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/pgsql.php',
+        'c70b42561584f7144bff38cd63c4eef3' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/posix.php',
+        '9923214639c32ca5173db03a177d3b63' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/ps.php',
+        '7e9c3f8eae2b5bf42205c4f1295cb7a7' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/pspell.php',
+        '91aa91f6245c349c2e2e88bd0025f199' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/readline.php',
+        'ccf972e9e1fd8935f45f95e13b54ad59' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/rnp.php',
+        'd43773cacb9e5e8e897aa255e32007d1' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/rpminfo.php',
+        'f053a3849e9e8383762b34b91db0320b' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/rrd.php',
+        '775b964f72f827a1bf87c65ab5b10800' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/sem.php',
+        '816428bd69c29ab5e1ed622af5dca0cd' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/session.php',
+        '5093e233bedbefaef0df262bfbab0a5c' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/shmop.php',
+        'b080617b1d949683c2e37f8f01dc0e15' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/sockets.php',
+        '2708aa182ddcfe6ce27c96acaaa40f69' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/sodium.php',
+        'f1b96cb260a5baeea9a7285cda82a1ec' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/solr.php',
+        '3fd8853757d0fe3557c179efb807afeb' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/spl.php',
+        '9312ce96a51c846913fcda5f186d58dd' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/sqlsrv.php',
+        'd3eb383ad0b8b962b29dc4afd29d6715' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/ssdeep.php',
+        '42a09bc448f441a0b9f9367ea975c0bf' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/ssh2.php',
+        'ef711077d356d1b33ca0b10b67b0be8f' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/stream.php',
+        '764b09f6df081cbb2807b97c6ace3866' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/strings.php',
+        'ef241678769fee4a44aaa288f3b78aa1' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/swoole.php',
+        '0efc8f6778cba932b9e2a89e28de2452' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/uodbc.php',
+        'd383d32907b98af53ee9208c62204fd0' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/uopz.php',
+        '2fd2e4060f7fe772660f002ce38f0b71' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/url.php',
+        '782249e03deebeaf57b9991ff5493aa0' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/var.php',
+        '344440cd1cd7200fdb4f12af0d3c587f' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/xdiff.php',
+        '3599f369219c658a5fb6c4fe66832f62' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/xml.php',
+        '7fcd313da9fae337051b091b3492c21b' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/xmlrpc.php',
+        'd668c74cfa92d893b582356733d9a80e' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/yaml.php',
+        '4af1dca6db8c527c6eed27bff85ff0e5' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/yaz.php',
+        'fe43ca06499ac37bc2dedd823af71eb5' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/zip.php',
+        '356736db98a6834f0a886b8d509b0ecd' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/zlib.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '3917c79c5052b270641b5a200963dbc2' => __DIR__ . '/..' . '/kint-php/kint/init.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
-        'Z' => 
+        'Z' =>
         array (
             'ZipStream\\' => 10,
         ),
-        'S' => 
+        'S' =>
         array (
+            'Symfony\\Polyfill\\Php84\\' => 23,
             'Symfony\\Polyfill\\Php81\\' => 23,
             'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
@@ -47,7 +129,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
             'Svg\\' => 4,
             'Sabberworm\\CSS\\' => 15,
         ),
-        'R' => 
+        'R' =>
         array (
             'React\\Stream\\' => 13,
             'React\\Socket\\' => 13,
@@ -57,12 +139,10 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
             'React\\ChildProcess\\' => 19,
             'React\\Cache\\' => 12,
         ),
-        'P' => 
+        'P' =>
         array (
             'Psr\\SimpleCache\\' => 16,
             'Psr\\Log\\' => 8,
-            'Psr\\Http\\Message\\' => 17,
-            'Psr\\Http\\Client\\' => 16,
             'Psr\\EventDispatcher\\' => 20,
             'Psr\\Container\\' => 14,
             'Predis\\' => 7,
@@ -70,39 +150,39 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
             'PhpOffice\\PhpSpreadsheet\\' => 25,
             'PhpCsFixer\\' => 11,
         ),
-        'N' => 
+        'N' =>
         array (
             'Nexus\\CsConfig\\' => 15,
         ),
-        'M' => 
+        'M' =>
         array (
             'Matrix\\' => 7,
             'Masterminds\\' => 12,
         ),
-        'L' => 
+        'L' =>
         array (
             'Laminas\\Escaper\\' => 16,
         ),
-        'K' => 
+        'K' =>
         array (
             'Kint\\' => 5,
         ),
-        'F' => 
+        'F' =>
         array (
             'FontLib\\' => 8,
             'Fidry\\CpuCoreCounter\\' => 21,
             'Faker\\' => 6,
         ),
-        'E' => 
+        'E' =>
         array (
             'Evenement\\' => 10,
         ),
-        'D' => 
+        'D' =>
         array (
             'Dompdf\\' => 7,
             'DeepCopy\\' => 9,
         ),
-        'C' => 
+        'C' =>
         array (
             'Composer\\XdebugHandler\\' => 23,
             'Composer\\Semver\\' => 16,
@@ -115,229 +195,224 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
     );
 
     public static $prefixDirsPsr4 = array (
-        'ZipStream\\' => 
+        'ZipStream\\' =>
         array (
             0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
         ),
-        'Symfony\\Polyfill\\Php81\\' => 
+        'Symfony\\Polyfill\\Php84\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php84',
+        ),
+        'Symfony\\Polyfill\\Php81\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php81',
         ),
-        'Symfony\\Polyfill\\Php80\\' => 
+        'Symfony\\Polyfill\\Php80\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
         ),
-        'Symfony\\Polyfill\\Mbstring\\' => 
+        'Symfony\\Polyfill\\Mbstring\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
-        'Symfony\\Polyfill\\Intl\\Normalizer\\' => 
+        'Symfony\\Polyfill\\Intl\\Normalizer\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer',
         ),
-        'Symfony\\Polyfill\\Intl\\Grapheme\\' => 
+        'Symfony\\Polyfill\\Intl\\Grapheme\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme',
         ),
-        'Symfony\\Polyfill\\Ctype\\' => 
+        'Symfony\\Polyfill\\Ctype\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
-        'Symfony\\Contracts\\Service\\' => 
+        'Symfony\\Contracts\\Service\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/service-contracts',
         ),
-        'Symfony\\Contracts\\EventDispatcher\\' => 
+        'Symfony\\Contracts\\EventDispatcher\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/event-dispatcher-contracts',
         ),
-        'Symfony\\Component\\String\\' => 
+        'Symfony\\Component\\String\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/string',
         ),
-        'Symfony\\Component\\Stopwatch\\' => 
+        'Symfony\\Component\\Stopwatch\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/stopwatch',
         ),
-        'Symfony\\Component\\Process\\' => 
+        'Symfony\\Component\\Process\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/process',
         ),
-        'Symfony\\Component\\OptionsResolver\\' => 
+        'Symfony\\Component\\OptionsResolver\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/options-resolver',
         ),
-        'Symfony\\Component\\Finder\\' => 
+        'Symfony\\Component\\Finder\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/finder',
         ),
-        'Symfony\\Component\\Filesystem\\' => 
+        'Symfony\\Component\\Filesystem\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/filesystem',
         ),
-        'Symfony\\Component\\EventDispatcher\\' => 
+        'Symfony\\Component\\EventDispatcher\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/event-dispatcher',
         ),
-        'Symfony\\Component\\Console\\' => 
+        'Symfony\\Component\\Console\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
         ),
-        'Svg\\' => 
+        'Svg\\' =>
         array (
             0 => __DIR__ . '/..' . '/dompdf/php-svg-lib/src/Svg',
         ),
-        'Sabberworm\\CSS\\' => 
+        'Sabberworm\\CSS\\' =>
         array (
             0 => __DIR__ . '/..' . '/sabberworm/php-css-parser/src',
         ),
-        'React\\Stream\\' => 
+        'React\\Stream\\' =>
         array (
             0 => __DIR__ . '/..' . '/react/stream/src',
         ),
-        'React\\Socket\\' => 
+        'React\\Socket\\' =>
         array (
             0 => __DIR__ . '/..' . '/react/socket/src',
         ),
-        'React\\Promise\\' => 
+        'React\\Promise\\' =>
         array (
             0 => __DIR__ . '/..' . '/react/promise/src',
         ),
-        'React\\EventLoop\\' => 
+        'React\\EventLoop\\' =>
         array (
             0 => __DIR__ . '/..' . '/react/event-loop/src',
         ),
-        'React\\Dns\\' => 
+        'React\\Dns\\' =>
         array (
             0 => __DIR__ . '/..' . '/react/dns/src',
         ),
-        'React\\ChildProcess\\' => 
+        'React\\ChildProcess\\' =>
         array (
             0 => __DIR__ . '/..' . '/react/child-process/src',
         ),
-        'React\\Cache\\' => 
+        'React\\Cache\\' =>
         array (
             0 => __DIR__ . '/..' . '/react/cache/src',
         ),
-        'Psr\\SimpleCache\\' => 
+        'Psr\\SimpleCache\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/simple-cache/src',
         ),
-        'Psr\\Log\\' => 
+        'Psr\\Log\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/log/src',
         ),
-        'Psr\\Http\\Message\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
-        ),
-        'Psr\\Http\\Client\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/http-client/src',
-        ),
-        'Psr\\EventDispatcher\\' => 
+        'Psr\\EventDispatcher\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/event-dispatcher/src',
         ),
-        'Psr\\Container\\' => 
+        'Psr\\Container\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
-        'Predis\\' => 
+        'Predis\\' =>
         array (
             0 => __DIR__ . '/..' . '/predis/predis/src',
         ),
-        'PhpParser\\' => 
+        'PhpParser\\' =>
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
-        'PhpOffice\\PhpSpreadsheet\\' => 
+        'PhpOffice\\PhpSpreadsheet\\' =>
         array (
             0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
         ),
-        'PhpCsFixer\\' => 
+        'PhpCsFixer\\' =>
         array (
             0 => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src',
         ),
-        'Nexus\\CsConfig\\' => 
+        'Nexus\\CsConfig\\' =>
         array (
             0 => __DIR__ . '/..' . '/nexusphp/cs-config/src',
         ),
-        'Matrix\\' => 
+        'Matrix\\' =>
         array (
             0 => __DIR__ . '/..' . '/markbaker/matrix/classes/src',
         ),
-        'Masterminds\\' => 
+        'Masterminds\\' =>
         array (
             0 => __DIR__ . '/..' . '/masterminds/html5/src',
         ),
-        'Laminas\\Escaper\\' => 
+        'Laminas\\Escaper\\' =>
         array (
             0 => __DIR__ . '/..' . '/laminas/laminas-escaper/src',
         ),
-        'Kint\\' => 
+        'Kint\\' =>
         array (
             0 => __DIR__ . '/..' . '/kint-php/kint/src',
         ),
-        'FontLib\\' => 
+        'FontLib\\' =>
         array (
             0 => __DIR__ . '/..' . '/dompdf/php-font-lib/src/FontLib',
         ),
-        'Fidry\\CpuCoreCounter\\' => 
+        'Fidry\\CpuCoreCounter\\' =>
         array (
             0 => __DIR__ . '/..' . '/fidry/cpu-core-counter/src',
         ),
-        'Faker\\' => 
+        'Faker\\' =>
         array (
             0 => __DIR__ . '/..' . '/fakerphp/faker/src/Faker',
         ),
-        'Evenement\\' => 
+        'Evenement\\' =>
         array (
             0 => __DIR__ . '/..' . '/evenement/evenement/src',
         ),
-        'Dompdf\\' => 
+        'Dompdf\\' =>
         array (
             0 => __DIR__ . '/..' . '/dompdf/dompdf/src',
         ),
-        'DeepCopy\\' => 
+        'DeepCopy\\' =>
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
         ),
-        'Composer\\XdebugHandler\\' => 
+        'Composer\\XdebugHandler\\' =>
         array (
             0 => __DIR__ . '/..' . '/composer/xdebug-handler/src',
         ),
-        'Composer\\Semver\\' => 
+        'Composer\\Semver\\' =>
         array (
             0 => __DIR__ . '/..' . '/composer/semver/src',
         ),
-        'Composer\\Pcre\\' => 
+        'Composer\\Pcre\\' =>
         array (
             0 => __DIR__ . '/..' . '/composer/pcre/src',
         ),
-        'Complex\\' => 
+        'Complex\\' =>
         array (
             0 => __DIR__ . '/..' . '/markbaker/complex/classes/src',
         ),
-        'CodeIgniter\\CodingStandard\\' => 
+        'CodeIgniter\\CodingStandard\\' =>
         array (
             0 => __DIR__ . '/..' . '/codeigniter/coding-standard/src',
         ),
-        'CodeIgniter\\' => 
+        'CodeIgniter\\' =>
         array (
             0 => __DIR__ . '/../..' . '/system',
         ),
-        'Clue\\React\\NDJson\\' => 
+        'Clue\\React\\NDJson\\' =>
         array (
             0 => __DIR__ . '/..' . '/clue/ndjson-react/src',
         ),
     );
 
     public static $prefixesPsr0 = array (
-        'o' => 
+        'o' =>
         array (
-            'org\\bovigo\\vfs\\' => 
+            'org\\bovigo\\vfs\\' =>
             array (
                 0 => __DIR__ . '/..' . '/mikey179/vfsstream/src/main/php',
             ),
@@ -819,6 +894,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'DeepCopy\\TypeFilter\\Spl\\SplDoublyLinkedListFilter' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/TypeFilter/Spl/SplDoublyLinkedListFilter.php',
         'DeepCopy\\TypeFilter\\TypeFilter' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/TypeFilter/TypeFilter.php',
         'DeepCopy\\TypeMatcher\\TypeMatcher' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/TypeMatcher/TypeMatcher.php',
+        'Deprecated' => __DIR__ . '/..' . '/symfony/polyfill-php84/Resources/stubs/Deprecated.php',
         'Dompdf\\Adapter\\CPDF' => __DIR__ . '/..' . '/dompdf/dompdf/src/Adapter/CPDF.php',
         'Dompdf\\Adapter\\GD' => __DIR__ . '/..' . '/dompdf/dompdf/src/Adapter/GD.php',
         'Dompdf\\Adapter\\PDFLib' => __DIR__ . '/..' . '/dompdf/dompdf/src/Adapter/PDFLib.php',
@@ -1641,6 +1717,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'Nexus\\CsConfig\\Fixer\\Comment\\NoCodeSeparatorCommentFixer' => __DIR__ . '/..' . '/nexusphp/cs-config/src/Fixer/Comment/NoCodeSeparatorCommentFixer.php',
         'Nexus\\CsConfig\\Fixer\\Comment\\SpaceAfterCommentStartFixer' => __DIR__ . '/..' . '/nexusphp/cs-config/src/Fixer/Comment/SpaceAfterCommentStartFixer.php',
         'Nexus\\CsConfig\\Ruleset\\AbstractRuleset' => __DIR__ . '/..' . '/nexusphp/cs-config/src/Ruleset/AbstractRuleset.php',
+        'Nexus\\CsConfig\\Ruleset\\ConfigurableAllowedUnsupportedPhpVersionRulesetInterface' => __DIR__ . '/..' . '/nexusphp/cs-config/src/Ruleset/ConfigurableAllowedUnsupportedPhpVersionRulesetInterface.php',
         'Nexus\\CsConfig\\Ruleset\\Nexus81' => __DIR__ . '/..' . '/nexusphp/cs-config/src/Ruleset/Nexus81.php',
         'Nexus\\CsConfig\\Ruleset\\Nexus82' => __DIR__ . '/..' . '/nexusphp/cs-config/src/Ruleset/Nexus82.php',
         'Nexus\\CsConfig\\Ruleset\\Nexus83' => __DIR__ . '/..' . '/nexusphp/cs-config/src/Ruleset/Nexus83.php',
@@ -2051,6 +2128,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PHPUnit\\Framework\\MockObject\\Generator\\SoapExtensionNotAvailableException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/Generator/Exception/SoapExtensionNotAvailableException.php',
         'PHPUnit\\Framework\\MockObject\\Generator\\TemplateLoader' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/Generator/TemplateLoader.php',
         'PHPUnit\\Framework\\MockObject\\Generator\\UnknownClassException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/Generator/Exception/UnknownClassException.php',
+        'PHPUnit\\Framework\\MockObject\\Generator\\UnknownInterfaceException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/Generator/Exception/UnknownInterfaceException.php',
         'PHPUnit\\Framework\\MockObject\\Generator\\UnknownTraitException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/Generator/Exception/UnknownTraitException.php',
         'PHPUnit\\Framework\\MockObject\\Generator\\UnknownTypeException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/Generator/Exception/UnknownTypeException.php',
         'PHPUnit\\Framework\\MockObject\\IncompatibleReturnValueException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MockObject/Exception/IncompatibleReturnValueException.php',
@@ -2268,6 +2346,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PHPUnit\\Metadata\\WithoutErrorHandler' => __DIR__ . '/..' . '/phpunit/phpunit/src/Metadata/WithoutErrorHandler.php',
         'PHPUnit\\Runner\\Baseline\\Baseline' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/Baseline/Baseline.php',
         'PHPUnit\\Runner\\Baseline\\CannotLoadBaselineException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/Baseline/Exception/CannotLoadBaselineException.php',
+        'PHPUnit\\Runner\\Baseline\\CannotWriteBaselineException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/Baseline/Exception/CannotWriteBaselineException.php',
         'PHPUnit\\Runner\\Baseline\\FileDoesNotHaveLineException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/Baseline/Exception/FileDoesNotHaveLineException.php',
         'PHPUnit\\Runner\\Baseline\\Generator' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/Baseline/Generator.php',
         'PHPUnit\\Runner\\Baseline\\Issue' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/Baseline/Issue.php',
@@ -2285,8 +2364,10 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PHPUnit\\Runner\\ClassDoesNotExtendTestCaseException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/Exception/ClassDoesNotExtendTestCaseException.php',
         'PHPUnit\\Runner\\ClassIsAbstractException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/Exception/ClassIsAbstractException.php',
         'PHPUnit\\Runner\\CodeCoverage' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/CodeCoverage.php',
+        'PHPUnit\\Runner\\CodeCoverageFileExistsException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/Exception/CodeCoverageFileExistsException.php',
         'PHPUnit\\Runner\\DeprecationCollector\\Collector' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/DeprecationCollector/Collector.php',
         'PHPUnit\\Runner\\DeprecationCollector\\Facade' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/DeprecationCollector/Facade.php',
+        'PHPUnit\\Runner\\DeprecationCollector\\InIsolationCollector' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/DeprecationCollector/InIsolationCollector.php',
         'PHPUnit\\Runner\\DeprecationCollector\\Subscriber' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/DeprecationCollector/Subscriber/Subscriber.php',
         'PHPUnit\\Runner\\DeprecationCollector\\TestPreparedSubscriber' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/DeprecationCollector/Subscriber/TestPreparedSubscriber.php',
         'PHPUnit\\Runner\\DeprecationCollector\\TestTriggeredDeprecationSubscriber' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/DeprecationCollector/Subscriber/TestTriggeredDeprecationSubscriber.php',
@@ -2324,6 +2405,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PHPUnit\\Runner\\ResultCache\\NullResultCache' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/ResultCache/NullResultCache.php',
         'PHPUnit\\Runner\\ResultCache\\ResultCache' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/ResultCache/ResultCache.php',
         'PHPUnit\\Runner\\ResultCache\\ResultCacheHandler' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/ResultCache/ResultCacheHandler.php',
+        'PHPUnit\\Runner\\ResultCache\\ResultCacheId' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/ResultCache/ResultCacheId.php',
         'PHPUnit\\Runner\\ResultCache\\Subscriber' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/ResultCache/Subscriber/Subscriber.php',
         'PHPUnit\\Runner\\ResultCache\\TestConsideredRiskySubscriber' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/ResultCache/Subscriber/TestConsideredRiskySubscriber.php',
         'PHPUnit\\Runner\\ResultCache\\TestErroredSubscriber' => __DIR__ . '/..' . '/phpunit/phpunit/src/Runner/ResultCache/Subscriber/TestErroredSubscriber.php',
@@ -2377,6 +2459,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PHPUnit\\TextUI\\CliArguments\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/TextUI/Configuration/Cli/Exception.php',
         'PHPUnit\\TextUI\\CliArguments\\XmlConfigurationFileFinder' => __DIR__ . '/..' . '/phpunit/phpunit/src/TextUI/Configuration/Cli/XmlConfigurationFileFinder.php',
         'PHPUnit\\TextUI\\Command\\AtLeastVersionCommand' => __DIR__ . '/..' . '/phpunit/phpunit/src/TextUI/Command/Commands/AtLeastVersionCommand.php',
+        'PHPUnit\\TextUI\\Command\\CheckPhpConfigurationCommand' => __DIR__ . '/..' . '/phpunit/phpunit/src/TextUI/Command/Commands/CheckPhpConfigurationCommand.php',
         'PHPUnit\\TextUI\\Command\\Command' => __DIR__ . '/..' . '/phpunit/phpunit/src/TextUI/Command/Command.php',
         'PHPUnit\\TextUI\\Command\\GenerateConfigurationCommand' => __DIR__ . '/..' . '/phpunit/phpunit/src/TextUI/Command/Commands/GenerateConfigurationCommand.php',
         'PHPUnit\\TextUI\\Command\\ListGroupsCommand' => __DIR__ . '/..' . '/phpunit/phpunit/src/TextUI/Command/Commands/ListGroupsCommand.php',
@@ -2675,20 +2758,25 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpCsFixer\\Cache\\NullCacheManager' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Cache/NullCacheManager.php',
         'PhpCsFixer\\Cache\\Signature' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Cache/Signature.php',
         'PhpCsFixer\\Cache\\SignatureInterface' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Cache/SignatureInterface.php',
+        'PhpCsFixer\\ComposerJsonReader' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/ComposerJsonReader.php',
         'PhpCsFixer\\Config' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Config.php',
         'PhpCsFixer\\ConfigInterface' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/ConfigInterface.php',
+        'PhpCsFixer\\Config\\NullRuleCustomisationPolicy' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Config/NullRuleCustomisationPolicy.php',
+        'PhpCsFixer\\Config\\RuleCustomisationPolicyAwareConfigInterface' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Config/RuleCustomisationPolicyAwareConfigInterface.php',
+        'PhpCsFixer\\Config\\RuleCustomisationPolicyInterface' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Config/RuleCustomisationPolicyInterface.php',
         'PhpCsFixer\\ConfigurationException\\InvalidConfigurationException' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/ConfigurationException/InvalidConfigurationException.php',
         'PhpCsFixer\\ConfigurationException\\InvalidFixerConfigurationException' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/ConfigurationException/InvalidFixerConfigurationException.php',
         'PhpCsFixer\\ConfigurationException\\InvalidForEnvFixerConfigurationException' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/ConfigurationException/InvalidForEnvFixerConfigurationException.php',
         'PhpCsFixer\\ConfigurationException\\RequiredFixerConfigurationException' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/ConfigurationException/RequiredFixerConfigurationException.php',
+        'PhpCsFixer\\ConfigurationException\\UnresolvableAutoRuleSetConfigurationException' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/ConfigurationException/UnresolvableAutoRuleSetConfigurationException.php',
         'PhpCsFixer\\Console\\Application' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Console/Application.php',
         'PhpCsFixer\\Console\\Command\\CheckCommand' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Console/Command/CheckCommand.php',
         'PhpCsFixer\\Console\\Command\\DescribeCommand' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Console/Command/DescribeCommand.php',
         'PhpCsFixer\\Console\\Command\\DescribeNameNotFoundException' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Console/Command/DescribeNameNotFoundException.php',
-        'PhpCsFixer\\Console\\Command\\DocumentationCommand' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Console/Command/DocumentationCommand.php',
         'PhpCsFixer\\Console\\Command\\FixCommand' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Console/Command/FixCommand.php',
         'PhpCsFixer\\Console\\Command\\FixCommandExitStatusCalculator' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Console/Command/FixCommandExitStatusCalculator.php',
         'PhpCsFixer\\Console\\Command\\HelpCommand' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Console/Command/HelpCommand.php',
+        'PhpCsFixer\\Console\\Command\\InitCommand' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Console/Command/InitCommand.php',
         'PhpCsFixer\\Console\\Command\\ListFilesCommand' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Console/Command/ListFilesCommand.php',
         'PhpCsFixer\\Console\\Command\\ListSetsCommand' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Console/Command/ListSetsCommand.php',
         'PhpCsFixer\\Console\\Command\\SelfUpdateCommand' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Console/Command/SelfUpdateCommand.php',
@@ -2721,6 +2809,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpCsFixer\\Console\\SelfUpdate\\NewVersionChecker' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Console/SelfUpdate/NewVersionChecker.php',
         'PhpCsFixer\\Console\\SelfUpdate\\NewVersionCheckerInterface' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Console/SelfUpdate/NewVersionCheckerInterface.php',
         'PhpCsFixer\\Console\\WarningsDetector' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Console/WarningsDetector.php',
+        'PhpCsFixer\\CustomRulesetsAwareConfigInterface' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/CustomRulesetsAwareConfigInterface.php',
         'PhpCsFixer\\Differ\\DiffConsoleFormatter' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Differ/DiffConsoleFormatter.php',
         'PhpCsFixer\\Differ\\DifferInterface' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Differ/DifferInterface.php',
         'PhpCsFixer\\Differ\\FullDiffer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Differ/FullDiffer.php',
@@ -2737,6 +2826,9 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpCsFixer\\Doctrine\\Annotation\\Token' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Doctrine/Annotation/Token.php',
         'PhpCsFixer\\Doctrine\\Annotation\\Tokens' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Doctrine/Annotation/Tokens.php',
         'PhpCsFixer\\Documentation\\DocumentationLocator' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Documentation/DocumentationLocator.php',
+        'PhpCsFixer\\Documentation\\DocumentationTag' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Documentation/DocumentationTag.php',
+        'PhpCsFixer\\Documentation\\DocumentationTagGenerator' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Documentation/DocumentationTagGenerator.php',
+        'PhpCsFixer\\Documentation\\DocumentationTagType' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Documentation/DocumentationTagType.php',
         'PhpCsFixer\\Documentation\\FixerDocumentGenerator' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Documentation/FixerDocumentGenerator.php',
         'PhpCsFixer\\Documentation\\RstUtils' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Documentation/RstUtils.php',
         'PhpCsFixer\\Documentation\\RuleSetDocumentationGenerator' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Documentation/RuleSetDocumentationGenerator.php',
@@ -2795,6 +2887,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpCsFixer\\Fixer\\ArrayNotation\\TrimArraySpacesFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ArrayNotation/TrimArraySpacesFixer.php',
         'PhpCsFixer\\Fixer\\ArrayNotation\\WhitespaceAfterCommaInArrayFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ArrayNotation/WhitespaceAfterCommaInArrayFixer.php',
         'PhpCsFixer\\Fixer\\ArrayNotation\\YieldFromArrayToYieldsFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ArrayNotation/YieldFromArrayToYieldsFixer.php',
+        'PhpCsFixer\\Fixer\\AttributeNotation\\AttributeBlockNoSpacesFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/AttributeNotation/AttributeBlockNoSpacesFixer.php',
         'PhpCsFixer\\Fixer\\AttributeNotation\\AttributeEmptyParenthesesFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/AttributeNotation/AttributeEmptyParenthesesFixer.php',
         'PhpCsFixer\\Fixer\\AttributeNotation\\GeneralAttributeRemoveFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/AttributeNotation/GeneralAttributeRemoveFixer.php',
         'PhpCsFixer\\Fixer\\AttributeNotation\\OrderedAttributesFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/AttributeNotation/OrderedAttributesFixer.php',
@@ -2830,9 +2923,12 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpCsFixer\\Fixer\\ClassNotation\\FinalClassFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ClassNotation/FinalClassFixer.php',
         'PhpCsFixer\\Fixer\\ClassNotation\\FinalInternalClassFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ClassNotation/FinalInternalClassFixer.php',
         'PhpCsFixer\\Fixer\\ClassNotation\\FinalPublicMethodForAbstractClassFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ClassNotation/FinalPublicMethodForAbstractClassFixer.php',
+        'PhpCsFixer\\Fixer\\ClassNotation\\ModernSerializationMethodsFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ClassNotation/ModernSerializationMethodsFixer.php',
+        'PhpCsFixer\\Fixer\\ClassNotation\\ModifierKeywordsFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ClassNotation/ModifierKeywordsFixer.php',
         'PhpCsFixer\\Fixer\\ClassNotation\\NoBlankLinesAfterClassOpeningFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ClassNotation/NoBlankLinesAfterClassOpeningFixer.php',
         'PhpCsFixer\\Fixer\\ClassNotation\\NoNullPropertyInitializationFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ClassNotation/NoNullPropertyInitializationFixer.php',
         'PhpCsFixer\\Fixer\\ClassNotation\\NoPhp4ConstructorFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ClassNotation/NoPhp4ConstructorFixer.php',
+        'PhpCsFixer\\Fixer\\ClassNotation\\NoRedundantReadonlyPropertyFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ClassNotation/NoRedundantReadonlyPropertyFixer.php',
         'PhpCsFixer\\Fixer\\ClassNotation\\NoUnneededFinalMethodFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ClassNotation/NoUnneededFinalMethodFixer.php',
         'PhpCsFixer\\Fixer\\ClassNotation\\OrderedClassElementsFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ClassNotation/OrderedClassElementsFixer.php',
         'PhpCsFixer\\Fixer\\ClassNotation\\OrderedInterfacesFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ClassNotation/OrderedInterfacesFixer.php',
@@ -2844,6 +2940,8 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpCsFixer\\Fixer\\ClassNotation\\SelfStaticAccessorFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ClassNotation/SelfStaticAccessorFixer.php',
         'PhpCsFixer\\Fixer\\ClassNotation\\SingleClassElementPerStatementFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ClassNotation/SingleClassElementPerStatementFixer.php',
         'PhpCsFixer\\Fixer\\ClassNotation\\SingleTraitInsertPerStatementFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ClassNotation/SingleTraitInsertPerStatementFixer.php',
+        'PhpCsFixer\\Fixer\\ClassNotation\\StaticPrivateMethodFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ClassNotation/StaticPrivateMethodFixer.php',
+        'PhpCsFixer\\Fixer\\ClassNotation\\StringableForToStringFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ClassNotation/StringableForToStringFixer.php',
         'PhpCsFixer\\Fixer\\ClassNotation\\VisibilityRequiredFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ClassNotation/VisibilityRequiredFixer.php',
         'PhpCsFixer\\Fixer\\ClassUsage\\DateTimeImmutableFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ClassUsage/DateTimeImmutableFixer.php',
         'PhpCsFixer\\Fixer\\Comment\\CommentToPhpdocFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Comment/CommentToPhpdocFixer.php',
@@ -2877,6 +2975,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpCsFixer\\Fixer\\ControlStructure\\TrailingCommaInMultilineFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ControlStructure/TrailingCommaInMultilineFixer.php',
         'PhpCsFixer\\Fixer\\ControlStructure\\YodaStyleFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/ControlStructure/YodaStyleFixer.php',
         'PhpCsFixer\\Fixer\\DeprecatedFixerInterface' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/DeprecatedFixerInterface.php',
+        'PhpCsFixer\\Fixer\\DocBlockAnnotationTrait' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/DocBlockAnnotationTrait.php',
         'PhpCsFixer\\Fixer\\DoctrineAnnotation\\DoctrineAnnotationArrayAssignmentFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/DoctrineAnnotation/DoctrineAnnotationArrayAssignmentFixer.php',
         'PhpCsFixer\\Fixer\\DoctrineAnnotation\\DoctrineAnnotationBracesFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/DoctrineAnnotation/DoctrineAnnotationBracesFixer.php',
         'PhpCsFixer\\Fixer\\DoctrineAnnotation\\DoctrineAnnotationIndentationFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/DoctrineAnnotation/DoctrineAnnotationIndentationFixer.php',
@@ -2892,10 +2991,12 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpCsFixer\\Fixer\\FunctionNotation\\ImplodeCallFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/FunctionNotation/ImplodeCallFixer.php',
         'PhpCsFixer\\Fixer\\FunctionNotation\\LambdaNotUsedImportFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/FunctionNotation/LambdaNotUsedImportFixer.php',
         'PhpCsFixer\\Fixer\\FunctionNotation\\MethodArgumentSpaceFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/FunctionNotation/MethodArgumentSpaceFixer.php',
+        'PhpCsFixer\\Fixer\\FunctionNotation\\MultilinePromotedPropertiesFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/FunctionNotation/MultilinePromotedPropertiesFixer.php',
         'PhpCsFixer\\Fixer\\FunctionNotation\\NativeFunctionInvocationFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/FunctionNotation/NativeFunctionInvocationFixer.php',
         'PhpCsFixer\\Fixer\\FunctionNotation\\NoSpacesAfterFunctionNameFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/FunctionNotation/NoSpacesAfterFunctionNameFixer.php',
         'PhpCsFixer\\Fixer\\FunctionNotation\\NoTrailingCommaInSinglelineFunctionCallFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/FunctionNotation/NoTrailingCommaInSinglelineFunctionCallFixer.php',
         'PhpCsFixer\\Fixer\\FunctionNotation\\NoUnreachableDefaultArgumentValueFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/FunctionNotation/NoUnreachableDefaultArgumentValueFixer.php',
+        'PhpCsFixer\\Fixer\\FunctionNotation\\NoUselessPrintfFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/FunctionNotation/NoUselessPrintfFixer.php',
         'PhpCsFixer\\Fixer\\FunctionNotation\\NoUselessSprintfFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/FunctionNotation/NoUselessSprintfFixer.php',
         'PhpCsFixer\\Fixer\\FunctionNotation\\NullableTypeDeclarationForDefaultNullValueFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/FunctionNotation/NullableTypeDeclarationForDefaultNullValueFixer.php',
         'PhpCsFixer\\Fixer\\FunctionNotation\\PhpdocToParamTypeFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/FunctionNotation/PhpdocToParamTypeFixer.php',
@@ -2916,7 +3017,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpCsFixer\\Fixer\\Import\\OrderedImportsFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Import/OrderedImportsFixer.php',
         'PhpCsFixer\\Fixer\\Import\\SingleImportPerStatementFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Import/SingleImportPerStatementFixer.php',
         'PhpCsFixer\\Fixer\\Import\\SingleLineAfterImportsFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Import/SingleLineAfterImportsFixer.php',
-        'PhpCsFixer\\Fixer\\Indentation' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Indentation.php',
+        'PhpCsFixer\\Fixer\\IndentationTrait' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/IndentationTrait.php',
         'PhpCsFixer\\Fixer\\InternalFixerInterface' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/InternalFixerInterface.php',
         'PhpCsFixer\\Fixer\\LanguageConstruct\\ClassKeywordFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/LanguageConstruct/ClassKeywordFixer.php',
         'PhpCsFixer\\Fixer\\LanguageConstruct\\ClassKeywordRemoveFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/LanguageConstruct/ClassKeywordRemoveFixer.php',
@@ -2948,6 +3049,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpCsFixer\\Fixer\\Operator\\IncrementStyleFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Operator/IncrementStyleFixer.php',
         'PhpCsFixer\\Fixer\\Operator\\LogicalOperatorsFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Operator/LogicalOperatorsFixer.php',
         'PhpCsFixer\\Fixer\\Operator\\LongToShorthandOperatorFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Operator/LongToShorthandOperatorFixer.php',
+        'PhpCsFixer\\Fixer\\Operator\\NewExpressionParenthesesFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Operator/NewExpressionParenthesesFixer.php',
         'PhpCsFixer\\Fixer\\Operator\\NewWithBracesFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Operator/NewWithBracesFixer.php',
         'PhpCsFixer\\Fixer\\Operator\\NewWithParenthesesFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Operator/NewWithParenthesesFixer.php',
         'PhpCsFixer\\Fixer\\Operator\\NoSpaceAroundDoubleColonFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Operator/NoSpaceAroundDoubleColonFixer.php',
@@ -3020,11 +3122,13 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpCsFixer\\Fixer\\Phpdoc\\PhpdocSingleLineVarSpacingFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Phpdoc/PhpdocSingleLineVarSpacingFixer.php',
         'PhpCsFixer\\Fixer\\Phpdoc\\PhpdocSummaryFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Phpdoc/PhpdocSummaryFixer.php',
         'PhpCsFixer\\Fixer\\Phpdoc\\PhpdocTagCasingFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Phpdoc/PhpdocTagCasingFixer.php',
+        'PhpCsFixer\\Fixer\\Phpdoc\\PhpdocTagNoNamedArgumentsFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Phpdoc/PhpdocTagNoNamedArgumentsFixer.php',
         'PhpCsFixer\\Fixer\\Phpdoc\\PhpdocTagTypeFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Phpdoc/PhpdocTagTypeFixer.php',
         'PhpCsFixer\\Fixer\\Phpdoc\\PhpdocToCommentFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Phpdoc/PhpdocToCommentFixer.php',
         'PhpCsFixer\\Fixer\\Phpdoc\\PhpdocTrimConsecutiveBlankLineSeparationFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Phpdoc/PhpdocTrimConsecutiveBlankLineSeparationFixer.php',
         'PhpCsFixer\\Fixer\\Phpdoc\\PhpdocTrimFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Phpdoc/PhpdocTrimFixer.php',
         'PhpCsFixer\\Fixer\\Phpdoc\\PhpdocTypesFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Phpdoc/PhpdocTypesFixer.php',
+        'PhpCsFixer\\Fixer\\Phpdoc\\PhpdocTypesNoDuplicatesFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Phpdoc/PhpdocTypesNoDuplicatesFixer.php',
         'PhpCsFixer\\Fixer\\Phpdoc\\PhpdocTypesOrderFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Phpdoc/PhpdocTypesOrderFixer.php',
         'PhpCsFixer\\Fixer\\Phpdoc\\PhpdocVarAnnotationCorrectOrderFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Phpdoc/PhpdocVarAnnotationCorrectOrderFixer.php',
         'PhpCsFixer\\Fixer\\Phpdoc\\PhpdocVarWithoutNameFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Phpdoc/PhpdocVarWithoutNameFixer.php',
@@ -3071,8 +3175,8 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpCsFixer\\Fixer\\Whitespace\\TypeDeclarationSpacesFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Whitespace/TypeDeclarationSpacesFixer.php',
         'PhpCsFixer\\Fixer\\Whitespace\\TypesSpacesFixer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/Whitespace/TypesSpacesFixer.php',
         'PhpCsFixer\\Fixer\\WhitespacesAwareFixerInterface' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Fixer/WhitespacesAwareFixerInterface.php',
+        'PhpCsFixer\\Future' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Future.php',
         'PhpCsFixer\\Hasher' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Hasher.php',
-        'PhpCsFixer\\Indicator\\PhpUnitTestCaseIndicator' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Indicator/PhpUnitTestCaseIndicator.php',
         'PhpCsFixer\\Linter\\CachingLinter' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Linter/CachingLinter.php',
         'PhpCsFixer\\Linter\\Linter' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Linter/Linter.php',
         'PhpCsFixer\\Linter\\LinterInterface' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Linter/LinterInterface.php',
@@ -3089,24 +3193,44 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpCsFixer\\PharCheckerInterface' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/PharCheckerInterface.php',
         'PhpCsFixer\\Preg' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Preg.php',
         'PhpCsFixer\\PregException' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/PregException.php',
-        'PhpCsFixer\\RuleSet\\AbstractMigrationSetDescription' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/AbstractMigrationSetDescription.php',
-        'PhpCsFixer\\RuleSet\\AbstractRuleSetDescription' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/AbstractRuleSetDescription.php',
-        'PhpCsFixer\\RuleSet\\DeprecatedRuleSetDescriptionInterface' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/DeprecatedRuleSetDescriptionInterface.php',
+        'PhpCsFixer\\RuleSetNameValidator' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSetNameValidator.php',
+        'PhpCsFixer\\RuleSet\\AbstractMajorMinorDeprecationSetDefinition' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/AbstractMajorMinorDeprecationSetDefinition.php',
+        'PhpCsFixer\\RuleSet\\AbstractMigrationSetDefinition' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/AbstractMigrationSetDefinition.php',
+        'PhpCsFixer\\RuleSet\\AbstractRuleSetDefinition' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/AbstractRuleSetDefinition.php',
+        'PhpCsFixer\\RuleSet\\AutomaticMigrationSetTrait' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/AutomaticMigrationSetTrait.php',
+        'PhpCsFixer\\RuleSet\\AutomaticRuleSetDefinitionInterface' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/AutomaticRuleSetDefinitionInterface.php',
+        'PhpCsFixer\\RuleSet\\DeprecatedRuleSetDefinitionInterface' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/DeprecatedRuleSetDefinitionInterface.php',
+        'PhpCsFixer\\RuleSet\\InternalRuleSetDefinitionInterface' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/InternalRuleSetDefinitionInterface.php',
         'PhpCsFixer\\RuleSet\\RuleSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/RuleSet.php',
-        'PhpCsFixer\\RuleSet\\RuleSetDescriptionInterface' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/RuleSetDescriptionInterface.php',
+        'PhpCsFixer\\RuleSet\\RuleSetDefinitionInterface' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/RuleSetDefinitionInterface.php',
         'PhpCsFixer\\RuleSet\\RuleSetInterface' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/RuleSetInterface.php',
         'PhpCsFixer\\RuleSet\\RuleSets' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/RuleSets.php',
+        'PhpCsFixer\\RuleSet\\Sets\\AutoPHPMigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/AutoPHPMigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\AutoPHPMigrationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/AutoPHPMigrationSet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\AutoPHPUnitMigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/AutoPHPUnitMigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\AutoRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/AutoRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\AutoSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/AutoSet.php',
         'PhpCsFixer\\RuleSet\\Sets\\DoctrineAnnotationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/DoctrineAnnotationSet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PERCS10RiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PERCS10RiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PERCS10Set' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PERCS10Set.php',
         'PhpCsFixer\\RuleSet\\Sets\\PERCS1x0RiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PERCS1x0RiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PERCS1x0Set' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PERCS1x0Set.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PERCS20RiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PERCS20RiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PERCS20Set' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PERCS20Set.php',
         'PhpCsFixer\\RuleSet\\Sets\\PERCS2x0RiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PERCS2x0RiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PERCS2x0Set' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PERCS2x0Set.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PERCS30RiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PERCS30RiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PERCS30Set' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PERCS30Set.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PERCS3x0RiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PERCS3x0RiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PERCS3x0Set' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PERCS3x0Set.php',
         'PhpCsFixer\\RuleSet\\Sets\\PERCSRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PERCSRiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PERCSSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PERCSSet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PERRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PERRiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PERSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PERSet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHP54MigrationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP54MigrationSet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHP56MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP56MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHP5x4MigrationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP5x4MigrationSet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHP5x6MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP5x6MigrationRiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHP70MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP70MigrationRiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHP70MigrationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP70MigrationSet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHP71MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP71MigrationRiskySet.php',
@@ -3114,6 +3238,13 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpCsFixer\\RuleSet\\Sets\\PHP73MigrationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP73MigrationSet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHP74MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP74MigrationRiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHP74MigrationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP74MigrationSet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHP7x0MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP7x0MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHP7x0MigrationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP7x0MigrationSet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHP7x1MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP7x1MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHP7x1MigrationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP7x1MigrationSet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHP7x3MigrationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP7x3MigrationSet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHP7x4MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP7x4MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHP7x4MigrationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP7x4MigrationSet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHP80MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP80MigrationRiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHP80MigrationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP80MigrationSet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHP81MigrationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP81MigrationSet.php',
@@ -3121,22 +3252,52 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpCsFixer\\RuleSet\\Sets\\PHP82MigrationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP82MigrationSet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHP83MigrationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP83MigrationSet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHP84MigrationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP84MigrationSet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHP85MigrationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP85MigrationSet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHP8x0MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP8x0MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHP8x0MigrationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP8x0MigrationSet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHP8x1MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP8x1MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHP8x1MigrationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP8x1MigrationSet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHP8x2MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP8x2MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHP8x2MigrationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP8x2MigrationSet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHP8x3MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP8x3MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHP8x3MigrationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP8x3MigrationSet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHP8x4MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP8x4MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHP8x4MigrationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP8x4MigrationSet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHP8x5MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP8x5MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHP8x5MigrationSet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHP8x5MigrationSet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHPUnit100MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit100MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHPUnit10x0MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit10x0MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHPUnit11x0MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit11x0MigrationRiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHPUnit30MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit30MigrationRiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHPUnit32MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit32MigrationRiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHPUnit35MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit35MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHPUnit3x0MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit3x0MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHPUnit3x2MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit3x2MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHPUnit3x5MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit3x5MigrationRiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHPUnit43MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit43MigrationRiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHPUnit48MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit48MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHPUnit4x3MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit4x3MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHPUnit4x8MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit4x8MigrationRiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHPUnit50MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit50MigrationRiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHPUnit52MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit52MigrationRiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHPUnit54MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit54MigrationRiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHPUnit55MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit55MigrationRiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHPUnit56MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit56MigrationRiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHPUnit57MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit57MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHPUnit5x0MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit5x0MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHPUnit5x2MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit5x2MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHPUnit5x4MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit5x4MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHPUnit5x5MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit5x5MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHPUnit5x6MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit5x6MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHPUnit5x7MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit5x7MigrationRiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHPUnit60MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit60MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHPUnit6x0MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit6x0MigrationRiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHPUnit75MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit75MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHPUnit7x5MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit7x5MigrationRiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHPUnit84MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit84MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHPUnit8x4MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit8x4MigrationRiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PHPUnit91MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit91MigrationRiskySet.php',
+        'PhpCsFixer\\RuleSet\\Sets\\PHPUnit9x1MigrationRiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PHPUnit9x1MigrationRiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PSR12RiskySet' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PSR12RiskySet.php',
         'PhpCsFixer\\RuleSet\\Sets\\PSR12Set' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PSR12Set.php',
         'PhpCsFixer\\RuleSet\\Sets\\PSR1Set' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/RuleSet/Sets/PSR1Set.php',
@@ -3159,6 +3320,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpCsFixer\\Runner\\Parallel\\ProcessFactory' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Runner/Parallel/ProcessFactory.php',
         'PhpCsFixer\\Runner\\Parallel\\ProcessIdentifier' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Runner/Parallel/ProcessIdentifier.php',
         'PhpCsFixer\\Runner\\Parallel\\ProcessPool' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Runner/Parallel/ProcessPool.php',
+        'PhpCsFixer\\Runner\\Parallel\\ProcessUtils' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Runner/Parallel/ProcessUtils.php',
         'PhpCsFixer\\Runner\\Parallel\\WorkerException' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Runner/Parallel/WorkerException.php',
         'PhpCsFixer\\Runner\\Runner' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Runner/Runner.php',
         'PhpCsFixer\\Runner\\RunnerConfig' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Runner/RunnerConfig.php',
@@ -3176,7 +3338,6 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpCsFixer\\Tokenizer\\Analyzer\\Analysis\\MatchAnalysis' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Analyzer/Analysis/MatchAnalysis.php',
         'PhpCsFixer\\Tokenizer\\Analyzer\\Analysis\\NamespaceAnalysis' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Analyzer/Analysis/NamespaceAnalysis.php',
         'PhpCsFixer\\Tokenizer\\Analyzer\\Analysis\\NamespaceUseAnalysis' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Analyzer/Analysis/NamespaceUseAnalysis.php',
-        'PhpCsFixer\\Tokenizer\\Analyzer\\Analysis\\StartEndTokenAwareAnalysis' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Analyzer/Analysis/StartEndTokenAwareAnalysis.php',
         'PhpCsFixer\\Tokenizer\\Analyzer\\Analysis\\SwitchAnalysis' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Analyzer/Analysis/SwitchAnalysis.php',
         'PhpCsFixer\\Tokenizer\\Analyzer\\Analysis\\TypeAnalysis' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Analyzer/Analysis/TypeAnalysis.php',
         'PhpCsFixer\\Tokenizer\\Analyzer\\ArgumentsAnalyzer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Analyzer/ArgumentsAnalyzer.php',
@@ -3186,16 +3347,19 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpCsFixer\\Tokenizer\\Analyzer\\CommentsAnalyzer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Analyzer/CommentsAnalyzer.php',
         'PhpCsFixer\\Tokenizer\\Analyzer\\ControlCaseStructuresAnalyzer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Analyzer/ControlCaseStructuresAnalyzer.php',
         'PhpCsFixer\\Tokenizer\\Analyzer\\DataProviderAnalyzer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Analyzer/DataProviderAnalyzer.php',
+        'PhpCsFixer\\Tokenizer\\Analyzer\\FixerAnnotationAnalyzer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Analyzer/FixerAnnotationAnalyzer.php',
         'PhpCsFixer\\Tokenizer\\Analyzer\\FullyQualifiedNameAnalyzer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Analyzer/FullyQualifiedNameAnalyzer.php',
         'PhpCsFixer\\Tokenizer\\Analyzer\\FunctionsAnalyzer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Analyzer/FunctionsAnalyzer.php',
         'PhpCsFixer\\Tokenizer\\Analyzer\\GotoLabelAnalyzer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Analyzer/GotoLabelAnalyzer.php',
         'PhpCsFixer\\Tokenizer\\Analyzer\\NamespaceUsesAnalyzer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Analyzer/NamespaceUsesAnalyzer.php',
         'PhpCsFixer\\Tokenizer\\Analyzer\\NamespacesAnalyzer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Analyzer/NamespacesAnalyzer.php',
+        'PhpCsFixer\\Tokenizer\\Analyzer\\PhpUnitTestCaseAnalyzer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Analyzer/PhpUnitTestCaseAnalyzer.php',
         'PhpCsFixer\\Tokenizer\\Analyzer\\RangeAnalyzer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Analyzer/RangeAnalyzer.php',
         'PhpCsFixer\\Tokenizer\\Analyzer\\ReferenceAnalyzer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Analyzer/ReferenceAnalyzer.php',
         'PhpCsFixer\\Tokenizer\\Analyzer\\SwitchAnalyzer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Analyzer/SwitchAnalyzer.php',
         'PhpCsFixer\\Tokenizer\\Analyzer\\WhitespacesAnalyzer' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Analyzer/WhitespacesAnalyzer.php',
         'PhpCsFixer\\Tokenizer\\CT' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/CT.php',
+        'PhpCsFixer\\Tokenizer\\FCT' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/FCT.php',
         'PhpCsFixer\\Tokenizer\\Processor\\ImportProcessor' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Processor/ImportProcessor.php',
         'PhpCsFixer\\Tokenizer\\Token' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Token.php',
         'PhpCsFixer\\Tokenizer\\Tokens' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Tokens.php',
@@ -3224,6 +3388,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpCsFixer\\Tokenizer\\Transformers' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Tokenizer/Transformers.php',
         'PhpCsFixer\\ToolInfo' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/ToolInfo.php',
         'PhpCsFixer\\ToolInfoInterface' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/ToolInfoInterface.php',
+        'PhpCsFixer\\UnsupportedPhpVersionAllowedConfigInterface' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/UnsupportedPhpVersionAllowedConfigInterface.php',
         'PhpCsFixer\\Utils' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Utils.php',
         'PhpCsFixer\\WhitespacesFixerConfig' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/WhitespacesFixerConfig.php',
         'PhpCsFixer\\WordMatcher' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/WordMatcher.php',
@@ -3321,6 +3486,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpOffice\\PhpSpreadsheet\\Calculation\\Functions' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/Functions.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\Information\\ErrorValue' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/Information/ErrorValue.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\Information\\ExcelError' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/Information/ExcelError.php',
+        'PhpOffice\\PhpSpreadsheet\\Calculation\\Information\\Info' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/Information/Info.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\Information\\Value' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/Information/Value.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\Internal\\ExcelArrayPseudoFunctions' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/Internal/ExcelArrayPseudoFunctions.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\Internal\\MakeMatrix' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/Internal/MakeMatrix.php',
@@ -3335,6 +3501,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpOffice\\PhpSpreadsheet\\Calculation\\LookupRef\\Formula' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/LookupRef/Formula.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\LookupRef\\HLookup' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/LookupRef/HLookup.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\LookupRef\\Helpers' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/LookupRef/Helpers.php',
+        'PhpOffice\\PhpSpreadsheet\\Calculation\\LookupRef\\Hstack' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/LookupRef/Hstack.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\LookupRef\\Hyperlink' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/LookupRef/Hyperlink.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\LookupRef\\Indirect' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/LookupRef/Indirect.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\LookupRef\\Lookup' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/LookupRef/Lookup.php',
@@ -3345,8 +3512,10 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpOffice\\PhpSpreadsheet\\Calculation\\LookupRef\\RowColumnInformation' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/LookupRef/RowColumnInformation.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\LookupRef\\Selection' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/LookupRef/Selection.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\LookupRef\\Sort' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/LookupRef/Sort.php',
+        'PhpOffice\\PhpSpreadsheet\\Calculation\\LookupRef\\TorowTocol' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/LookupRef/TorowTocol.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\LookupRef\\Unique' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/LookupRef/Unique.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\LookupRef\\VLookup' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/LookupRef/VLookup.php',
+        'PhpOffice\\PhpSpreadsheet\\Calculation\\LookupRef\\Vstack' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/LookupRef/Vstack.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\MathTrig\\Absolute' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/MathTrig/Absolute.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\MathTrig\\Angle' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/MathTrig/Angle.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\MathTrig\\Arabic' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/MathTrig/Arabic.php',
@@ -3424,6 +3593,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpOffice\\PhpSpreadsheet\\Calculation\\TextData\\Replace' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/TextData/Replace.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\TextData\\Search' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/TextData/Search.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\TextData\\Text' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/TextData/Text.php',
+        'PhpOffice\\PhpSpreadsheet\\Calculation\\TextData\\Thai' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/TextData/Thai.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\TextData\\Trim' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/TextData/Trim.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\Token\\Stack' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/Token/Stack.php',
         'PhpOffice\\PhpSpreadsheet\\Calculation\\Web\\Service' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Calculation/Web/Service.php',
@@ -3480,6 +3650,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpOffice\\PhpSpreadsheet\\Helper\\Sample' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Helper/Sample.php',
         'PhpOffice\\PhpSpreadsheet\\Helper\\Size' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Helper/Size.php',
         'PhpOffice\\PhpSpreadsheet\\Helper\\TextGrid' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Helper/TextGrid.php',
+        'PhpOffice\\PhpSpreadsheet\\Helper\\TextGridRightAlign' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Helper/TextGridRightAlign.php',
         'PhpOffice\\PhpSpreadsheet\\IComparable' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/IComparable.php',
         'PhpOffice\\PhpSpreadsheet\\IOFactory' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/IOFactory.php',
         'PhpOffice\\PhpSpreadsheet\\NamedFormula' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/NamedFormula.php',
@@ -3606,6 +3777,9 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpOffice\\PhpSpreadsheet\\Style\\ConditionalFormatting\\ConditionalDataBarExtension' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Style/ConditionalFormatting/ConditionalDataBarExtension.php',
         'PhpOffice\\PhpSpreadsheet\\Style\\ConditionalFormatting\\ConditionalFormatValueObject' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Style/ConditionalFormatting/ConditionalFormatValueObject.php',
         'PhpOffice\\PhpSpreadsheet\\Style\\ConditionalFormatting\\ConditionalFormattingRuleExtension' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Style/ConditionalFormatting/ConditionalFormattingRuleExtension.php',
+        'PhpOffice\\PhpSpreadsheet\\Style\\ConditionalFormatting\\ConditionalIconSet' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Style/ConditionalFormatting/ConditionalIconSet.php',
+        'PhpOffice\\PhpSpreadsheet\\Style\\ConditionalFormatting\\IconSetValues' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Style/ConditionalFormatting/IconSetValues.php',
+        'PhpOffice\\PhpSpreadsheet\\Style\\ConditionalFormatting\\MergedCellStyle' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Style/ConditionalFormatting/MergedCellStyle.php',
         'PhpOffice\\PhpSpreadsheet\\Style\\ConditionalFormatting\\StyleMerger' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Style/ConditionalFormatting/StyleMerger.php',
         'PhpOffice\\PhpSpreadsheet\\Style\\ConditionalFormatting\\Wizard' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Style/ConditionalFormatting/Wizard.php',
         'PhpOffice\\PhpSpreadsheet\\Style\\ConditionalFormatting\\Wizard\\Blanks' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Style/ConditionalFormatting/Wizard/Blanks.php',
@@ -3703,6 +3877,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpOffice\\PhpSpreadsheet\\Writer\\Pdf\\Dompdf' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Writer/Pdf/Dompdf.php',
         'PhpOffice\\PhpSpreadsheet\\Writer\\Pdf\\Mpdf' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Writer/Pdf/Mpdf.php',
         'PhpOffice\\PhpSpreadsheet\\Writer\\Pdf\\Tcpdf' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Writer/Pdf/Tcpdf.php',
+        'PhpOffice\\PhpSpreadsheet\\Writer\\Pdf\\TcpdfNoDie' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Writer/Pdf/TcpdfNoDie.php',
         'PhpOffice\\PhpSpreadsheet\\Writer\\Xls' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Writer/Xls.php',
         'PhpOffice\\PhpSpreadsheet\\Writer\\Xls\\BIFFwriter' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Writer/Xls/BIFFwriter.php',
         'PhpOffice\\PhpSpreadsheet\\Writer\\Xls\\CellDataValidation' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Writer/Xls/CellDataValidation.php',
@@ -3730,6 +3905,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpOffice\\PhpSpreadsheet\\Writer\\Xlsx\\Rels' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Writer/Xlsx/Rels.php',
         'PhpOffice\\PhpSpreadsheet\\Writer\\Xlsx\\RelsRibbon' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Writer/Xlsx/RelsRibbon.php',
         'PhpOffice\\PhpSpreadsheet\\Writer\\Xlsx\\RelsVBA' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Writer/Xlsx/RelsVBA.php',
+        'PhpOffice\\PhpSpreadsheet\\Writer\\Xlsx\\RichDataDrawing' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Writer/Xlsx/RichDataDrawing.php',
         'PhpOffice\\PhpSpreadsheet\\Writer\\Xlsx\\StringTable' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Writer/Xlsx/StringTable.php',
         'PhpOffice\\PhpSpreadsheet\\Writer\\Xlsx\\Style' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Writer/Xlsx/Style.php',
         'PhpOffice\\PhpSpreadsheet\\Writer\\Xlsx\\Table' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Writer/Xlsx/Table.php',
@@ -3782,11 +3958,13 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpParser\\Lexer\\TokenEmulator\\KeywordEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/KeywordEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\MatchTokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/MatchTokenEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\NullsafeTokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/NullsafeTokenEmulator.php',
+        'PhpParser\\Lexer\\TokenEmulator\\PipeOperatorEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/PipeOperatorEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\PropertyTokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/PropertyTokenEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\ReadonlyFunctionTokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/ReadonlyFunctionTokenEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\ReadonlyTokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/ReadonlyTokenEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\ReverseEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/ReverseEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\TokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/TokenEmulator.php',
+        'PhpParser\\Lexer\\TokenEmulator\\VoidCastEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/VoidCastEmulator.php',
         'PhpParser\\Modifiers' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Modifiers.php',
         'PhpParser\\NameContext' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/NameContext.php',
         'PhpParser\\Node' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node.php',
@@ -3854,6 +4032,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpParser\\Node\\Expr\\BinaryOp\\Mul' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Expr/BinaryOp/Mul.php',
         'PhpParser\\Node\\Expr\\BinaryOp\\NotEqual' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Expr/BinaryOp/NotEqual.php',
         'PhpParser\\Node\\Expr\\BinaryOp\\NotIdentical' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Expr/BinaryOp/NotIdentical.php',
+        'PhpParser\\Node\\Expr\\BinaryOp\\Pipe' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Expr/BinaryOp/Pipe.php',
         'PhpParser\\Node\\Expr\\BinaryOp\\Plus' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Expr/BinaryOp/Plus.php',
         'PhpParser\\Node\\Expr\\BinaryOp\\Pow' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Expr/BinaryOp/Pow.php',
         'PhpParser\\Node\\Expr\\BinaryOp\\ShiftLeft' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Expr/BinaryOp/ShiftLeft.php',
@@ -3872,6 +4051,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'PhpParser\\Node\\Expr\\Cast\\Object_' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Expr/Cast/Object_.php',
         'PhpParser\\Node\\Expr\\Cast\\String_' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Expr/Cast/String_.php',
         'PhpParser\\Node\\Expr\\Cast\\Unset_' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Expr/Cast/Unset_.php',
+        'PhpParser\\Node\\Expr\\Cast\\Void_' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Expr/Cast/Void_.php',
         'PhpParser\\Node\\Expr\\ClassConstFetch' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Expr/ClassConstFetch.php',
         'PhpParser\\Node\\Expr\\Clone_' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Expr/Clone_.php',
         'PhpParser\\Node\\Expr\\Closure' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Expr/Closure.php',
@@ -4561,23 +4741,6 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'Psr\\EventDispatcher\\EventDispatcherInterface' => __DIR__ . '/..' . '/psr/event-dispatcher/src/EventDispatcherInterface.php',
         'Psr\\EventDispatcher\\ListenerProviderInterface' => __DIR__ . '/..' . '/psr/event-dispatcher/src/ListenerProviderInterface.php',
         'Psr\\EventDispatcher\\StoppableEventInterface' => __DIR__ . '/..' . '/psr/event-dispatcher/src/StoppableEventInterface.php',
-        'Psr\\Http\\Client\\ClientExceptionInterface' => __DIR__ . '/..' . '/psr/http-client/src/ClientExceptionInterface.php',
-        'Psr\\Http\\Client\\ClientInterface' => __DIR__ . '/..' . '/psr/http-client/src/ClientInterface.php',
-        'Psr\\Http\\Client\\NetworkExceptionInterface' => __DIR__ . '/..' . '/psr/http-client/src/NetworkExceptionInterface.php',
-        'Psr\\Http\\Client\\RequestExceptionInterface' => __DIR__ . '/..' . '/psr/http-client/src/RequestExceptionInterface.php',
-        'Psr\\Http\\Message\\MessageInterface' => __DIR__ . '/..' . '/psr/http-message/src/MessageInterface.php',
-        'Psr\\Http\\Message\\RequestFactoryInterface' => __DIR__ . '/..' . '/psr/http-factory/src/RequestFactoryInterface.php',
-        'Psr\\Http\\Message\\RequestInterface' => __DIR__ . '/..' . '/psr/http-message/src/RequestInterface.php',
-        'Psr\\Http\\Message\\ResponseFactoryInterface' => __DIR__ . '/..' . '/psr/http-factory/src/ResponseFactoryInterface.php',
-        'Psr\\Http\\Message\\ResponseInterface' => __DIR__ . '/..' . '/psr/http-message/src/ResponseInterface.php',
-        'Psr\\Http\\Message\\ServerRequestFactoryInterface' => __DIR__ . '/..' . '/psr/http-factory/src/ServerRequestFactoryInterface.php',
-        'Psr\\Http\\Message\\ServerRequestInterface' => __DIR__ . '/..' . '/psr/http-message/src/ServerRequestInterface.php',
-        'Psr\\Http\\Message\\StreamFactoryInterface' => __DIR__ . '/..' . '/psr/http-factory/src/StreamFactoryInterface.php',
-        'Psr\\Http\\Message\\StreamInterface' => __DIR__ . '/..' . '/psr/http-message/src/StreamInterface.php',
-        'Psr\\Http\\Message\\UploadedFileFactoryInterface' => __DIR__ . '/..' . '/psr/http-factory/src/UploadedFileFactoryInterface.php',
-        'Psr\\Http\\Message\\UploadedFileInterface' => __DIR__ . '/..' . '/psr/http-message/src/UploadedFileInterface.php',
-        'Psr\\Http\\Message\\UriFactoryInterface' => __DIR__ . '/..' . '/psr/http-factory/src/UriFactoryInterface.php',
-        'Psr\\Http\\Message\\UriInterface' => __DIR__ . '/..' . '/psr/http-message/src/UriInterface.php',
         'Psr\\Log\\AbstractLogger' => __DIR__ . '/..' . '/psr/log/src/AbstractLogger.php',
         'Psr\\Log\\InvalidArgumentException' => __DIR__ . '/..' . '/psr/log/src/InvalidArgumentException.php',
         'Psr\\Log\\LogLevel' => __DIR__ . '/..' . '/psr/log/src/LogLevel.php',
@@ -4668,13 +4831,17 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'React\\Stream\\Util' => __DIR__ . '/..' . '/react/stream/src/Util.php',
         'React\\Stream\\WritableResourceStream' => __DIR__ . '/..' . '/react/stream/src/WritableResourceStream.php',
         'React\\Stream\\WritableStreamInterface' => __DIR__ . '/..' . '/react/stream/src/WritableStreamInterface.php',
+        'ReflectionConstant' => __DIR__ . '/..' . '/symfony/polyfill-php84/Resources/stubs/ReflectionConstant.php',
         'ReturnTypeWillChange' => __DIR__ . '/..' . '/symfony/polyfill-php81/Resources/stubs/ReturnTypeWillChange.php',
+        'Sabberworm\\CSS\\CSSElement' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/CSSElement.php',
         'Sabberworm\\CSS\\CSSList\\AtRuleBlockList' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/CSSList/AtRuleBlockList.php',
         'Sabberworm\\CSS\\CSSList\\CSSBlockList' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/CSSList/CSSBlockList.php',
         'Sabberworm\\CSS\\CSSList\\CSSList' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/CSSList/CSSList.php',
+        'Sabberworm\\CSS\\CSSList\\CSSListItem' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/CSSList/CSSListItem.php',
         'Sabberworm\\CSS\\CSSList\\Document' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/CSSList/Document.php',
         'Sabberworm\\CSS\\CSSList\\KeyFrame' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/CSSList/KeyFrame.php',
         'Sabberworm\\CSS\\Comment\\Comment' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/Comment/Comment.php',
+        'Sabberworm\\CSS\\Comment\\CommentContainer' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/Comment/CommentContainer.php',
         'Sabberworm\\CSS\\Comment\\Commentable' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/Comment/Commentable.php',
         'Sabberworm\\CSS\\OutputFormat' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/OutputFormat.php',
         'Sabberworm\\CSS\\OutputFormatter' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/OutputFormatter.php',
@@ -4685,15 +4852,19 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'Sabberworm\\CSS\\Parsing\\SourceException' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/Parsing/SourceException.php',
         'Sabberworm\\CSS\\Parsing\\UnexpectedEOFException' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/Parsing/UnexpectedEOFException.php',
         'Sabberworm\\CSS\\Parsing\\UnexpectedTokenException' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/Parsing/UnexpectedTokenException.php',
+        'Sabberworm\\CSS\\Position\\Position' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/Position/Position.php',
+        'Sabberworm\\CSS\\Position\\Positionable' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/Position/Positionable.php',
         'Sabberworm\\CSS\\Property\\AtRule' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/Property/AtRule.php',
         'Sabberworm\\CSS\\Property\\CSSNamespace' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/Property/CSSNamespace.php',
         'Sabberworm\\CSS\\Property\\Charset' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/Property/Charset.php',
         'Sabberworm\\CSS\\Property\\Import' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/Property/Import.php',
         'Sabberworm\\CSS\\Property\\KeyframeSelector' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/Property/KeyframeSelector.php',
         'Sabberworm\\CSS\\Property\\Selector' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/Property/Selector.php',
+        'Sabberworm\\CSS\\Property\\Selector\\SpecificityCalculator' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/Property/Selector/SpecificityCalculator.php',
         'Sabberworm\\CSS\\Renderable' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/Renderable.php',
         'Sabberworm\\CSS\\RuleSet\\AtRuleSet' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/RuleSet/AtRuleSet.php',
         'Sabberworm\\CSS\\RuleSet\\DeclarationBlock' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/RuleSet/DeclarationBlock.php',
+        'Sabberworm\\CSS\\RuleSet\\RuleContainer' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/RuleSet/RuleContainer.php',
         'Sabberworm\\CSS\\RuleSet\\RuleSet' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/RuleSet/RuleSet.php',
         'Sabberworm\\CSS\\Rule\\Rule' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/Rule/Rule.php',
         'Sabberworm\\CSS\\Settings' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/Settings.php',
@@ -4709,6 +4880,89 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'Sabberworm\\CSS\\Value\\URL' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/Value/URL.php',
         'Sabberworm\\CSS\\Value\\Value' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/Value/Value.php',
         'Sabberworm\\CSS\\Value\\ValueList' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/Value/ValueList.php',
+        'Safe\\DateTime' => __DIR__ . '/..' . '/thecodingmachine/safe/lib/DateTime.php',
+        'Safe\\DateTimeImmutable' => __DIR__ . '/..' . '/thecodingmachine/safe/lib/DateTimeImmutable.php',
+        'Safe\\Exceptions\\ApacheException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/ApacheException.php',
+        'Safe\\Exceptions\\ApcuException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/ApcuException.php',
+        'Safe\\Exceptions\\ArrayException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/ArrayException.php',
+        'Safe\\Exceptions\\Bzip2Exception' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/Bzip2Exception.php',
+        'Safe\\Exceptions\\CalendarException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/CalendarException.php',
+        'Safe\\Exceptions\\ClassobjException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/ClassobjException.php',
+        'Safe\\Exceptions\\ComException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/ComException.php',
+        'Safe\\Exceptions\\CubridException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/CubridException.php',
+        'Safe\\Exceptions\\CurlException' => __DIR__ . '/..' . '/thecodingmachine/safe/lib/Exceptions/CurlException.php',
+        'Safe\\Exceptions\\DatetimeException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/DatetimeException.php',
+        'Safe\\Exceptions\\DirException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/DirException.php',
+        'Safe\\Exceptions\\EioException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/EioException.php',
+        'Safe\\Exceptions\\ErrorfuncException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/ErrorfuncException.php',
+        'Safe\\Exceptions\\ExecException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/ExecException.php',
+        'Safe\\Exceptions\\FileinfoException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/FileinfoException.php',
+        'Safe\\Exceptions\\FilesystemException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/FilesystemException.php',
+        'Safe\\Exceptions\\FilterException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/FilterException.php',
+        'Safe\\Exceptions\\FpmException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/FpmException.php',
+        'Safe\\Exceptions\\FtpException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/FtpException.php',
+        'Safe\\Exceptions\\FunchandException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/FunchandException.php',
+        'Safe\\Exceptions\\GettextException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/GettextException.php',
+        'Safe\\Exceptions\\GmpException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/GmpException.php',
+        'Safe\\Exceptions\\GnupgException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/GnupgException.php',
+        'Safe\\Exceptions\\HashException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/HashException.php',
+        'Safe\\Exceptions\\IbaseException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/IbaseException.php',
+        'Safe\\Exceptions\\IbmDb2Exception' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/IbmDb2Exception.php',
+        'Safe\\Exceptions\\IconvException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/IconvException.php',
+        'Safe\\Exceptions\\ImageException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/ImageException.php',
+        'Safe\\Exceptions\\ImapException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/ImapException.php',
+        'Safe\\Exceptions\\InfoException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/InfoException.php',
+        'Safe\\Exceptions\\InotifyException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/InotifyException.php',
+        'Safe\\Exceptions\\JsonException' => __DIR__ . '/..' . '/thecodingmachine/safe/lib/Exceptions/JsonException.php',
+        'Safe\\Exceptions\\LdapException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/LdapException.php',
+        'Safe\\Exceptions\\LibxmlException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/LibxmlException.php',
+        'Safe\\Exceptions\\LzfException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/LzfException.php',
+        'Safe\\Exceptions\\MailparseException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/MailparseException.php',
+        'Safe\\Exceptions\\MbstringException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/MbstringException.php',
+        'Safe\\Exceptions\\MiscException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/MiscException.php',
+        'Safe\\Exceptions\\MysqlException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/MysqlException.php',
+        'Safe\\Exceptions\\MysqliException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/MysqliException.php',
+        'Safe\\Exceptions\\NetworkException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/NetworkException.php',
+        'Safe\\Exceptions\\Oci8Exception' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/Oci8Exception.php',
+        'Safe\\Exceptions\\OpcacheException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/OpcacheException.php',
+        'Safe\\Exceptions\\OpensslException' => __DIR__ . '/..' . '/thecodingmachine/safe/lib/Exceptions/OpensslException.php',
+        'Safe\\Exceptions\\OutcontrolException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/OutcontrolException.php',
+        'Safe\\Exceptions\\PcntlException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/PcntlException.php',
+        'Safe\\Exceptions\\PcreException' => __DIR__ . '/..' . '/thecodingmachine/safe/lib/Exceptions/PcreException.php',
+        'Safe\\Exceptions\\PgsqlException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/PgsqlException.php',
+        'Safe\\Exceptions\\PosixException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/PosixException.php',
+        'Safe\\Exceptions\\PsException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/PsException.php',
+        'Safe\\Exceptions\\PspellException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/PspellException.php',
+        'Safe\\Exceptions\\ReadlineException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/ReadlineException.php',
+        'Safe\\Exceptions\\RnpException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/RnpException.php',
+        'Safe\\Exceptions\\RpminfoException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/RpminfoException.php',
+        'Safe\\Exceptions\\RrdException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/RrdException.php',
+        'Safe\\Exceptions\\SafeExceptionInterface' => __DIR__ . '/..' . '/thecodingmachine/safe/lib/Exceptions/SafeExceptionInterface.php',
+        'Safe\\Exceptions\\SemException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/SemException.php',
+        'Safe\\Exceptions\\SessionException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/SessionException.php',
+        'Safe\\Exceptions\\ShmopException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/ShmopException.php',
+        'Safe\\Exceptions\\SimplexmlException' => __DIR__ . '/..' . '/thecodingmachine/safe/lib/Exceptions/SimplexmlException.php',
+        'Safe\\Exceptions\\SocketsException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/SocketsException.php',
+        'Safe\\Exceptions\\SodiumException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/SodiumException.php',
+        'Safe\\Exceptions\\SolrException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/SolrException.php',
+        'Safe\\Exceptions\\SplException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/SplException.php',
+        'Safe\\Exceptions\\SqlsrvException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/SqlsrvException.php',
+        'Safe\\Exceptions\\SsdeepException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/SsdeepException.php',
+        'Safe\\Exceptions\\Ssh2Exception' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/Ssh2Exception.php',
+        'Safe\\Exceptions\\StreamException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/StreamException.php',
+        'Safe\\Exceptions\\StringsException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/StringsException.php',
+        'Safe\\Exceptions\\SwooleException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/SwooleException.php',
+        'Safe\\Exceptions\\UodbcException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/UodbcException.php',
+        'Safe\\Exceptions\\UopzException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/UopzException.php',
+        'Safe\\Exceptions\\UrlException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/UrlException.php',
+        'Safe\\Exceptions\\VarException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/VarException.php',
+        'Safe\\Exceptions\\XdiffException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/XdiffException.php',
+        'Safe\\Exceptions\\XmlException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/XmlException.php',
+        'Safe\\Exceptions\\XmlrpcException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/XmlrpcException.php',
+        'Safe\\Exceptions\\YamlException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/YamlException.php',
+        'Safe\\Exceptions\\YazException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/YazException.php',
+        'Safe\\Exceptions\\ZipException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/ZipException.php',
+        'Safe\\Exceptions\\ZlibException' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/Exceptions/ZlibException.php',
         'SebastianBergmann\\CliParser\\AmbiguousOptionException' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/AmbiguousOptionException.php',
         'SebastianBergmann\\CliParser\\Exception' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/Exception.php',
         'SebastianBergmann\\CliParser\\OptionDoesNotAllowArgumentException' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/OptionDoesNotAllowArgumentException.php',
@@ -4794,6 +5048,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'SebastianBergmann\\CodeCoverage\\Util\\DirectoryCouldNotBeCreatedException' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Exception/DirectoryCouldNotBeCreatedException.php',
         'SebastianBergmann\\CodeCoverage\\Util\\Filesystem' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Util/Filesystem.php',
         'SebastianBergmann\\CodeCoverage\\Util\\Percentage' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Util/Percentage.php',
+        'SebastianBergmann\\CodeCoverage\\Util\\Xml' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Util/Xml.php',
         'SebastianBergmann\\CodeCoverage\\Version' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Version.php',
         'SebastianBergmann\\CodeCoverage\\XmlException' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Exception/XmlException.php',
         'SebastianBergmann\\CodeUnitReverseLookup\\Wizard' => __DIR__ . '/..' . '/sebastian/code-unit-reverse-lookup/src/Wizard.php',
@@ -4945,7 +5200,14 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'Svg\\Tag\\Text' => __DIR__ . '/..' . '/dompdf/php-svg-lib/src/Svg/Tag/Text.php',
         'Svg\\Tag\\UseTag' => __DIR__ . '/..' . '/dompdf/php-svg-lib/src/Svg/Tag/UseTag.php',
         'Symfony\\Component\\Console\\Application' => __DIR__ . '/..' . '/symfony/console/Application.php',
+        'Symfony\\Component\\Console\\Attribute\\Argument' => __DIR__ . '/..' . '/symfony/console/Attribute/Argument.php',
         'Symfony\\Component\\Console\\Attribute\\AsCommand' => __DIR__ . '/..' . '/symfony/console/Attribute/AsCommand.php',
+        'Symfony\\Component\\Console\\Attribute\\Ask' => __DIR__ . '/..' . '/symfony/console/Attribute/Ask.php',
+        'Symfony\\Component\\Console\\Attribute\\Interact' => __DIR__ . '/..' . '/symfony/console/Attribute/Interact.php',
+        'Symfony\\Component\\Console\\Attribute\\InteractiveAttributeInterface' => __DIR__ . '/..' . '/symfony/console/Attribute/InteractiveAttributeInterface.php',
+        'Symfony\\Component\\Console\\Attribute\\MapInput' => __DIR__ . '/..' . '/symfony/console/Attribute/MapInput.php',
+        'Symfony\\Component\\Console\\Attribute\\Option' => __DIR__ . '/..' . '/symfony/console/Attribute/Option.php',
+        'Symfony\\Component\\Console\\Attribute\\Reflection\\ReflectionMember' => __DIR__ . '/..' . '/symfony/console/Attribute/Reflection/ReflectionMember.php',
         'Symfony\\Component\\Console\\CI\\GithubActionReporter' => __DIR__ . '/..' . '/symfony/console/CI/GithubActionReporter.php',
         'Symfony\\Component\\Console\\Color' => __DIR__ . '/..' . '/symfony/console/Color.php',
         'Symfony\\Component\\Console\\CommandLoader\\CommandLoaderInterface' => __DIR__ . '/..' . '/symfony/console/CommandLoader/CommandLoaderInterface.php',
@@ -4955,6 +5217,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'Symfony\\Component\\Console\\Command\\CompleteCommand' => __DIR__ . '/..' . '/symfony/console/Command/CompleteCommand.php',
         'Symfony\\Component\\Console\\Command\\DumpCompletionCommand' => __DIR__ . '/..' . '/symfony/console/Command/DumpCompletionCommand.php',
         'Symfony\\Component\\Console\\Command\\HelpCommand' => __DIR__ . '/..' . '/symfony/console/Command/HelpCommand.php',
+        'Symfony\\Component\\Console\\Command\\InvokableCommand' => __DIR__ . '/..' . '/symfony/console/Command/InvokableCommand.php',
         'Symfony\\Component\\Console\\Command\\LazyCommand' => __DIR__ . '/..' . '/symfony/console/Command/LazyCommand.php',
         'Symfony\\Component\\Console\\Command\\ListCommand' => __DIR__ . '/..' . '/symfony/console/Command/ListCommand.php',
         'Symfony\\Component\\Console\\Command\\LockableTrait' => __DIR__ . '/..' . '/symfony/console/Command/LockableTrait.php',
@@ -5024,6 +5287,10 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'Symfony\\Component\\Console\\Helper\\TableRows' => __DIR__ . '/..' . '/symfony/console/Helper/TableRows.php',
         'Symfony\\Component\\Console\\Helper\\TableSeparator' => __DIR__ . '/..' . '/symfony/console/Helper/TableSeparator.php',
         'Symfony\\Component\\Console\\Helper\\TableStyle' => __DIR__ . '/..' . '/symfony/console/Helper/TableStyle.php',
+        'Symfony\\Component\\Console\\Helper\\TerminalInputHelper' => __DIR__ . '/..' . '/symfony/console/Helper/TerminalInputHelper.php',
+        'Symfony\\Component\\Console\\Helper\\TreeHelper' => __DIR__ . '/..' . '/symfony/console/Helper/TreeHelper.php',
+        'Symfony\\Component\\Console\\Helper\\TreeNode' => __DIR__ . '/..' . '/symfony/console/Helper/TreeNode.php',
+        'Symfony\\Component\\Console\\Helper\\TreeStyle' => __DIR__ . '/..' . '/symfony/console/Helper/TreeStyle.php',
         'Symfony\\Component\\Console\\Input\\ArgvInput' => __DIR__ . '/..' . '/symfony/console/Input/ArgvInput.php',
         'Symfony\\Component\\Console\\Input\\ArrayInput' => __DIR__ . '/..' . '/symfony/console/Input/ArrayInput.php',
         'Symfony\\Component\\Console\\Input\\Input' => __DIR__ . '/..' . '/symfony/console/Input/Input.php',
@@ -5034,6 +5301,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'Symfony\\Component\\Console\\Input\\InputOption' => __DIR__ . '/..' . '/symfony/console/Input/InputOption.php',
         'Symfony\\Component\\Console\\Input\\StreamableInputInterface' => __DIR__ . '/..' . '/symfony/console/Input/StreamableInputInterface.php',
         'Symfony\\Component\\Console\\Input\\StringInput' => __DIR__ . '/..' . '/symfony/console/Input/StringInput.php',
+        'Symfony\\Component\\Console\\Interaction\\Interaction' => __DIR__ . '/..' . '/symfony/console/Interaction/Interaction.php',
         'Symfony\\Component\\Console\\Logger\\ConsoleLogger' => __DIR__ . '/..' . '/symfony/console/Logger/ConsoleLogger.php',
         'Symfony\\Component\\Console\\Messenger\\RunCommandContext' => __DIR__ . '/..' . '/symfony/console/Messenger/RunCommandContext.php',
         'Symfony\\Component\\Console\\Messenger\\RunCommandMessage' => __DIR__ . '/..' . '/symfony/console/Messenger/RunCommandMessage.php',
@@ -5178,6 +5446,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'Symfony\\Polyfill\\Php80\\Php80' => __DIR__ . '/..' . '/symfony/polyfill-php80/Php80.php',
         'Symfony\\Polyfill\\Php80\\PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/PhpToken.php',
         'Symfony\\Polyfill\\Php81\\Php81' => __DIR__ . '/..' . '/symfony/polyfill-php81/Php81.php',
+        'Symfony\\Polyfill\\Php84\\Php84' => __DIR__ . '/..' . '/symfony/polyfill-php84/Php84.php',
         'TheSeer\\Tokenizer\\Exception' => __DIR__ . '/..' . '/theseer/tokenizer/src/Exception.php',
         'TheSeer\\Tokenizer\\NamespaceUri' => __DIR__ . '/..' . '/theseer/tokenizer/src/NamespaceUri.php',
         'TheSeer\\Tokenizer\\NamespaceUriException' => __DIR__ . '/..' . '/theseer/tokenizer/src/NamespaceUriException.php',
@@ -5207,6 +5476,7 @@ class ComposerStaticInit57fb627e72e5d52016f9166943084f79
         'ZipStream\\LocalFileHeader' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/LocalFileHeader.php',
         'ZipStream\\OperationMode' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/OperationMode.php',
         'ZipStream\\PackField' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/PackField.php',
+        'ZipStream\\Stream\\CallbackStreamWrapper' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/Stream/CallbackStreamWrapper.php',
         'ZipStream\\Time' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/Time.php',
         'ZipStream\\Version' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/Version.php',
         'ZipStream\\Zip64\\DataDescriptor' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/Zip64/DataDescriptor.php',

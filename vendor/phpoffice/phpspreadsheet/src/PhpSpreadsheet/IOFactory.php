@@ -54,6 +54,31 @@ abstract class IOFactory
         'Mpdf' => Writer\Pdf\Mpdf::class,
     ];
 
+    /** @internal */
+    public static function restoreDefaultReadersAndWriters(): void
+    {
+        self::$readers = [
+            self::READER_XLSX => Reader\Xlsx::class,
+            self::READER_XLS => Reader\Xls::class,
+            self::READER_XML => Reader\Xml::class,
+            self::READER_ODS => Reader\Ods::class,
+            self::READER_SLK => Reader\Slk::class,
+            self::READER_GNUMERIC => Reader\Gnumeric::class,
+            self::READER_HTML => Reader\Html::class,
+            self::READER_CSV => Reader\Csv::class,
+        ];
+        self::$writers = [
+            self::WRITER_XLS => Writer\Xls::class,
+            self::WRITER_XLSX => Writer\Xlsx::class,
+            self::WRITER_ODS => Writer\Ods::class,
+            self::WRITER_CSV => Writer\Csv::class,
+            self::WRITER_HTML => Writer\Html::class,
+            'Tcpdf' => Writer\Pdf\Tcpdf::class,
+            'Dompdf' => Writer\Pdf\Dompdf::class,
+            'Mpdf' => Writer\Pdf\Mpdf::class,
+        ];
+    }
+
     /**
      * Create Writer\IWriter.
      */
@@ -116,6 +141,8 @@ abstract class IOFactory
 
     /**
      * Identify file type using automatic IReader resolution.
+     *
+     * @param string[] $readers
      */
     public static function identify(string $filename, ?array $readers = null, bool $fullClassName = false): string
     {
@@ -225,7 +252,8 @@ abstract class IOFactory
      */
     public static function registerWriter(string $writerType, string $writerClass): void
     {
-        if (!is_a($writerClass, IWriter::class, true)) {
+        // We want phpstan to validate caller, but still need this test
+        if (!is_a($writerClass, IWriter::class, true)) { //* @phpstan-ignore-line
             throw new Writer\Exception('Registered writers must implement ' . IWriter::class);
         }
 
@@ -239,7 +267,8 @@ abstract class IOFactory
      */
     public static function registerReader(string $readerType, string $readerClass): void
     {
-        if (!is_a($readerClass, IReader::class, true)) {
+        // We want phpstan to validate caller, but still need this test
+        if (!is_a($readerClass, IReader::class, true)) { //* @phpstan-ignore-line
             throw new Reader\Exception('Registered readers must implement ' . IReader::class);
         }
 

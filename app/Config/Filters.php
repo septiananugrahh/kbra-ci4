@@ -36,6 +36,7 @@ class Filters extends BaseFilters
         'performance'   => PerformanceMetrics::class,
         'auth'          => \App\Filters\Auth::class,
         'role'          => \App\Filters\RoleFilter::class,
+        'nodebug'       => \App\Filters\NoDebugToolbar::class,
     ];
 
 
@@ -60,7 +61,7 @@ class Filters extends BaseFilters
         'after' => [
             'pagecache',   // Web Page Caching
             'performance', // Performance Metrics
-            'toolbar',     // Debug Toolbar
+            // 'toolbar',     // Debug Toolbar
         ],
     ];
 
@@ -77,6 +78,7 @@ class Filters extends BaseFilters
             // 'invalidchars',
         ],
         'after' => [
+            // 'toolbar',
             // 'honeypot',
             // 'secureheaders',
         ],
@@ -106,5 +108,16 @@ class Filters extends BaseFilters
      *
      * @var array<string, array<string, list<string>>>
      */
-    public array $filters = [];
+    public array $filters = [
+        'nodebug' => [
+            'before' => [],
+            'after'  => ['modulajar/preview-pdf'], // ← Terapkan ke route ini
+        ],
+    ];
+
+    public array $except = [
+        'toolbar' => [
+            'modulajar/preview-pdf',  // ← Route untuk preview
+        ],
+    ];
 }

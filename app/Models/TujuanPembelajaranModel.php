@@ -30,12 +30,24 @@ class TujuanPembelajaranModel extends Model
     return $this->whereIn($this->primaryKey, $ids)->findAll();
   }
 
-  public function getRecordsByIdsGroupedByCapaian(array $ids)
+  public function getRecordsByIdsGroupedByCapaian($ids)
   {
-    return $this->select('tujuan_pembelajaran.*, capaian_pembelajaran.nama AS nama_capaian_pembelajaran') // Pilih kolom yang diperlukan, termasuk dari tabel relasi
-      ->join('capaian_pembelajaran', 'tujuan_pembelajaran.capaian = capaian_pembelajaran.id', 'left') // Gunakan JOIN
-      ->whereIn('tujuan_pembelajaran.' . $this->primaryKey, $ids) // Filter berdasarkan ID tujuan_pembelajaran yang diberikan
-      ->groupBy('tujuan_pembelajaran.capaian') // Grouping berdasarkan kolom 'capaian' di tabel tujuan_pembelajaran
+    if (empty($ids)) {
+      return [];
+    }
+
+    $results = $this->select('tujuan_pembelajaran.*, capaian_pembelajaran.nama as nama_capaian_pembelajaran')
+      ->join('capaian_pembelajaran', 'capaian_pembelajaran.id = tujuan_pembelajaran.capaian')
+      ->whereIn('tujuan_pembelajaran.id', $ids)
+      ->orderBy('capaian_pembelajaran.id', 'ASC')
       ->findAll();
+
+    // Group manually di PHP jika diperlukan
+    $grouped = [];
+    foreach ($results as $row) {
+      $grouped[$row['nama_capaian_pembelajaran']][] = $row;
+    }
+
+    return $results; // atau return $grouped jika ingin hasil terkelompok
   }
 }

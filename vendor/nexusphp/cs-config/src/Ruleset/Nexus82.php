@@ -25,8 +25,11 @@ final class Nexus82 extends AbstractRuleset
         $this->name = 'Nexus for PHP 8.2';
         $this->rules = [
             ...(new Nexus81())->getRules(),
-            ...[
-                'phpdoc_readonly_class_comment_to_keyword' => true,
+            'phpdoc_readonly_class_comment_to_keyword' => true,
+            'php_unit_test_case_static_method_calls' => [
+                'call_type' => 'self',
+                'methods' => [],
+                'target' => '11.0',
             ],
         ];
         $this->requiredPHPVersion = 8_02_00;

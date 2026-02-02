@@ -74,7 +74,7 @@ class Toolbar extends BaseConfig
      * This MUST have a trailing slash.
      */
     public string $viewsPath = SYSTEMPATH . 'Debug/Toolbar/Views/';
-
+    public bool $enabled = false;
     /**
      * --------------------------------------------------------------------------
      * Max Queries
@@ -117,6 +117,12 @@ class Toolbar extends BaseConfig
      * @var list<string>
      */
     public array $watchedExtensions = [
-        'php', 'css', 'js', 'html', 'svg', 'json', 'env',
+        'php',
+        'css',
+        'js',
+        'html',
+        'svg',
+        'json',
+        'env',
     ];
 }

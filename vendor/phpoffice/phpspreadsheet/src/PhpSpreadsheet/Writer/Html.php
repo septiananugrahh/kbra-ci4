@@ -24,8 +24,7 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Borders;
 use PhpOffice\PhpSpreadsheet\Style\Conditional;
-use PhpOffice\PhpSpreadsheet\Style\ConditionalFormatting\CellStyleAssessor;
-use PhpOffice\PhpSpreadsheet\Style\ConditionalFormatting\StyleMerger;
+use PhpOffice\PhpSpreadsheet\Style\ConditionalFormatting\MergedCellStyle;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Font;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
@@ -34,6 +33,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\BaseDrawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
+use PhpOffice\PhpSpreadsheet\Worksheet\Table;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class Html extends BaseWriter
@@ -56,6 +56,8 @@ class Html extends BaseWriter
      *     }.
      */
     public const COMMENT_HTML_TAGS_PLAINTEXT = true;
+
+    private const BRX = '<br          />';
 
     /**
      * Spreadsheet object.
@@ -84,11 +86,15 @@ class Html extends BaseWriter
 
     /**
      * Array of CSS styles.
+     *
+     * @var string[][]
      */
     private ?array $cssStyles = null;
 
     /**
      * Array of column widths in points.
+     *
+     * @var array<array<float|int>>
      */
     private array $columnWidths;
 
@@ -104,18 +110,17 @@ class Html extends BaseWriter
 
     /**
      * Excel cells that should not be written as HTML cells.
+     *
+     * @var mixed[][][][]
      */
     private array $isSpannedCell = [];
 
     /**
      * Excel cells that are upper-left corner in a cell merge.
+     *
+     * @var int[][][][]
      */
     private array $isBaseCell = [];
-
-    /**
-     * Excel rows that should not be written as HTML rows.
-     */
-    private array $isSpannedRow = [];
 
     /**
      * Is the current writer creating PDF?
@@ -130,7 +135,7 @@ class Html extends BaseWriter
     /**
      * Callback for editing generated html.
      *
-     * @var null|callable
+     * @var null|callable(string): string
      */
     private $editHtmlCallback;
 
@@ -145,6 +150,29 @@ class Html extends BaseWriter
     private string $getTrue = 'TRUE';
 
     private string $getFalse = 'FALSE';
+
+    protected bool $rtlSheets = false;
+
+    protected bool $ltrSheets = false;
+
+    /**
+     * Table formats
+     * Enables table formats in writer, disabled here, must be enabled in writer via a setter.
+     */
+    protected bool $tableFormats = false;
+
+    /**
+     * Table formats for unstyled tables.
+     * Enables default style for builtin table formats.
+     * If null, it takes on the same value as $tableFormats.
+     */
+    protected ?bool $tableFormatsBuiltin = null;
+
+    /**
+     * Conditional Formatting
+     * Enables conditional formatting in writer, disabled here, must be enabled in writer via a setter.
+     */
+    protected bool $conditionalFormatting = false;
 
     /**
      * Create a new HTML.
@@ -174,11 +202,31 @@ class Html extends BaseWriter
         $this->maybeCloseFileHandle();
     }
 
+    protected function checkRtlAndLtr(): void
+    {
+        $this->rtlSheets = false;
+        $this->ltrSheets = false;
+        if ($this->sheetIndex === null) {
+            foreach ($this->spreadsheet->getAllSheets() as $sheet) {
+                if ($sheet->getRightToLeft()) {
+                    $this->rtlSheets = true;
+                } else {
+                    $this->ltrSheets = true;
+                }
+            }
+        } else {
+            if ($this->spreadsheet->getSheet($this->sheetIndex)->getRightToLeft()) {
+                $this->rtlSheets = true;
+            }
+        }
+    }
+
     /**
      * Save Spreadsheet as html to variable.
      */
     public function generateHtmlAll(): string
     {
+        $this->checkRtlAndLtr();
         $sheets = $this->generateSheetPrep();
         foreach ($sheets as $sheet) {
             $sheet->calculateArrays($this->preCalculateFormulas);
@@ -207,6 +255,11 @@ class Html extends BaseWriter
 
         // Write footer
         $html .= $this->generateHTMLFooter();
+        if ($this instanceof Pdf\Mpdf) {
+            $html = str_replace(self::BRX, '<br />', $html);
+        } else {
+            $html = str_replace(self::BRX, '<br />' . PHP_EOL, $html);
+        }
         $callback = $this->editHtmlCallback;
         if ($callback) {
             $html = $callback($html);
@@ -357,7 +410,8 @@ class Html extends BaseWriter
         // Construct HTML
         $properties = $this->spreadsheet->getProperties();
         $html = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' . PHP_EOL;
-        $html .= '<html xmlns="http://www.w3.org/1999/xhtml">' . PHP_EOL;
+        $rtl = ($this->rtlSheets && !$this->ltrSheets) ? " dir='rtl'" : '';
+        $html .= '<html xmlns="http://www.w3.org/1999/xhtml"' . $rtl . '>' . PHP_EOL;
         $html .= '  <head>' . PHP_EOL;
         $html .= '      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' . PHP_EOL;
         $html .= '      <meta name="generator" content="PhpSpreadsheet, https://github.com/PHPOffice/PhpSpreadsheet" />' . PHP_EOL;
@@ -428,6 +482,7 @@ class Html extends BaseWriter
         return $sheets;
     }
 
+    /** @return array{int, int, int} */
     private function generateSheetStarts(Worksheet $sheet, int $rowMin): array
     {
         // calculate start of <tbody>, <thead>
@@ -447,6 +502,7 @@ class Html extends BaseWriter
         return [$theadStart, $theadEnd, $tbodyStart];
     }
 
+    /** @return array{string, string, string} */
     private function generateSheetTags(int $row, int $theadStart, int $theadEnd, int $tbodyStart): array
     {
         // <thead> ?
@@ -459,6 +515,14 @@ class Html extends BaseWriter
 
         return [$cellType, $startTag, $endTag];
     }
+
+    private int $printAreaLowRow = -1;
+
+    private int $printAreaHighRow = -1;
+
+    private int $printAreaLowCol = -1;
+
+    private int $printAreaHighCol = -1;
 
     /**
      * Generate sheet data.
@@ -478,6 +542,17 @@ class Html extends BaseWriter
         $activeSheet = $this->spreadsheet->getActiveSheetIndex();
 
         foreach ($sheets as $sheet) {
+            $this->printAreaLowRow = -1;
+            $this->printAreaHighRow = -1;
+            $this->printAreaLowCol = -1;
+            $this->printAreaHighCol = -1;
+            $printArea = $sheet->getPageSetup()->getPrintArea();
+            if (Preg::isMatch('/^([a-z]+)([0-9]+):([a-z]+)([0-9]+)$/i', $printArea, $matches)) {
+                $this->printAreaLowCol = Coordinate::columnIndexFromString($matches[1]);
+                $this->printAreaHighCol = Coordinate::columnIndexFromString($matches[3]);
+                $this->printAreaLowRow = (int) $matches[2];
+                $this->printAreaHighRow = (int) $matches[4];
+            }
             // save active cells
             $selectedCells = $sheet->getSelectedCells();
             // Write table header
@@ -488,7 +563,7 @@ class Html extends BaseWriter
             foreach ($condStylesCollection as $condStyles) {
                 foreach ($condStyles as $key => $cs) {
                     if ($cs->getConditionType() === Conditional::CONDITION_COLORSCALE) {
-                        $cs->getColorScale()->setScaleArray();
+                        $cs->getColorScale()?->setScaleArray();
                     }
                 }
             }
@@ -497,16 +572,17 @@ class Html extends BaseWriter
             [$minCol, $minRow, $minColString] = Coordinate::indexesFromString($min);
             [$maxCol, $maxRow] = Coordinate::indexesFromString($max);
             $this->extendRowsAndColumns($sheet, $maxCol, $maxRow);
+            $this->extendRowsAndColumnsForMerge($sheet, $maxCol, $maxRow);
 
             [$theadStart, $theadEnd, $tbodyStart] = $this->generateSheetStarts($sheet, $minRow);
             // Loop through cells
             $row = $minRow - 1;
             while ($row++ < $maxRow) {
                 [$cellType, $startTag, $endTag] = $this->generateSheetTags($row, $theadStart, $theadEnd, $tbodyStart);
-                $html .= $startTag;
+                $html .= StringHelper::convertToString($startTag);
 
                 // Write row if there are HTML table cells in it
-                if ($this->shouldGenerateRow($sheet, $row) && !isset($this->isSpannedRow[$sheet->getParentOrThrow()->getIndex($sheet)][$row])) {
+                if ($this->shouldGenerateRow($sheet, $row)) {
                     // Start a new rowData
                     $rowData = [];
                     // Loop through columns
@@ -519,12 +595,13 @@ class Html extends BaseWriter
                             $rowData[$column] = ($sheet->getCellCollection()->has($cellAddress)) ? $cellAddress : '';
                         }
                         ++$column;
-                        ++$colStr;
+                        /** @var string $colStr */
+                        StringHelper::stringIncrement($colStr);
                     }
                     $html .= $this->generateRow($sheet, $rowData, $row - 1, $cellType);
                 }
 
-                $html .= $endTag;
+                $html .= StringHelper::convertToString($endTag);
             }
             // Write table footer
             $html .= $this->generateTableFooter();
@@ -693,7 +770,7 @@ class Html extends BaseWriter
                     $dataUri = 'data:image/png;base64,' . base64_encode($contents);
 
                     //  Because of the nature of tables, width is more important than height.
-                    //  max-width: 100% ensures that image doesnt overflow containing cell
+                    //  max-width: 100% ensures that image doesn't overflow containing cell
                     //    However, PR #3535 broke test
                     //    25_In_memory_image, apparently because
                     //    of the use of max-with. In addition,
@@ -774,6 +851,7 @@ class Html extends BaseWriter
         $topLeft = $chart->getTopLeftPosition();
         $bottomRight = $chart->getBottomRightPosition();
         $tlCell = $topLeft['cell'];
+        /** @var string */
         $brCell = $bottomRight['cell'];
         if ($tlCell !== '' && $brCell !== '') {
             $tlCoordinate = Coordinate::indexesFromString($tlCell);
@@ -788,11 +866,12 @@ class Html extends BaseWriter
                     $totalHeight += ($height >= 0) ? $height : $defaultRowHeight;
                 }
                 $rightEdge = $brCoordinate[2];
-                ++$rightEdge;
-                for ($column = $tlCoordinate[2]; $column !== $rightEdge; ++$column) {
+                StringHelper::stringIncrement($rightEdge);
+                for ($column = $tlCoordinate[2]; $column !== $rightEdge;) {
                     $width = $sheet->getColumnDimension($column)->getWidth();
                     $width = ($width < 0) ? self::DEFAULT_CELL_WIDTH_PIXELS : SharedDrawing::cellDimensionToPixels($sheet->getColumnDimension($column)->getWidth(), $this->defaultFont);
                     $totalWidth += $width;
+                    StringHelper::stringIncrement($column);
                 }
                 $chart->setRenderedWidth($totalWidth);
                 $chart->setRenderedHeight($totalHeight);
@@ -836,6 +915,7 @@ class Html extends BaseWriter
         return $html;
     }
 
+    /** @param string[][] $css */
     private function buildCssRowHeights(Worksheet $sheet, array &$css, int $sheetIndex): void
     {
         // Calculate row heights
@@ -856,6 +936,7 @@ class Html extends BaseWriter
         }
     }
 
+    /** @param string[][] $css */
     private function buildCssPerSheet(Worksheet $sheet, array &$css): void
     {
         // Calculate hash code
@@ -884,7 +965,7 @@ class Html extends BaseWriter
             if ($this->shouldGenerateColumn($sheet, $colStr)) {
                 $css['table.sheet' . $sheetIndex . ' col.col' . $column]['width'] = self::DEFAULT_CELL_WIDTH_POINTS . 'pt';
             }
-            ++$colStr;
+            StringHelper::stringIncrement($colStr);
         }
 
         // col elements, loop through columnDimensions and set width
@@ -928,6 +1009,8 @@ class Html extends BaseWriter
      * Build CSS styles.
      *
      * @param bool $generateSurroundingHTML Generate surrounding HTML style? (html { })
+     *
+     * @return string[][]
      */
     public function buildCSS(bool $generateSurroundingHTML = true): array
     {
@@ -940,6 +1023,7 @@ class Html extends BaseWriter
         $this->calculateSpans();
 
         // Construct CSS
+        /** @var string[][] */
         $css = [];
 
         // Start styles
@@ -990,6 +1074,9 @@ class Html extends BaseWriter
         // .s {}
         $css['.s']['text-align'] = 'left'; // STRING
 
+        $css['.floatright']['float'] = 'right';
+        $css['.floatleft']['float'] = 'left';
+
         // Calculate cell style hashes
         foreach ($this->spreadsheet->getCellXfCollection() as $index => $style) {
             $css['td.style' . $index . ', th.style' . $index] = $this->createCSSStyle($style);
@@ -1020,20 +1107,24 @@ class Html extends BaseWriter
 
     /**
      * Create CSS style.
+     *
+     * @return string[]
      */
-    private function createCSSStyle(Style $style): array
+    private function createCSSStyle(Style $style, bool $conditional = false): array
     {
         // Create CSS
         return array_merge(
-            $this->createCSSStyleAlignment($style->getAlignment()),
+            $conditional ? [] : $this->createCSSStyleAlignment($style->getAlignment()),
             $this->createCSSStyleBorders($style->getBorders()),
-            $this->createCSSStyleFont($style->getFont()),
+            $this->createCSSStyleFont($style->getFont(), conditional: $conditional),
             $this->createCSSStyleFill($style->getFill())
         );
     }
 
     /**
      * Create CSS style.
+     *
+     * @return string[]
      */
     private function createCSSStyleAlignment(Alignment $alignment): array
     {
@@ -1049,7 +1140,12 @@ class Html extends BaseWriter
         if ($textAlign) {
             $css['text-align'] = $textAlign;
             if (in_array($textAlign, ['left', 'right'])) {
-                $css['padding-' . $textAlign] = (string) ((int) $alignment->getIndent() * 9) . 'px';
+                $css['padding-' . $textAlign] = (string) ($alignment->getIndent() * Alignment::INDENT_UNITS_TO_PIXELS) . 'px';
+            }
+        } else {
+            $indent = $alignment->getIndent();
+            if ($indent !== 0) {
+                $css['text-indent'] = (string) ($alignment->getIndent() * Alignment::INDENT_UNITS_TO_PIXELS) . 'px';
             }
         }
         $rotation = $alignment->getTextRotation();
@@ -1060,36 +1156,12 @@ class Html extends BaseWriter
                 $css['transform'] = "rotate({$rotation}deg)";
             }
         }
-
-        return $css;
-    }
-
-    /**
-     * Create CSS style.
-     */
-    private function createCSSStyleFont(Font $font): array
-    {
-        // Construct CSS
-        $css = [];
-
-        // Create CSS
-        if ($font->getBold()) {
-            $css['font-weight'] = 'bold';
+        $direction = $alignment->getReadOrder();
+        if ($direction === Alignment::READORDER_LTR) {
+            $css['direction'] = 'ltr';
+        } elseif ($direction === Alignment::READORDER_RTL) {
+            $css['direction'] = 'rtl';
         }
-        if ($font->getUnderline() != Font::UNDERLINE_NONE && $font->getStrikethrough()) {
-            $css['text-decoration'] = 'underline line-through';
-        } elseif ($font->getUnderline() != Font::UNDERLINE_NONE) {
-            $css['text-decoration'] = 'underline';
-        } elseif ($font->getStrikethrough()) {
-            $css['text-decoration'] = 'line-through';
-        }
-        if ($font->getItalic()) {
-            $css['font-style'] = 'italic';
-        }
-
-        $css['color'] = '#' . $font->getColor()->getRGB();
-        $css['font-family'] = '\'' . htmlspecialchars((string) $font->getName(), ENT_QUOTES) . '\'';
-        $css['font-size'] = $font->getSize() . 'pt';
 
         return $css;
     }
@@ -1097,7 +1169,64 @@ class Html extends BaseWriter
     /**
      * Create CSS style.
      *
+     * @return string[]
+     */
+    private function createCSSStyleFont(Font $font, bool $useDefaults = false, bool $conditional = false): array
+    {
+        // Construct CSS
+        $css = [];
+
+        // Create CSS
+        if ($font->getBold()) {
+            $css['font-weight'] = 'bold';
+        } elseif ($useDefaults) {
+            $css['font-weight'] = 'normal';
+        }
+        if ($font->getUnderline() != Font::UNDERLINE_NONE && $font->getStrikethrough()) {
+            $css['text-decoration'] = 'underline line-through';
+        } elseif ($font->getUnderline() != Font::UNDERLINE_NONE) {
+            $css['text-decoration'] = 'underline';
+        } elseif ($font->getStrikethrough()) {
+            $css['text-decoration'] = 'line-through';
+        } elseif ($useDefaults) {
+            $css['text-decoration'] = 'normal';
+        }
+        if ($font->getItalic()) {
+            $css['font-style'] = 'italic';
+        } elseif ($useDefaults) {
+            $css['font-style'] = 'normal';
+        }
+
+        $css['color'] = '#' . $font->getColor()->getRGB();
+        if (!$conditional) {
+            $css['font-family'] = '\'' . htmlspecialchars((string) $font->getName(), ENT_QUOTES) . '\'';
+            $css['font-size'] = $font->getSize() . 'pt';
+        }
+
+        return $css;
+    }
+
+    /**
+     * @param string[] $css
+     */
+    private function styleBorder(array &$css, string $index, Border $border): void
+    {
+        $borderStyle = $border->getBorderStyle();
+        // Mpdf doesn't process !important, so omit unimportant border none
+        if ($borderStyle === Border::BORDER_NONE && $this instanceof Pdf\Mpdf) {
+            return;
+        }
+        if ($borderStyle !== Border::BORDER_OMIT) {
+            $css[$index] = $this->createCSSStyleBorder($border);
+        }
+    }
+
+    /**
+     * Create CSS style.
+     *
      * @param Borders $borders Borders
+     *
+     * @return string[]
      */
     private function createCSSStyleBorders(Borders $borders): array
     {
@@ -1105,26 +1234,10 @@ class Html extends BaseWriter
         $css = [];
 
         // Create CSS
-        if (!($this instanceof Pdf\Mpdf)) {
-            $css['border-bottom'] = $this->createCSSStyleBorder($borders->getBottom());
-            $css['border-top'] = $this->createCSSStyleBorder($borders->getTop());
-            $css['border-left'] = $this->createCSSStyleBorder($borders->getLeft());
-            $css['border-right'] = $this->createCSSStyleBorder($borders->getRight());
-        } else {
-            // Mpdf doesn't process !important, so omit unimportant border none
-            if ($borders->getBottom()->getBorderStyle() !== Border::BORDER_NONE) {
-                $css['border-bottom'] = $this->createCSSStyleBorder($borders->getBottom());
-            }
-            if ($borders->getTop()->getBorderStyle() !== Border::BORDER_NONE) {
-                $css['border-top'] = $this->createCSSStyleBorder($borders->getTop());
-            }
-            if ($borders->getLeft()->getBorderStyle() !== Border::BORDER_NONE) {
-                $css['border-left'] = $this->createCSSStyleBorder($borders->getLeft());
-            }
-            if ($borders->getRight()->getBorderStyle() !== Border::BORDER_NONE) {
-                $css['border-right'] = $this->createCSSStyleBorder($borders->getRight());
-            }
-        }
+        $this->styleBorder($css, 'border-bottom', $borders->getBottom());
+        $this->styleBorder($css, 'border-top', $borders->getTop());
+        $this->styleBorder($css, 'border-left', $borders->getLeft());
+        $this->styleBorder($css, 'border-right', $borders->getRight());
 
         return $css;
     }
@@ -1146,6 +1259,8 @@ class Html extends BaseWriter
      * Create CSS style (Fill).
      *
      * @param Fill $fill Fill
+     *
+     * @return string[]
      */
     private function createCSSStyleFill(Fill $fill): array
     {
@@ -1182,21 +1297,54 @@ class Html extends BaseWriter
         return $html;
     }
 
+    private function getDir(Worksheet $worksheet): string
+    {
+        if ($worksheet->getRightToLeft()) {
+            return " dir='rtl'";
+        }
+        if ($this->rtlSheets) {
+            return " dir='ltr'";
+        }
+
+        return '';
+    }
+
+    private function getFloat(Worksheet $worksheet): string
+    {
+        $float = '';
+        if ($worksheet->getRightToLeft()) {
+            if ($this->ltrSheets) {
+                $float = ' floatright';
+            }
+        } else {
+            if ($this->rtlSheets) {
+                $float = ' floatleft';
+            }
+        }
+
+        return $float;
+    }
+
     private function generateTableTagInline(Worksheet $worksheet, string $id): string
     {
         $style = isset($this->cssStyles['table'])
             ? $this->assembleCSS($this->cssStyles['table']) : '';
-
+        $rtl = $this->getDir($worksheet);
+        $float = $this->getFloat($worksheet);
         $prntgrid = $worksheet->getPrintGridlines();
         $viewgrid = $this->isPdf ? $prntgrid : $worksheet->getShowGridlines();
+        $printArea = $worksheet->getPageSetup()->getPrintArea();
+        $dataPrint = ($printArea === '') ? '' : (" data-printarea='" . htmlspecialchars($printArea) . "'");
         if ($viewgrid && $prntgrid) {
-            $html = "    <table border='1' cellpadding='1' $id cellspacing='1' style='$style' class='gridlines gridlinesp'>" . PHP_EOL;
+            $html = "    <table border='1' cellpadding='1'$rtl$dataPrint $id cellspacing='1' style='$style' class='gridlines gridlinesp$float'>" . PHP_EOL;
         } elseif ($viewgrid) {
-            $html = "    <table border='0' cellpadding='0' $id cellspacing='0' style='$style' class='gridlines'>" . PHP_EOL;
+            $html = "    <table border='0' cellpadding='0'$rtl$dataPrint $id cellspacing='0' style='$style' class='gridlines$float'>" . PHP_EOL;
         } elseif ($prntgrid) {
-            $html = "    <table border='0' cellpadding='0' $id cellspacing='0' style='$style' class='gridlinesp'>" . PHP_EOL;
+            $html = "    <table border='0' cellpadding='0'$rtl$dataPrint $id cellspacing='0' style='$style' class='gridlinesp$float'>" . PHP_EOL;
+        } elseif ($float === '') {
+            $html = "    <table border='0' cellpadding='1'$rtl$dataPrint $id cellspacing='0' style='$style'>" . PHP_EOL;
         } else {
-            $html = "    <table border='0' cellpadding='1' $id cellspacing='0' style='$style'>" . PHP_EOL;
+            $html = "    <table border='0' cellpadding='1'$rtl$dataPrint $id cellspacing='0' style='$style' class='$float'>" . PHP_EOL;
         }
 
         return $html;
@@ -1205,9 +1353,13 @@ class Html extends BaseWriter
     private function generateTableTag(Worksheet $worksheet, string $id, string &$html, int $sheetIndex): void
     {
         if (!$this->useInlineCss) {
+            $rtl = $this->getDir($worksheet);
+            $printArea = $worksheet->getPageSetup()->getPrintArea();
+            $dataPrint = ($printArea === '') ? '' : (" data-printarea='" . htmlspecialchars($printArea) . "'");
+            $float = $this->getFloat($worksheet);
             $gridlines = $worksheet->getShowGridlines() ? ' gridlines' : '';
             $gridlinesp = $worksheet->getPrintGridlines() ? ' gridlinesp' : '';
-            $html .= "    <table border='0' cellpadding='0' cellspacing='0' $id class='sheet$sheetIndex$gridlines$gridlinesp'>" . PHP_EOL;
+            $html .= "    <table border='0' cellpadding='0' cellspacing='0'$rtl$dataPrint $id class='sheet$sheetIndex$gridlines$gridlinesp$float'>" . PHP_EOL;
         } else {
             $html .= $this->generateTableTagInline($worksheet, $id);
         }
@@ -1226,10 +1378,12 @@ class Html extends BaseWriter
         // Construct HTML
         $html = '';
         $id = $showid ? "id='sheet$sheetIndex'" : '';
+        $clear = ($this->rtlSheets && $this->ltrSheets) ? '; clear:both' : '';
+
         if ($showid) {
-            $html .= "<div style='page: page$sheetIndex'>" . PHP_EOL;
+            $html .= "<div style='page: page$sheetIndex$clear'>" . PHP_EOL;
         } else {
-            $html .= "<div style='page: page$sheetIndex' class='scrpgbrk'>" . PHP_EOL;
+            $html .= "<div style='page: page$sheetIndex$clear' class='scrpgbrk'>" . PHP_EOL;
         }
 
         $this->generateTableTag($worksheet, $id, $html, $sheetIndex);
@@ -1291,12 +1445,17 @@ class Html extends BaseWriter
             $style = isset($this->cssStyles['table.sheet' . $sheetIndex . ' tr.row' . $row])
                 ? $this->assembleCSS($this->cssStyles['table.sheet' . $sheetIndex . ' tr.row' . $row]) : '';
 
-            $html .= '          <tr style="' . $style . '">' . PHP_EOL;
+            if ($style === '') {
+                $html .= '          <tr>' . PHP_EOL;
+            } else {
+                $html .= '          <tr style="' . $style . '">' . PHP_EOL;
+            }
         }
 
         return $html;
     }
 
+    /** @return array{null|''|Cell, array{}|string, non-empty-string} */
     private function generateRowCellCss(Worksheet $worksheet, string $cellAddress, int $row, int $columnNumber): array
     {
         $cell = ($cellAddress > '') ? $worksheet->getCellCollection()->get($cellAddress) : '';
@@ -1305,40 +1464,28 @@ class Html extends BaseWriter
             $cssClass = 'column' . $columnNumber;
         } else {
             $cssClass = [];
-            // The statements below do nothing.
-            // Commenting out the code rather than deleting it
-            // in case someone can figure out what their intent was.
-            //if ($cellType == 'th') {
-            //    if (isset($this->cssStyles['table.sheet' . $sheetIndex . ' th.column' . $colNum])) {
-            //        $this->cssStyles['table.sheet' . $sheetIndex . ' th.column' . $colNum];
-            //    }
-            //} else {
-            //    if (isset($this->cssStyles['table.sheet' . $sheetIndex . ' td.column' . $colNum])) {
-            //        $this->cssStyles['table.sheet' . $sheetIndex . ' td.column' . $colNum];
-            //    }
-            //}
-            // End of mystery statements.
         }
 
         return [$cell, $cssClass, $coordinate];
     }
 
-    private function generateRowCellDataValueRich(RichText $richText): string
+    private function generateRowCellDataValueRich(RichText $richText, ?Font $defaultFont = null): string
     {
         $cellData = '';
         // Loop through rich text elements
         $elements = $richText->getRichTextElements();
         foreach ($elements as $element) {
             // Rich text start?
-            if ($element instanceof Run) {
+            $font = ($element instanceof Run) ? $element->getFont() : $defaultFont;
+            if ($element instanceof Run || $font !== null) {
                 $cellEnd = '';
-                if ($element->getFont() !== null) {
-                    $cellData .= '<span style="' . $this->assembleCSS($this->createCSSStyleFont($element->getFont())) . '">';
+                if ($font !== null) {
+                    $cellData .= '<span style="' . $this->assembleCSS($this->createCSSStyleFont($font, true)) . '">';
 
-                    if ($element->getFont()->getSuperscript()) {
+                    if ($font->getSuperscript()) {
                         $cellData .= '<sup>';
                         $cellEnd = '</sup>';
-                    } elseif ($element->getFont()->getSubscript()) {
+                    } elseif ($font->getSubscript()) {
                         $cellData .= '<sub>';
                         $cellEnd = '</sub>';
                     }
@@ -1360,24 +1507,28 @@ class Html extends BaseWriter
             }
         }
 
-        return nl2br($cellData);
+        return self::nl2brx($cellData);
     }
 
     private function generateRowCellDataValue(Worksheet $worksheet, Cell $cell, string &$cellData): void
     {
         if ($cell->getValue() instanceof RichText) {
-            $cellData .= $this->generateRowCellDataValueRich($cell->getValue());
+            $cellData .= $this->generateRowCellDataValueRich($cell->getValue(), $cell->getStyle()->getFont());
         } else {
             if ($this->preCalculateFormulas) {
                 try {
                     $origData = $cell->getCalculatedValue();
-                } catch (CalculationException $exception) {
+                } catch (CalculationException) {
                     $origData = '#ERROR'; // mark as error, rather than crash everything
                 }
                 if ($this->betterBoolean && is_bool($origData)) {
                     $origData2 = $origData ? $this->getTrue : $this->getFalse;
                 } else {
-                    $origData2 = $cell->getCalculatedValueString();
+                    try {
+                        $origData2 = $cell->getCalculatedValueString();
+                    } catch (CalculationException) {
+                        $origData2 = '#ERROR'; // mark as error, rather than crash everything
+                    }
                 }
             } else {
                 $origData = $cell->getValue();
@@ -1406,9 +1557,9 @@ class Html extends BaseWriter
         }
     }
 
+    /** @param string|string[] $cssClass */
     private function generateRowCellData(Worksheet $worksheet, null|Cell|string $cell, array|string &$cssClass): string
     {
-        $cellData = '&nbsp;';
         if ($cell instanceof Cell) {
             $cellData = '';
             // Don't know what this does, and no test cases.
@@ -1423,18 +1574,23 @@ class Html extends BaseWriter
             $cellData = Preg::replace('/(?m)(?:^|\G) /', '&nbsp;', $cellData);
 
             // convert newline "\n" to '<br>'
-            $cellData = nl2br($cellData);
+            $cellData = self::nl2brx($cellData);
 
             // Extend CSS class?
             $dataType = $cell->getDataType();
             if ($this->betterBoolean && $this->preCalculateFormulas && $dataType === DataType::TYPE_FORMULA) {
-                $calculatedValue = $cell->getCalculatedValue();
-                if (is_bool($calculatedValue)) {
-                    $dataType = DataType::TYPE_BOOL;
-                } elseif (is_numeric($calculatedValue)) {
-                    $dataType = DataType::TYPE_NUMERIC;
-                } elseif (is_string($calculatedValue)) {
-                    $dataType = DataType::TYPE_STRING;
+                try {
+                    $calculatedValue = $cell->getCalculatedValue();
+                    if (is_bool($calculatedValue)) {
+                        $dataType = DataType::TYPE_BOOL;
+                    } elseif (is_numeric($calculatedValue)) {
+                        $dataType = DataType::TYPE_NUMERIC;
+                    } elseif (is_string($calculatedValue)) {
+                        $dataType = DataType::TYPE_STRING;
+                    }
+                } catch (CalculationException $exception) {
+                    $calculatedValue = '#ERROR';
+                    $dataType = DataType::TYPE_ERROR;
                 }
             }
             if (!$this->useInlineCss && is_string($cssClass)) {
@@ -1457,13 +1613,21 @@ class Html extends BaseWriter
                 }
             }
         } else {
+            $cellData = "$cell";
             // Use default borders for empty cell
             if (is_string($cssClass)) {
                 $cssClass .= ' style0';
             }
         }
+        /*
+         * Browsers may remove an entirely empty row.
+         * An interesting option is to leave an empty cell empty using css.
+         * td:empty::after{content: "\00a0";}
+         * This works well in modern browsers.
+         * Alas, none of our Pdf writers can handle it.
+         */
 
-        return $cellData;
+        return (trim($cellData) === '') ? '&nbsp;' : $cellData;
     }
 
     private function generateRowIncludeCharts(Worksheet $worksheet, string $coordinate): string
@@ -1479,6 +1643,10 @@ class Html extends BaseWriter
         return $html;
     }
 
+    /**
+     * @param string|string[] $cssClass
+     * @param Conditional[] $condStyles
+     */
     private function generateRowWriteCell(
         string &$html,
         Worksheet $worksheet,
@@ -1503,12 +1671,25 @@ class Html extends BaseWriter
             $dataType = $worksheet->getCell($coordinate)->getDataType();
             if ($dataType === DataType::TYPE_BOOL) {
                 $html .= ' data-type="' . DataType::TYPE_BOOL . '"';
-            } elseif ($dataType === DataType::TYPE_FORMULA && $this->preCalculateFormulas && is_bool($worksheet->getCell($coordinate)->getCalculatedValue())) {
-                $html .= ' data-type="' . DataType::TYPE_BOOL . '"';
+            } elseif ($dataType === DataType::TYPE_FORMULA && $this->preCalculateFormulas) {
+                try {
+                    if (
+                        is_bool(
+                            $worksheet
+                                ->getCell($coordinate)
+                                ->getCalculatedValue()
+                        )
+                    ) {
+                        $html .= ' data-type="' . DataType::TYPE_BOOL . '"';
+                    }
+                } catch (CalculationException) {
+                    $html .= ' data-type="' . DataType::TYPE_ERROR . '"';
+                }
             } elseif (is_numeric($cellData) && $worksheet->getCell($coordinate)->getDataType() === DataType::TYPE_STRING) {
                 $html .= ' data-type="' . DataType::TYPE_STRING . '"';
             }
         }
+        $holdCss = '';
         if (!$this->useInlineCss && !$this->isPdf && is_string($cssClass)) {
             $html .= ' class="' . $cssClass . '"';
             if ($htmlx) {
@@ -1553,60 +1734,47 @@ class Html extends BaseWriter
             if ($htmlx) {
                 $xcssClass['position'] = 'relative';
             }
-            $html .= ' style="' . $this->assembleCSS($xcssClass) . '"';
+            /** @var string[] $xcssClass */
+            $holdCss = $this->assembleCSS($xcssClass);
             if ($this->useInlineCss) {
-                $html .= ' class="gridlines gridlinesp"';
+                $prntgrid = $worksheet->getPrintGridlines();
+                $viewgrid = $this->isPdf ? $prntgrid : $worksheet->getShowGridlines();
+                if ($viewgrid && $prntgrid) {
+                    $html .= ' class="gridlines gridlinesp"';
+                } elseif ($viewgrid) {
+                    $html .= ' class="gridlines"';
+                } elseif ($prntgrid) {
+                    $html .= ' class="gridlinesp"';
+                }
             }
         }
 
         $html = $this->generateRowSpans($html, $rowSpan, $colSpan);
 
-        $tables = $worksheet->getTablesWithStylesForCell($worksheet->getCell($coordinate));
-        if (count($tables) > 0 || count($condStyles) > 0) {
-            $matched = false; // TODO the style gotten from the merger overrides everything
-            $styleMerger = new StyleMerger($worksheet->getCell($coordinate)->getStyle());
-            if ($this->tableFormats) {
-                if (count($tables) > 0) {
-                    foreach ($tables as $ts) {
-                        $dxfsTableStyle = $ts->getStyle()->getTableDxfsStyle();
-                        if ($dxfsTableStyle !== null) {
-                            $tableRow = $ts->getRowNumber($coordinate);
-                            if ($tableRow === 0 && $dxfsTableStyle->getHeaderRowStyle() !== null) {
-                                $styleMerger->mergeStyle($dxfsTableStyle->getHeaderRowStyle());
-                                $matched = true;
-                            } elseif ($tableRow % 2 === 1 && $dxfsTableStyle->getFirstRowStripeStyle() !== null) {
-                                $styleMerger->mergeStyle($dxfsTableStyle->getFirstRowStripeStyle());
-                                $matched = true;
-                            } elseif ($tableRow % 2 === 0 && $dxfsTableStyle->getSecondRowStripeStyle() !== null) {
-                                $styleMerger->mergeStyle($dxfsTableStyle->getSecondRowStripeStyle());
-                                $matched = true;
-                            }
-                        }
-                    }
-                }
+        $mergedCellStyle = new MergedCellStyle();
+        $mergedStyle = $mergedCellStyle->getMergedStyle(
+            $worksheet,
+            $coordinate,
+            $this->tableFormats,
+            $this->conditionalFormatting,
+            $this->tableFormatsBuiltin
+        );
+        if ($mergedCellStyle->getMatched()) {
+            $styles = $this->createCSSStyle($mergedStyle, true);
+            $html .= ' style="';
+            if ($holdCss !== '') {
+                $html .= "$holdCss; ";
+                $holdCss = '';
             }
-            if (count($condStyles) > 0 && $this->conditionalFormatting) {
-                if ($worksheet->getConditionalRange($coordinate) !== null) {
-                    $assessor = new CellStyleAssessor($worksheet->getCell($coordinate), $worksheet->getConditionalRange($coordinate));
-                } else {
-                    $assessor = new CellStyleAssessor($worksheet->getCell($coordinate), $coordinate);
-                }
-                $matchedStyle = $assessor->matchConditionsReturnNullIfNoneMatched($condStyles, $cellData, true);
-
-                if ($matchedStyle !== null) {
-                    $matched = true;
-                    // this is really slow
-                    $styleMerger->mergeStyle($matchedStyle);
-                }
-            }
-            if ($matched) {
-                $styles = $this->createCSSStyle($styleMerger->getStyle());
-                $html .= ' style="';
-                foreach ($styles as $key => $value) {
+            foreach ($styles as $key => $value) {
+                if (!str_starts_with($key, 'border-') || $value !== 'none #000000') {
                     $html .= $key . ':' . $value . ';';
                 }
-                $html .= '"';
             }
+            $html .= '"';
+        }
+        if ($holdCss !== '') {
+            $html .= ' style="' . $holdCss . '"';
         }
 
         $html .= '>';
@@ -1645,7 +1813,7 @@ class Html extends BaseWriter
                 $colNum = $key - 1;
                 if (!$tcpdfInited && $key !== 1) {
                     $tempspan = ($colNum > 1) ? " colspan='$colNum'" : '';
-                    $html .= "<td$tempspan></td>\n";
+                    $html .= "<td$tempspan></td>" . PHP_EOL;
                 }
                 $tcpdfInited = true;
             }
@@ -1684,6 +1852,7 @@ class Html extends BaseWriter
             $colSpan = 1;
             $rowSpan = 1;
             if (isset($this->isBaseCell[$worksheet->getParentOrThrow()->getIndex($worksheet)][$row + 1][$colNum])) {
+                /** @var array<string, int> */
                 $spans = $this->isBaseCell[$worksheet->getParentOrThrow()->getIndex($worksheet)][$row + 1][$colNum];
                 $rowSpan = $spans['rowspan'];
                 $colSpan = $spans['colspan'];
@@ -1712,6 +1881,11 @@ class Html extends BaseWriter
             // Next column
             ++$colNum;
         }
+        if ($this instanceof Pdf\Tcpdf) {
+            if (str_ends_with($html, '<tr>' . PHP_EOL)) {
+                $html .= '<td>&nbsp;</td>' . PHP_EOL;
+            }
+        }
 
         // Write row end
         $html .= '          </tr>' . PHP_EOL;
@@ -1720,22 +1894,19 @@ class Html extends BaseWriter
         return $html;
     }
 
-    private static function replaceNonAscii(array $matches): string
-    {
-        return '&#' . mb_ord($matches[0], 'UTF-8') . ';';
-    }
-
     private static function replaceControlChars(string $convert): string
     {
-        return (string) preg_replace_callback(
+        return Preg::replaceCallback(
             '/[\x00-\x1f]/',
-            [self::class, 'replaceNonAscii'],
+            fn (array $matches) => '&#' . ord($matches[0]) . ';',
             $convert
         );
     }
 
     /**
      * Takes array where of CSS properties / values and converts to CSS string.
+     *
+     * @param string[] $values
      */
     private function assembleCSS(array $values = []): string
     {
@@ -1808,11 +1979,22 @@ class Html extends BaseWriter
         return $this;
     }
 
-    public function setTableFormats(bool $tableFormats): self
+    public function getTableFormats(): bool
+    {
+        return $this->tableFormats;
+    }
+
+    public function setTableFormats(bool $tableFormats, ?bool $tableFormatsBuiltin = null): self
     {
         $this->tableFormats = $tableFormats;
+        $this->tableFormatsBuiltin = $tableFormatsBuiltin;
 
         return $this;
+    }
+
+    public function getConditionalFormatting(): bool
+    {
+        return $this->conditionalFormatting;
     }
 
     public function setConditionalFormatting(bool $conditionalFormatting): self
@@ -1918,46 +2100,10 @@ class Html extends BaseWriter
                     }
                 }
             }
-
-            $this->calculateSpansOmitRows($sheet, $sheetIndex, $candidateSpannedRow);
-
-            // TODO: Same for columns
         }
 
         // We have calculated the spans
         $this->spansAreCalculated = true;
-    }
-
-    private function calculateSpansOmitRows(Worksheet $sheet, int $sheetIndex, array $candidateSpannedRow): void
-    {
-        // Identify which rows should be omitted in HTML. These are the rows where all the cells
-        //   participate in a merge and the where base cells are somewhere above.
-        $countColumns = Coordinate::columnIndexFromString($sheet->getHighestColumn());
-        foreach ($candidateSpannedRow as $rowIndex) {
-            if (isset($this->isSpannedCell[$sheetIndex][$rowIndex])) {
-                if (count($this->isSpannedCell[$sheetIndex][$rowIndex]) == $countColumns) {
-                    $this->isSpannedRow[$sheetIndex][$rowIndex] = $rowIndex;
-                }
-            }
-        }
-
-        // For each of the omitted rows we found above, the affected rowspans should be subtracted by 1
-        if (isset($this->isSpannedRow[$sheetIndex])) {
-            foreach ($this->isSpannedRow[$sheetIndex] as $rowIndex) {
-                $adjustedBaseCells = [];
-                $c = -1;
-                $e = $countColumns - 1;
-                while ($c++ < $e) {
-                    $baseCell = $this->isSpannedCell[$sheetIndex][$rowIndex][$c]['baseCell'];
-
-                    if (!in_array($baseCell, $adjustedBaseCells, true)) {
-                        // subtract rowspan by 1
-                        --$this->isBaseCell[$sheetIndex][$baseCell[0]][$baseCell[1]]['rowspan'];
-                        $adjustedBaseCells[] = $baseCell;
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -2030,6 +2176,9 @@ class Html extends BaseWriter
                 $htmlPage .= 'size: portrait; ';
             }
             $htmlPage .= '}' . PHP_EOL;
+            if (!$this->isPdf) {
+                $htmlPage .= $this->printAreaStyles($sheetId, $worksheet);
+            }
             ++$sheetId;
         }
         $htmlPage .= implode(PHP_EOL, [
@@ -2054,8 +2203,44 @@ class Html extends BaseWriter
         return $htmlPage;
     }
 
+    private function printAreaStyles(int $sheetId, Worksheet $worksheet): string
+    {
+        $retVal = '';
+        $printArea = $worksheet->getPageSetup()->getPrintArea();
+        if (Preg::isMatch('/^([a-z]+)([0-9]+):([a-z]+)([0-9]+)$/i', $printArea, $matches)) {
+            $lowCol = Coordinate::columnIndexFromString($matches[1]) - 1;
+            $highCol = Coordinate::columnIndexFromString($matches[3]) - 1;
+            $lowRow = (int) $matches[2] - 1;
+            $highRow = (int) $matches[4] - 1;
+            $retVal = '@media print {' . PHP_EOL;
+            $highDataRow = $worksheet->getHighestDataRow();
+            for ($row = 0; $row < $highDataRow; ++$row) {
+                if ($row < $lowRow || $row > $highRow) {
+                    $retVal .= "    table.sheet$sheetId tr.row$row td { display:none }" . PHP_EOL;
+                }
+            }
+            $highDataColumn = $worksheet->getHighestDataColumn();
+            $highDataCol = Coordinate::columnIndexFromString($highDataColumn);
+            for ($col = 0; $col < $highDataCol; ++$col) {
+                if ($col < $lowCol || $col > $highCol) {
+                    $retVal .= "    table.sheet$sheetId td.column$col { display:none }" . PHP_EOL;
+                }
+            }
+            $retVal .= '}' . PHP_EOL;
+        }
+
+        return $retVal;
+    }
+
     private function shouldGenerateRow(Worksheet $sheet, int $row): bool
     {
+        if ($this->isPdf) {
+            if ($this->printAreaLowRow >= 0) {
+                if ($row < $this->printAreaLowRow || $row > $this->printAreaHighRow) {
+                    return false;
+                }
+            }
+        }
         if (!($this instanceof Pdf\Mpdf || $this instanceof Pdf\Tcpdf)) {
             return true;
         }
@@ -2065,6 +2250,14 @@ class Html extends BaseWriter
 
     private function shouldGenerateColumn(Worksheet $sheet, string $colStr): bool
     {
+        if ($this->isPdf) {
+            if ($this->printAreaLowCol >= 0) {
+                $col = Coordinate::columnIndexFromString($colStr);
+                if ($col < $this->printAreaLowCol || $col > $this->printAreaHighCol) {
+                    return false;
+                }
+            }
+        }
         if (!($this instanceof Pdf\Mpdf || $this instanceof Pdf\Tcpdf)) {
             return true;
         }
@@ -2085,5 +2278,32 @@ class Html extends BaseWriter
         $this->betterBoolean = $betterBoolean;
 
         return $this;
+    }
+
+    private static function nl2brx(string $string, bool $useXhtml = false): string
+    {
+        return str_replace(
+            ["\r\n", "\n\r", "\r", "\n"],
+            self::BRX,
+            $string
+        );
+    }
+
+    private function extendRowsAndColumnsForMerge(Worksheet $worksheet, int &$colMax, int &$rowMax): void
+    {
+        foreach ($worksheet->getMergeCells() as $cellRange) {
+            if (Preg::isMatch('/[a-z]{1,3}\d+:([a-z]{1,3})(\d+)/i', $cellRange, $matches)) {
+                $col = Coordinate::columnIndexFromString($matches[1]);
+                if ($colMax < $col) {
+                    $colMax = $col;
+                    $worksheet->getColumnDimension($matches[1]);
+                }
+                $row = (int) $matches[2];
+                if ($rowMax < $row) {
+                    $rowMax = $row;
+                    $worksheet->getRowDimension($row);
+                }
+            }
+        }
     }
 }

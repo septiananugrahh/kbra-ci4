@@ -16,6 +16,9 @@ use App\Models\TujuanPembelajaranModel;
 use App\Models\UserModel;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\Shared\Converter;
 
 class ModulAjar extends CustomController
 {
@@ -669,8 +672,15 @@ class ModulAjar extends CustomController
 
   public function download($modulId)
   {
+    // Redirect ke halaman customize
+    return redirect()->to(base_url("modulajar/customize/{$modulId}"));
+  }
+
+  public function customize($modulId)
+  {
+    // Ambil semua data seperti di fungsi download
     $tanggalValue = '';
-    $dataChecklist = []; // Inisialisasi
+    $dataChecklist = [];
 
     $kelas = $this->kelasModel->where('id', $this->session->get('kelas_id'))->first();
 
@@ -688,22 +698,17 @@ class ModulAjar extends CustomController
       ->where('tingkat', $kelas['jenjang'])
       ->where('tahun', $this->session->get('tahun'))
       ->where('semester', $this->session->get('semester'))->first();
-    //if ($tanggalUrut == 0) {
+
     $tanggalValue = 'Semua Tanggal';
     $modulAjar = $this->modulAjarModel->where('id', $modulId)->first();
     $kbcdpl = $this->selectKBCDPL->where('modulajar_id_select', $modulId)->first();
     $dp = $this->desainPembelajaran->where('modulajar_id_dp', $modulId)->first();
-    // Get all foto berseri data with joins. This will return an array of arrays.
-
-
 
     $kepala = $this->guruModel->where('id', $semester['kepala'])->first();
     $wali = $this->guruModel->where('id', $kelas['wali'])->first();
     $capaian_pembelajaran = $this->capaianPembelajaranModel->where('setting', $this->session->get('id_set'))->findAll();
 
     $tujuan_pembelajaran = $this->tujuanPembelajaranModel->getWithCapaianPembelajaran($this->session->get('id_set'));
-    // dd($tujuan_pembelajaran);
-    // Data untuk view PDF
 
     $ids = json_decode($modulAjar['tujuan_pembelajaran']);
     $dataTujuanPembelajaran = $this->tujuanPembelajaranModel->getRecordsByIds($ids);
@@ -717,17 +722,17 @@ class ModulAjar extends CustomController
 
     $data = [
       'modul_ajar_id' => $modulId,
-      'capaian_pembelajaran' => $capaian_pembelajaran, // Tanggal yang sebenarnya
-      'tujuan_pembelajaran' => $tujuan_pembelajaran, // Tanggal yang sebenarnya
-      'tanggal_asesmen' => $tanggalValue, // Tanggal yang sebenarnya
-      'semester_nama' => $semester['semester'], // Tanggal yang sebenarnya
-      'semester' => session("semester"), // Tanggal yang sebenarnya
-      'tahun' => session("tahun"), // Tanggal yang sebenarnya
-      'kelompok_usia' => $kelompok_usia, // Ambil tema dari modul ajar
-      'nama_tingkat' => $nama_tingkat, // Ambil tema dari modul ajar
-      'nama_kepala' => $nama_kepala, // Ambil tema dari modul ajar
-      'kepala' => $kepala['nama'], // Ambil tema dari modul ajar
-      'wali' => $wali['nama'], // Ambil tema dari modul ajar
+      'capaian_pembelajaran' => $capaian_pembelajaran,
+      'tujuan_pembelajaran' => $tujuan_pembelajaran,
+      'tanggal_asesmen' => $tanggalValue,
+      'semester_nama' => $semester['semester'],
+      'semester' => session("semester"),
+      'tahun' => session("tahun"),
+      'kelompok_usia' => $kelompok_usia,
+      'nama_tingkat' => $nama_tingkat,
+      'nama_kepala' => $nama_kepala,
+      'kepala' => $kepala['nama'],
+      'wali' => $wali['nama'],
       'data_modulajar' => $modulAjar,
       'data_kbcdpl' => $kbcdpl,
       'data_dp' => $dp,
@@ -738,15 +743,100 @@ class ModulAjar extends CustomController
       'dataCapaianPembelajarans' => $dataCapaianPembelajaran,
     ];
 
+    // Render ke halaman customize
+    return view('admin/pdf/customize_pdf', $data);
+  }
 
-    // Render view HTML menjadi string
-    $html = view('admin/pdf/modulajar_pdf_template', $data); // Buat view ini di app/Views/pdf/
+  public function generateCustomPdf()
+  {
+    // Ambil data POST dari form customize
+    $customSettings = [
+      'margin_top' => $this->request->getPost('margin_top') ?? '1.3cm',
+      'margin_bottom' => $this->request->getPost('margin_bottom') ?? '2cm',
+      'margin_left' => $this->request->getPost('margin_left') ?? '3cm',
+      'margin_right' => $this->request->getPost('margin_right') ?? '1cm',
+      'font_size' => $this->request->getPost('font_size') ?? '10pt',
+      'line_height' => $this->request->getPost('line_height') ?? '1.08',
+      'point_spacing' => $this->request->getPost('point_spacing') ?? '5px',
+      'font_judul' => $this->request->getPost('font_judul') ?? '14px',
+    ];
 
-    // Inisialisasi Dompdf
+    $modulId = $this->request->getPost('modul_id');
+
+    // Ambil semua data seperti sebelumnya (copy dari fungsi download)
+    $tanggalValue = '';
+    $dataChecklist = [];
+
+    $kelas = $this->kelasModel->where('id', $this->session->get('kelas_id'))->first();
+
+    if ($kelas['jenjang'] == 'RA') {
+      $nama_tingkat = "RA ISLAMIC CENTER ABDULLAH GHANIM AS SAMAIL";
+      $nama_kepala = "Kepala Sekolah";
+      $kelompok_usia = "Usia 5-6 Tahun";
+    } else {
+      $nama_tingkat = "KB IT ISLAMIC CENTER PONOROGO";
+      $nama_kepala = "Kepala KB IT Islamic Center";
+      $kelompok_usia = "Usia 4-5 Tahun";
+    }
+
+    $semester = $this->semesterModel
+      ->where('tingkat', $kelas['jenjang'])
+      ->where('tahun', $this->session->get('tahun'))
+      ->where('semester', $this->session->get('semester'))->first();
+
+    $tanggalValue = 'Semua Tanggal';
+    $modulAjar = $this->modulAjarModel->where('id', $modulId)->first();
+    $kbcdpl = $this->selectKBCDPL->where('modulajar_id_select', $modulId)->first();
+    $dp = $this->desainPembelajaran->where('modulajar_id_dp', $modulId)->first();
+
+    $kepala = $this->guruModel->where('id', $semester['kepala'])->first();
+    $wali = $this->guruModel->where('id', $kelas['wali'])->first();
+    $capaian_pembelajaran = $this->capaianPembelajaranModel->where('setting', $this->session->get('id_set'))->findAll();
+
+    $tujuan_pembelajaran = $this->tujuanPembelajaranModel->getWithCapaianPembelajaran($this->session->get('id_set'));
+
+    $ids = json_decode($modulAjar['tujuan_pembelajaran']);
+    $dataTujuanPembelajaran = $this->tujuanPembelajaranModel->getRecordsByIds($ids);
+    $dataCapaianPembelajaran = $this->tujuanPembelajaranModel->getRecordsByIdsGroupedByCapaian($ids);
+
+    $idsdimensi = json_decode($modulAjar['dimensi_profil_lulusan']);
+    $dataDimensiPembelajaran = $this->dimensiProfilModel->getRecordsByIds($idsdimensi);
+
+    $idskurikulum = json_decode($modulAjar['kurikulum_cinta']);
+    $dataKurikulumCinta = $this->kurikulumCintaModel->getRecordsByIds($idskurikulum);
+
+    $data = [
+      'modul_ajar_id' => $modulId,
+      'capaian_pembelajaran' => $capaian_pembelajaran,
+      'tujuan_pembelajaran' => $tujuan_pembelajaran,
+      'tanggal_asesmen' => $tanggalValue,
+      'semester_nama' => $semester['semester'],
+      'semester' => session("semester"),
+      'tahun' => session("tahun"),
+      'kelompok_usia' => $kelompok_usia,
+      'nama_tingkat' => $nama_tingkat,
+      'nama_kepala' => $nama_kepala,
+      'kepala' => $kepala['nama'],
+      'wali' => $wali['nama'],
+      'data_modulajar' => $modulAjar,
+      'data_kbcdpl' => $kbcdpl,
+      'data_dp' => $dp,
+      'records' => $dataChecklist,
+      'dataTujuanPembelajarans' => $dataTujuanPembelajaran,
+      'dataDimensiPembelajarans' => $dataDimensiPembelajaran,
+      'dataKurikulumCintas' => $dataKurikulumCinta,
+      'dataCapaianPembelajarans' => $dataCapaianPembelajaran,
+      'customSettings' => $customSettings, // Tambahkan custom settings
+    ];
+
+    // Render view HTML dengan custom settings
+    $html = view('admin/pdf/modulajar_pdf_template_custom', $data);
+
+    // Generate PDF
     $options = new Options();
     $options->set('isHtml5ParserEnabled', true);
-    $options->set('isRemoteEnabled', true); // Penting untuk gambar eksternal (CDN) atau jika jalur gambar diatur relatif ke root project
-    $options->set('defaultFont', 'sans-serif'); // Set font default
+    $options->set('isRemoteEnabled', true);
+    $options->set('defaultFont', 'sans-serif');
 
     $dompdf = new Dompdf($options);
     $dompdf->set_option('isHtml5ParserEnabled', true);
@@ -754,16 +844,245 @@ class ModulAjar extends CustomController
     $dompdf->set_option('defaultFont', 'Times New Roman');
     $html = preg_replace('/>\s+</', "><", $html);
     $dompdf->loadHtml($html);
-    $dompdf->setPaper('A4', 'potrait');
+    $dompdf->setPaper([0, 0, 609.45, 935.43], 'portrait'); // F4: 215mm x 330mm
     $dompdf->render();
 
-    $modulAjar = (array) $modulAjar; // Konversi objek menjadi array
+    $filename = 'ModulAjar_' . date('YmdHis') . '.pdf';
+    $dompdf->stream($filename, ['Attachment' => 1]);
+  }
 
+  public function previewPdf()
+  {
+    try {
+      // Ambil data POST dari customize
+      $customSettings = [
+        'margin_top' => $this->request->getPost('margin_top') ?? '1.3cm',
+        'margin_bottom' => $this->request->getPost('margin_bottom') ?? '2cm',
+        'margin_left' => $this->request->getPost('margin_left') ?? '3cm',
+        'margin_right' => $this->request->getPost('margin_right') ?? '1cm',
+        'font_size' => $this->request->getPost('font_size') ?? '10pt',
+        'line_height' => $this->request->getPost('line_height') ?? '1.08',
+        'point_spacing' => $this->request->getPost('point_spacing') ?? '5px',
+        'font_judul' => $this->request->getPost('font_judul') ?? '14px',
+      ];
 
-    // Nama file PDF
-    $filename = 'ModulAjar_tanggal_' . '-' . '.pdf';
+      $modulId = $this->request->getPost('modul_id');
 
-    // Output PDF ke browser untuk di-download
-    $dompdf->stream($filename, ['Attachment' => 0]); // 1 untuk download, 0 untuk display di browser
+      if (!$modulId) {
+        return $this->response->setStatusCode(400)->setBody('Modul ID tidak ditemukan');
+      }
+
+      // Ambil semua data
+      $tanggalValue = '';
+      $dataChecklist = [];
+
+      $kelas = $this->kelasModel->where('id', $this->session->get('kelas_id'))->first();
+
+      if ($kelas['jenjang'] == 'RA') {
+        $nama_tingkat = "RA ISLAMIC CENTER ABDULLAH GHANIM AS SAMAIL";
+        $nama_kepala = "Kepala Sekolah";
+        $kelompok_usia = "Usia 5-6 Tahun";
+      } else {
+        $nama_tingkat = "KB IT ISLAMIC CENTER PONOROGO";
+        $nama_kepala = "Kepala KB IT Islamic Center";
+        $kelompok_usia = "Usia 4-5 Tahun";
+      }
+
+      $semester = $this->semesterModel
+        ->where('tingkat', $kelas['jenjang'])
+        ->where('tahun', $this->session->get('tahun'))
+        ->where('semester', $this->session->get('semester'))->first();
+
+      $tanggalValue = 'Semua Tanggal';
+      $modulAjar = $this->modulAjarModel->where('id', $modulId)->first();
+      $kbcdpl = $this->selectKBCDPL->where('modulajar_id_select', $modulId)->first();
+      $dp = $this->desainPembelajaran->where('modulajar_id_dp', $modulId)->first();
+
+      $kepala = $this->guruModel->where('id', $semester['kepala'])->first();
+      $wali = $this->guruModel->where('id', $kelas['wali'])->first();
+      $capaian_pembelajaran = $this->capaianPembelajaranModel->where('setting', $this->session->get('id_set'))->findAll();
+
+      $tujuan_pembelajaran = $this->tujuanPembelajaranModel->getWithCapaianPembelajaran($this->session->get('id_set'));
+
+      $ids = json_decode($modulAjar['tujuan_pembelajaran']);
+      $dataTujuanPembelajaran = $this->tujuanPembelajaranModel->getRecordsByIds($ids);
+      $dataCapaianPembelajaran = $this->tujuanPembelajaranModel->getRecordsByIdsGroupedByCapaian($ids);
+
+      $idsdimensi = json_decode($modulAjar['dimensi_profil_lulusan']);
+      $dataDimensiPembelajaran = $this->dimensiProfilModel->getRecordsByIds($idsdimensi);
+
+      $idskurikulum = json_decode($modulAjar['kurikulum_cinta']);
+      $dataKurikulumCinta = $this->kurikulumCintaModel->getRecordsByIds($idskurikulum);
+
+      $data = [
+        'modul_ajar_id' => $modulId,
+        'capaian_pembelajaran' => $capaian_pembelajaran,
+        'tujuan_pembelajaran' => $tujuan_pembelajaran,
+        'tanggal_asesmen' => $tanggalValue,
+        'semester_nama' => $semester['semester'],
+        'semester' => session("semester"),
+        'tahun' => session("tahun"),
+        'kelompok_usia' => $kelompok_usia,
+        'nama_tingkat' => $nama_tingkat,
+        'nama_kepala' => $nama_kepala,
+        'kepala' => $kepala['nama'],
+        'wali' => $wali['nama'],
+        'data_modulajar' => $modulAjar,
+        'data_kbcdpl' => $kbcdpl,
+        'data_dp' => $dp,
+        'records' => $dataChecklist,
+        'dataTujuanPembelajarans' => $dataTujuanPembelajaran,
+        'dataDimensiPembelajarans' => $dataDimensiPembelajaran,
+        'dataKurikulumCintas' => $dataKurikulumCinta,
+        'dataCapaianPembelajarans' => $dataCapaianPembelajaran,
+        'customSettings' => $customSettings,
+      ];
+
+      // ✅ Render view
+      $html = view('admin/pdf/modulajar_pdf_template_custom', $data);
+
+      // ✅ Bersihkan semua debug toolbar artifacts
+      $html = preg_replace('/<!-- DEBUG-VIEW START.*?-->/s', '', $html);
+      $html = preg_replace('/<!-- DEBUG-VIEW ENDED.*?-->/s', '', $html);
+      $html = preg_replace('/<script id="debugbar_loader".*?<\/script>/s', '', $html);
+      $html = preg_replace('/<script id="debugbar_dynamic_script".*?<\/script>/s', '', $html);
+      $html = preg_replace('/<style id="debugbar_dynamic_style".*?<\/style>/s', '', $html);
+      $html = preg_replace('/<div id="toolbarContainer".*?<\/div>/s', '', $html);
+
+      // ✅ Return clean HTML
+      return $this->response
+        ->setHeader('Content-Type', 'text/html; charset=UTF-8')
+        ->setHeader('Cache-Control', 'no-cache, no-store, must-revalidate')
+        ->setBody($html);
+    } catch (\Exception $e) {
+      log_message('error', 'Preview PDF Error: ' . $e->getMessage());
+      return $this->response->setStatusCode(500)->setBody('Error: ' . $e->getMessage());
+    }
+  }
+
+  /**
+   * Preview PDF Direct (100% Accurate - No Imagick)
+   * Render PDF dengan DomPDF, return PDF binary ke iframe
+   */
+  public function previewPdfDirect()
+  {
+    try {
+      // Ambil data POST dari customize
+      $customSettings = [
+        'margin_top' => $this->request->getPost('margin_top') ?? '1.3cm',
+        'margin_bottom' => $this->request->getPost('margin_bottom') ?? '2cm',
+        'margin_left' => $this->request->getPost('margin_left') ?? '3cm',
+        'margin_right' => $this->request->getPost('margin_right') ?? '1cm',
+        'font_size' => $this->request->getPost('font_size') ?? '10pt',
+        'line_height' => $this->request->getPost('line_height') ?? '1.08',
+        'point_spacing' => $this->request->getPost('point_spacing') ?? '5px',
+        'font_judul' => $this->request->getPost('font_judul') ?? '14px',
+      ];
+
+      $modulId = $this->request->getPost('modul_id');
+
+      if (!$modulId) {
+        return $this->response->setStatusCode(400)->setBody('Modul ID tidak ditemukan');
+      }
+
+      // Ambil semua data (sama seperti generateCustomPdf)
+      $tanggalValue = '';
+      $dataChecklist = [];
+
+      $kelas = $this->kelasModel->where('id', $this->session->get('kelas_id'))->first();
+
+      if ($kelas['jenjang'] == 'RA') {
+        $nama_tingkat = "RA ISLAMIC CENTER ABDULLAH GHANIM AS SAMAIL";
+        $nama_kepala = "Kepala Sekolah";
+        $kelompok_usia = "Usia 5-6 Tahun";
+      } else {
+        $nama_tingkat = "KB IT ISLAMIC CENTER PONOROGO";
+        $nama_kepala = "Kepala KB IT Islamic Center";
+        $kelompok_usia = "Usia 4-5 Tahun";
+      }
+
+      $semester = $this->semesterModel
+        ->where('tingkat', $kelas['jenjang'])
+        ->where('tahun', $this->session->get('tahun'))
+        ->where('semester', $this->session->get('semester'))->first();
+
+      $tanggalValue = 'Semua Tanggal';
+      $modulAjar = $this->modulAjarModel->where('id', $modulId)->first();
+      $kbcdpl = $this->selectKBCDPL->where('modulajar_id_select', $modulId)->first();
+      $dp = $this->desainPembelajaran->where('modulajar_id_dp', $modulId)->first();
+
+      $kepala = $this->guruModel->where('id', $semester['kepala'])->first();
+      $wali = $this->guruModel->where('id', $kelas['wali'])->first();
+      $capaian_pembelajaran = $this->capaianPembelajaranModel->where('setting', $this->session->get('id_set'))->findAll();
+
+      $tujuan_pembelajaran = $this->tujuanPembelajaranModel->getWithCapaianPembelajaran($this->session->get('id_set'));
+
+      $ids = json_decode($modulAjar['tujuan_pembelajaran']);
+      $dataTujuanPembelajaran = $this->tujuanPembelajaranModel->getRecordsByIds($ids);
+      $dataCapaianPembelajaran = $this->tujuanPembelajaranModel->getRecordsByIdsGroupedByCapaian($ids);
+
+      $idsdimensi = json_decode($modulAjar['dimensi_profil_lulusan']);
+      $dataDimensiPembelajaran = $this->dimensiProfilModel->getRecordsByIds($idsdimensi);
+
+      $idskurikulum = json_decode($modulAjar['kurikulum_cinta']);
+      $dataKurikulumCinta = $this->kurikulumCintaModel->getRecordsByIds($idskurikulum);
+
+      $data = [
+        'modul_ajar_id' => $modulId,
+        'capaian_pembelajaran' => $capaian_pembelajaran,
+        'tujuan_pembelajaran' => $tujuan_pembelajaran,
+        'tanggal_asesmen' => $tanggalValue,
+        'semester_nama' => $semester['semester'],
+        'semester' => session("semester"),
+        'tahun' => session("tahun"),
+        'kelompok_usia' => $kelompok_usia,
+        'nama_tingkat' => $nama_tingkat,
+        'nama_kepala' => $nama_kepala,
+        'kepala' => $kepala['nama'],
+        'wali' => $wali['nama'],
+        'data_modulajar' => $modulAjar,
+        'data_kbcdpl' => $kbcdpl,
+        'data_dp' => $dp,
+        'records' => $dataChecklist,
+        'dataTujuanPembelajarans' => $dataTujuanPembelajaran,
+        'dataDimensiPembelajarans' => $dataDimensiPembelajaran,
+        'dataKurikulumCintas' => $dataKurikulumCinta,
+        'dataCapaianPembelajarans' => $dataCapaianPembelajaran,
+        'customSettings' => $customSettings,
+      ];
+
+      // ✅ Render HTML untuk PDF
+      $html = view('admin/pdf/modulajar_pdf_template_custom', $data);
+
+      // ✅ Generate PDF dengan DomPDF
+      $options = new \Dompdf\Options();
+      $options->set('isHtml5ParserEnabled', true);
+      $options->set('isRemoteEnabled', true);
+      $options->set('defaultFont', 'Times New Roman');
+
+      $dompdf = new \Dompdf\Dompdf($options);
+      $html = preg_replace('/>\s+</', "><", $html);
+      $dompdf->loadHtml($html);
+      $dompdf->setPaper([0, 0, 609.45, 935.43], 'portrait'); // F4: 215mm x 330mm
+      $dompdf->render();
+
+      // ✅ Get total pages
+      $canvas = $dompdf->getCanvas();
+      $totalPages = $canvas->get_page_count();
+
+      // ✅ Output PDF ke browser
+      $pdfOutput = $dompdf->output();
+
+      // ✅ Return PDF dengan headers yang benar
+      return $this->response
+        ->setHeader('Content-Type', 'application/pdf')
+        ->setHeader('Content-Disposition', 'inline; filename="preview.pdf"')
+        ->setHeader('Cache-Control', 'no-cache, no-store, must-revalidate')
+        ->setHeader('X-Total-Pages', $totalPages) // ✅ Kirim jumlah halaman via header
+        ->setBody($pdfOutput);
+    } catch (\Exception $e) {
+      log_message('error', 'Preview PDF Direct Error: ' . $e->getMessage());
+      return $this->response->setStatusCode(500)->setBody('Error: ' . $e->getMessage());
+    }
   }
 }

@@ -123,6 +123,11 @@ $routes->post('modulajar/hapusdata_soft', 'ModulAjar::hapusdata_soft', ['filter'
 
 $routes->get('modulajar/download/(:num)', 'ModulAjar::download/$1'); // halaman daftar tanggal
 $routes->get('modulajar/get_data_select_dpl_kbc/(:num)', 'ModulAjar::get_data_select_dpl_kbc/$1'); // halaman daftar tanggal
+$routes->get('modulajar/customize/(:num)', 'ModulAjar::customize/$1');
+$routes->post('modulajar/generate-pdf', 'ModulAjar::generateCustomPdf');
+$routes->post('modulajar/preview-pdf', 'ModulAjar::previewPdf');
+$routes->get('modulajar/generate-docx', 'ModulAjar::generateDocx');
+$routes->post('modulajar/preview-pdf-direct', 'ModulAjar::previewPdfDirect');
 
 // end modul ajar
 // end modul ajar

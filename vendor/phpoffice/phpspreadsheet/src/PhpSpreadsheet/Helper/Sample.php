@@ -241,9 +241,16 @@ class Sample
             : $this->log(sprintf('Function: %s() - %s.', rtrim($functionName, '()'), rtrim($description, '.')));
     }
 
-    public function displayGrid(array $matrix): void
+    /** @param mixed[][] $matrix */
+    public function displayGrid(array $matrix, null|bool|TextGridRightAlign $numbersRight = null): void
     {
         $renderer = new TextGrid($matrix, $this->isCli());
+        if (is_bool($numbersRight)) {
+            $numbersRight = $numbersRight ? TextGridRightAlign::numeric : TextGridRightAlign::none;
+        }
+        if ($numbersRight !== null) {
+            $renderer->setNumbersRight($numbersRight);
+        }
         echo $renderer->render();
     }
 

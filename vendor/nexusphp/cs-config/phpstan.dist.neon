@@ -8,14 +8,20 @@ parameters:
   paths:
     - src
     - tests
+  excludePaths:
+    analyseAndScan:
+      - src/Fixer
+      - src/Test/AbstractCustomFixerTestCase.php
+      - tests/Fixer
   bootstrapFiles:
     - vendor/autoload.php
   additionalConstructors:
     - Nexus\CsConfig\Test\AbstractCustomFixerTestCase::setUp
+  checkBenevolentUnionTypes: true
+  checkImplicitMixed: true
+  checkMissingCallableSignature: true
+  checkStrictPrintfPlaceholderTypes: false
   checkTooWideReturnTypesInProtectedAndPublicMethods: true
   checkUninitializedProperties: true
-  checkImplicitMixed: true
-  checkBenevolentUnionTypes: true
-  checkMissingCallableSignature: true
   reportAlwaysTrueInLastCondition: true
   treatPhpDocTypesAsCertain: false
