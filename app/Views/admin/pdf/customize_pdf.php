@@ -201,7 +201,7 @@
       <!-- Control Panel -->
       <div class="col-md-4 col-lg-3">
         <div class="control-panel">
-          <h4 class="mb-4">⚙️ Pengaturan PDF</h4>
+          <h4 class="mb-4"> <i class="ri-settings-3-fill"></i> Pengaturan PDF</h4>
 
           <form id="pdfCustomForm" method="POST" action="<?= base_url('modulajar/generate-pdf') ?>">
 
