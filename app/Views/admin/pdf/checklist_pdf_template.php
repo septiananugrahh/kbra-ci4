@@ -337,7 +337,7 @@
 
                     // 1️⃣ Konteks
                     if (isset($konteks_data[$kejadianIndex]['konteks'])) {
-                      echo "<td style='color: {$warnaText}'>"
+                      echo "<td style='color: black'>"
                         . htmlspecialchars($konteks_data[$kejadianIndex]['konteks'])
                         . "</td>";
                     } else {
@@ -346,7 +346,7 @@
 
                     // 2️⃣ Tempat & Waktu
                     if (isset($tempat_waktu_data[$kejadianIndex]['tempat_waktu'])) {
-                      echo "<td style='color: {$warnaText}'>"
+                      echo "<td style='color: black'>"
                         . htmlspecialchars($tempat_waktu_data[$kejadianIndex]['tempat_waktu'])
                         . "</td>";
                     } else {

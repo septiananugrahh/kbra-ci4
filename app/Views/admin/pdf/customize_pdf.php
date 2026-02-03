@@ -409,7 +409,7 @@
         formData.append('line_height', document.getElementById('lineHeightInput').value);
         formData.append('point_spacing', document.getElementById('pointSpacingInput').value);
 
-        fetch('<?= base_url('modulajar/preview-pdf-direct') ?>', {
+        fetch('<?= base_url('modulajar/render/preview-pdf-direct') ?>', {
             method: 'POST',
             body: formData
           })

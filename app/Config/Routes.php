@@ -127,7 +127,7 @@ $routes->get('modulajar/customize/(:num)', 'ModulAjar::customize/$1');
 $routes->post('modulajar/generate-pdf', 'ModulAjar::generateCustomPdf');
 $routes->post('modulajar/preview-pdf', 'ModulAjar::previewPdf');
 $routes->get('modulajar/generate-docx', 'ModulAjar::generateDocx');
-$routes->post('modulajar/preview-pdf-direct', 'ModulAjar::previewPdfDirect');
+$routes->post('modulajar/render/preview-pdf-direct', 'ModulAjar::previewPdfDirect');
 
 // end modul ajar
 // end modul ajar
