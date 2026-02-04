@@ -317,7 +317,8 @@
 
                     $isKosong = empty($statusItem['status']);
 
-                    $statusClass = ($statusItem['status'] == 'belum_muncul') ? '' : '✔️';
+                    $statusClass = $isKosong ? '' : (($statusItem['status'] === 'belum_muncul') ? '' : '✔️');
+
 
                     echo "<tr>";
                     echo "<td>" . htmlspecialchars($item['tujuan_nama']) . "</td>";
