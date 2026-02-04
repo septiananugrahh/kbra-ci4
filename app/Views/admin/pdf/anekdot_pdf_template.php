@@ -5,8 +5,8 @@
   <title>Laporan Anekdot <?= esc($modul_ajar_id) ?></title>
   <style>
     @page {
-      margin-top: 0.7cm;
-      margin-bottom: 2cm;
+      margin-top: 0.9cm;
+      margin-bottom: 0.9cm;
       margin-right: 1cm;
       margin-left: 3cm;
       size: 330mm 210mm;
@@ -18,8 +18,8 @@
 
     body {
       font-family: "Times New Roman", "DejaVu Sans", serif;
-      font-size: 8pt;
-      line-height: 1.08;
+      font-size: 10pt;
+      line-height: 1.2;
       /* DomPDF perlu sedikit lebih kecil */
       margin: 0;
       padding: 0;
@@ -123,7 +123,7 @@
     .table-anekdot td {
       border: 1px solid black;
       /* Border 1px solid hitam */
-      padding: 2px;
+      padding: 4px;
       /* Padding di dalam sel */
       text-align: left;
       /* Perataan teks */
