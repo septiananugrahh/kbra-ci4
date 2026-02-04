@@ -18,7 +18,7 @@
 
     body {
       font-family: "Times New Roman", "DejaVu Sans", serif;
-      font-size: 9pt;
+      font-size: 10pt;
       line-height: 1.08;
       /* DomPDF perlu sedikit lebih kecil */
       margin: 0;
@@ -106,6 +106,7 @@
     .photo-caption {
       color: #555;
       margin: 0;
+      font-size: 10pt;
       padding-left: 10px;
       word-wrap: break-word;
       vertical-align: top;
@@ -148,8 +149,6 @@
       text-align: center;
       margin-bottom: 10px;
     }
-
-
 
     .section-title {
       margin-top: 25px;
