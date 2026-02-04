@@ -38,7 +38,7 @@
 
     @page {
       margin-top: 0.7cm;
-      margin-bottom: 1cm;
+      margin-bottom: 0.7cm;
       margin-right: 1cm;
       margin-left: 3cm;
       size: 330mm 210mm;

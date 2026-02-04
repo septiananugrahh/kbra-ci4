@@ -6,7 +6,7 @@
   <style>
     @page {
       margin-top: 0.7cm;
-      margin-bottom: 2cm;
+      margin-bottom: 0.7cm;
       margin-right: 1cm;
       margin-left: 3cm;
       size: 210mm 330mm;
@@ -18,8 +18,8 @@
 
     body {
       font-family: "Times New Roman", "DejaVu Sans", serif;
-      font-size: 8pt;
-      line-height: 1.08;
+      font-size: 10pt;
+      line-height: 1.1;
       /* DomPDF perlu sedikit lebih kecil */
       margin: 0;
       padding: 0;

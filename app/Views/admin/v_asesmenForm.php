@@ -1545,9 +1545,9 @@
 
       DOM.checklistContainer.find('.checklist-item').each(function() {
         const tpId = $(this).find('input[name="tujuan_pembelajaran_id[]"]').val();
-        const status = $(this).find('input[type="radio"]:checked').val();
+        const status = $(this).find('input[type="radio"]:checked').val() || "";
 
-        if (tpId && status) {
+        if (tpId) {
           results.push({
             id: tpId,
             status: status
