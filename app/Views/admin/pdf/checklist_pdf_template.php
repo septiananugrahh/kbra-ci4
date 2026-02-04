@@ -21,7 +21,7 @@
     /* Konteks */
     .table-checklist td:nth-child(3),
     .table-checklist th:nth-child(3) {
-      width: 15%;
+      width: 20%;
     }
 
     /* Tempat Dan Waktu */
@@ -33,7 +33,7 @@
     /* Kejadian Teramati */
     .table-checklist td:nth-child(5),
     .table-checklist th:nth-child(5) {
-      width: 45%;
+      width: 40%;
     }
 
     @page {
@@ -51,7 +51,7 @@
     body {
       font-family: "Times New Roman", "DejaVu Sans", serif;
       font-size: 10pt;
-      line-height: 1.15;
+      line-height: 1.12;
       /* DomPDF perlu sedikit lebih kecil */
       margin: 0;
       padding: 0;
@@ -314,56 +314,51 @@
               foreach ($statusData as $statusItem) {
                 foreach ($tujuan_pembelajaran as $item) {
                   if ($item['tujuan_id'] == $statusItem['id']) {
-                    // Item ini akan dicetak
+
+                    $isKosong = empty($statusItem['status']);
+
                     $statusClass = ($statusItem['status'] == 'belum_muncul') ? '' : '✔️';
 
                     echo "<tr>";
                     echo "<td>" . htmlspecialchars($item['tujuan_nama']) . "</td>";
                     echo "<td style='text-align:center'>" . $statusClass . "</td>";
 
-                    // Cetak kolom dengan rowspan hanya pada baris pertama dari record ini
-                    // if (!$firstRowPrintedForRecord) {
-                    //   echo "<td rowspan='" . $dynamicRowspan . "' style='vertical-align: middle;'>" . htmlspecialchars($record['konteks']) . "</td>";
-                    //   echo "<td rowspan='" . $dynamicRowspan . "' style='vertical-align: middle;'>" . htmlspecialchars($record['tempat_waktu']) . "</td>";
-                    //   $firstRowPrintedForRecord = true; // Set flag menjadi true setelah dicetak
-                    // }
-
                     // Tentukan warna text
                     $warnaText = $item['warna'] ?? 'black';
-
-                    if (isset($statusItem['status']) && $statusItem['status'] === 'belum_muncul') {
+                    if ($statusItem['status'] === 'belum_muncul') {
                       $warnaText = 'black';
                     }
 
-                    // 1️⃣ Konteks
-                    if (isset($konteks_data[$kejadianIndex]['konteks'])) {
-                      echo "<td style='color: black'>"
-                        . htmlspecialchars($konteks_data[$kejadianIndex]['konteks'])
-                        . "</td>";
+                    // ===============================
+                    // ⛔ SKIP DATA JIKA STATUS KOSONG
+                    // ===============================
+                    if ($isKosong) {
+
+                      echo "<td>-</td>"; // konteks
+                      echo "<td>-</td>"; // tempat & waktu
+                      echo "<td>-</td>"; // kejadian
+
                     } else {
-                      echo "<td>-</td>";
+
+                      // 1️⃣ Konteks
+                      echo "<td style='color:black'>"
+                        . htmlspecialchars($konteks_data[$kejadianIndex]['konteks'] ?? '-')
+                        . "</td>";
+
+                      // 2️⃣ Tempat & Waktu
+                      echo "<td style='color:black'>"
+                        . htmlspecialchars($tempat_waktu_data[$kejadianIndex]['tempat_waktu'] ?? '-')
+                        . "</td>";
+
+                      // 3️⃣ Kejadian
+                      echo "<td style='color:{$warnaText}'>"
+                        . htmlspecialchars($kejadian_data[$kejadianIndex]['kejadian'] ?? '-')
+                        . "</td>";
+
+                      // ✅ indeks hanya naik kalau data dipakai
+                      $kejadianIndex++;
                     }
 
-                    // 2️⃣ Tempat & Waktu
-                    if (isset($tempat_waktu_data[$kejadianIndex]['tempat_waktu'])) {
-                      echo "<td style='color: black'>"
-                        . htmlspecialchars($tempat_waktu_data[$kejadianIndex]['tempat_waktu'])
-                        . "</td>";
-                    } else {
-                      echo "<td>-</td>";
-                    }
-
-                    // 3️⃣ Kejadian
-                    if (isset($kejadian_data[$kejadianIndex]['kejadian'])) {
-                      echo "<td style='color: {$warnaText}'>"
-                        . htmlspecialchars($kejadian_data[$kejadianIndex]['kejadian'])
-                        . "</td>";
-                    } else {
-                      echo "<td>-</td>";
-                    }
-
-
-                    $kejadianIndex++; // Tingkatkan indeks untuk kejadian berikutnya
                     echo "</tr>";
                   }
                 }
