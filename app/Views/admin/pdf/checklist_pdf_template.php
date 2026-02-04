@@ -21,24 +21,24 @@
     /* Konteks */
     .table-checklist td:nth-child(3),
     .table-checklist th:nth-child(3) {
-      width: 22%;
+      width: 15%;
     }
 
     /* Tempat Dan Waktu */
     .table-checklist td:nth-child(4),
     .table-checklist th:nth-child(4) {
-      width: 15%;
+      width: 10%;
     }
 
     /* Kejadian Teramati */
     .table-checklist td:nth-child(5),
     .table-checklist th:nth-child(5) {
-      width: 33%;
+      width: 45%;
     }
 
     @page {
       margin-top: 0.7cm;
-      margin-bottom: 2cm;
+      margin-bottom: 1cm;
       margin-right: 1cm;
       margin-left: 3cm;
       size: 330mm 210mm;
@@ -50,8 +50,8 @@
 
     body {
       font-family: "Times New Roman", "DejaVu Sans", serif;
-      font-size: 8pt;
-      line-height: 1.08;
+      font-size: 10pt;
+      line-height: 1.15;
       /* DomPDF perlu sedikit lebih kecil */
       margin: 0;
       padding: 0;
