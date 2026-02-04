@@ -18,8 +18,8 @@
 
     body {
       font-family: "Times New Roman", "DejaVu Sans", serif;
-      font-size: 10pt;
-      line-height: 1.1;
+      font-size: 11pt;
+      line-height: 1.2;
       margin: 0;
       padding: 0;
     }
