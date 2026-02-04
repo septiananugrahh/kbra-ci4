@@ -18,7 +18,7 @@
 
     body {
       font-family: "Times New Roman", "DejaVu Sans", serif;
-      font-size: 11pt;
+      font-size: 10pt;
       line-height: 1.2;
       margin: 0;
       padding: 0;
@@ -105,8 +105,9 @@
 
     .keterangan-item {
       display: block;
+      font-size: 10pt;
       margin-bottom: 1px;
-      padding: 0;
+      padding: 1px;
       line-height: 1.1;
     }
 
