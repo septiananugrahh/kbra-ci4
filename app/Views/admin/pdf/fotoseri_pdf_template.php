@@ -106,7 +106,7 @@
     .photo-caption {
       color: #555;
       margin: 0;
-      font-size: 9.5pt;
+      font-size: 9pt;
       padding-left: 10px;
       word-wrap: break-word;
       vertical-align: top;
