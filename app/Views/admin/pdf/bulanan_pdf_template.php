@@ -5,7 +5,7 @@
   <title>Laporan Bulanan <?= esc($bulan) ?></title>
   <style>
     @page {
-      margin-top: 0.9cm;
+      margin-top: 0.5cm;
       margin-bottom: 0.9cm;
       margin-right: 0.9cm;
       margin-left: 3cm;
@@ -18,7 +18,7 @@
 
     body {
       font-family: "Times New Roman", "DejaVu Sans", serif;
-      font-size: 10pt;
+      font-size: 9pt;
       line-height: 1.2;
       margin: 0;
       padding: 0;
