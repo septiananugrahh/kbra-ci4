@@ -56,10 +56,7 @@
       margin-top: 2px;
     }
 
-    .header-info table {
-      line-height: 0.9;
-      font-size: 9pt;
-    }
+    .header-info table {}
 
     .header-info td {
       padding: 1px 3px;
@@ -103,7 +100,6 @@
       background-color: #f2f2f2;
       font-weight: bold;
       text-align: center;
-      font-size: 9pt;
       /* Ukuran font judul lebih kecil */
     }
 

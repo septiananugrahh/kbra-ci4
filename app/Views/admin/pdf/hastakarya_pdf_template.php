@@ -155,12 +155,21 @@
       }
       // ===== AKHIR PENGECEKAN =====
       ?>
-      <center>
-        <h2>PENILAIAN HASIL KARYA</h2>
-        <h2><?= esc($nama_tingkat) ?></h2>
-        <h4>Tahun Pelajaran <?= esc($tahun) ?></h4>
-      </center>
-      <img src="<?= base_url('logo-200px.png') ?>" alt="" style="position:absolute; top:0px; width:70px;">
+      <table width="100%" style="margin-bottom: 10px;">
+        <tr>
+          <!-- Logo kiri -->
+          <td width="80" style="vertical-align: top;">
+            <img src="<?= base_url('logo-200px.png') ?>" style="width:70px;">
+          </td>
+
+          <!-- Teks kanan (center) -->
+          <td style="text-align: center;">
+            <h2 style="margin:0;">PENILAIAN HASIL KARYA</h2>
+            <h2 style="margin:0;"><?= esc($nama_tingkat) ?></h2>
+            <h4 style="margin:0;">Tahun Pelajaran <?= esc($tahun) ?></h4>
+          </td>
+        </tr>
+      </table>
 
       <hr>
 

@@ -104,7 +104,6 @@
     }
 
     .photo-caption {
-      font-size: 7pt;
       color: #555;
       margin: 0;
       padding-left: 10px;
