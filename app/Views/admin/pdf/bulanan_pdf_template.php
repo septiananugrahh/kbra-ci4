@@ -107,8 +107,7 @@
       display: block;
       margin-bottom: 1px;
       padding: 0;
-      line-height: 1;
-      font-size: 8.5pt;
+      line-height: 1.1;
     }
 
     .page-break {

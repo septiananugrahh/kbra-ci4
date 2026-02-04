@@ -195,7 +195,6 @@
     /* Kecilkan section title */
     .section-title {
       margin-top: 10px;
-      font-size: 8pt;
       padding-bottom: 3px;
       margin-bottom: 5px;
     }
@@ -207,7 +206,6 @@
     }
 
     .record-card table {
-      font-size: 7pt;
       margin-bottom: 8px;
     }
 
@@ -218,7 +216,6 @@
     /* Kecilkan legend */
     .record-card>div:last-of-type {
       margin-top: 10px;
-      font-size: 7pt;
     }
   </style>
 </head>
