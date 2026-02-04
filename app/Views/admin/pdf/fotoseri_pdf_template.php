@@ -5,7 +5,7 @@
   <title>Laporan Foto Berseri Modul</title>
   <style>
     @page {
-      margin-top: 0.7cm;
+      margin-top: 0.5cm;
       margin-bottom: 0.7cm;
       margin-right: 1cm;
       margin-left: 3cm;
@@ -18,7 +18,7 @@
 
     body {
       font-family: "Times New Roman", "DejaVu Sans", serif;
-      font-size: 10pt;
+      font-size: 9.5pt;
       line-height: 1.08;
       /* DomPDF perlu sedikit lebih kecil */
       margin: 0;
@@ -106,7 +106,7 @@
     .photo-caption {
       color: #555;
       margin: 0;
-      font-size: 10pt;
+      font-size: 9.5pt;
       padding-left: 10px;
       word-wrap: break-word;
       vertical-align: top;
