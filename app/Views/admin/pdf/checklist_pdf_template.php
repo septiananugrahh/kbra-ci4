@@ -21,7 +21,7 @@
     /* Konteks */
     .table-checklist td:nth-child(3),
     .table-checklist th:nth-child(3) {
-      width: 20%;
+      width: 24%;
     }
 
     /* Tempat Dan Waktu */
@@ -33,7 +33,7 @@
     /* Kejadian Teramati */
     .table-checklist td:nth-child(5),
     .table-checklist th:nth-child(5) {
-      width: 40%;
+      width: 36%;
     }
 
     @page {
