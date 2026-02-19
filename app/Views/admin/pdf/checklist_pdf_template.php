@@ -50,7 +50,7 @@
 
     body {
       font-family: "Times New Roman", "DejaVu Sans", serif;
-      font-size: 10pt;
+      font-size: 9.5pt;
       line-height: 1.12;
       /* DomPDF perlu sedikit lebih kecil */
       margin: 0;
