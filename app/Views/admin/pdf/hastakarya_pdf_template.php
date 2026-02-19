@@ -165,8 +165,8 @@
           <!-- Teks kanan (center) -->
           <td style="text-align: center;">
             <h2 style="margin:0;">PENILAIAN HASIL KARYA</h2>
-            <h2 style="margin:0;"><?= esc($nama_tingkat) ?></h2>
-            <h4 style="margin:0;">Tahun Pelajaran <?= esc($tahun) ?></h4>
+            <h2 style="margin-top:7px;"><?= esc($nama_tingkat) ?></h2>
+            <h4 style="margin-top:7px;">Tahun Pelajaran <?= esc($tahun) ?></h4>
           </td>
         </tr>
       </table>
