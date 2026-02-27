@@ -111,7 +111,8 @@
   $print_mode = $print_mode ?? 'all';
   $selected_santri_id = $selected_santri_id ?? null;
   foreach ($listSantris as $santri):
-    if ($print_mode === 'single' && $santri['santri_id'] != $selected_santri_id) {
+    $current_santri_id = $santri['santri_id'] ?? $santri['id'] ?? null;
+    if ($print_mode === 'single' && $current_santri_id != $selected_santri_id) {
       continue;
     }
   ?>
@@ -164,8 +165,9 @@
             <?php foreach ($capaian_list_id as $id_capaian) : ?>
               <td>
                 <?php
-                if (isset($laporan_data[$santri['id']])) {
-                  $santri_data = $laporan_data[$santri['id']];
+                $lookup_id = $santri['id'] ?? $santri['santri_id'] ?? null;
+                if (isset($laporan_data[$lookup_id])) {
+                  $santri_data = $laporan_data[$lookup_id];
                   if (
                     isset($santri_data['capaian'][$id_capaian]) &&
                     is_array($santri_data['capaian'][$id_capaian]) &&

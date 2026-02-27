@@ -264,9 +264,9 @@
             <h6 class="text-primary">Font</h6>
 
             <div class="mb-3">
-              <label class="form-label">Ukuran Font: <span class="range-value" id="fontSizeValue">9</span>pt</label>
-              <input type="range" class="form-range" id="fontSize" min="7" max="14" step="1" value="9">
-              <input type="hidden" name="font_size" id="fontSizeInput" value="9pt">
+              <label class="form-label">Ukuran Font: <span class="range-value" id="fontSizeValue">11</span>pt</label>
+              <input type="range" class="form-range" id="fontSize" min="10" max="19" step="0.1" value="11">
+              <input type="hidden" name="font_size" id="fontSizeInput" value="11pt">
             </div>
 
             <div class="mb-3">
@@ -350,7 +350,7 @@
       marginBottom: 0.9,
       marginLeft: 3,
       marginRight: 0.9,
-      fontSize: 9,
+      fontSize: 11,
       fontJudul: 12,
       lineHeight: 1.1,
       pointSpacing: 1,
