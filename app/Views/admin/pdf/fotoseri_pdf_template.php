@@ -107,7 +107,7 @@
       color: #555;
       margin: 0;
       font-size: 9pt;
-      padding-left: 10px;
+      padding-left: 5px;
       word-wrap: break-word;
       vertical-align: top;
       text-align: left;
