@@ -313,7 +313,7 @@
               <td class="photo-cell">
                 <table class="inner-table">
                   <tr>
-                    <td style="width: 120px; text-align: right;">
+                    <td style="width: auto; text-align: right;">
                       <img src="<?= FCPATH . 'uploads/penilaian/' . $record['foto2'] ?>" alt="Foto 2">
                     </td>
                     <td style="text-align: left;">
@@ -328,7 +328,7 @@
               <td class="photo-cell">
                 <table class="inner-table">
                   <tr>
-                    <td style="width: 120px; text-align: right;">
+                    <td style="width: auto; text-align: right;">
                       <img src="<?= FCPATH . 'uploads/penilaian/' . $record['foto3'] ?>" alt="Foto 3">
                     </td>
                     <td style="text-align: left;">
