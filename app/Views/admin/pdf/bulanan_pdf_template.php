@@ -5,10 +5,10 @@
   <title>Laporan Bulanan <?= esc($bulan) ?></title>
   <style>
     @page {
-      margin-top: 0.5cm;
-      margin-bottom: 0.9cm;
-      margin-right: 0.9cm;
-      margin-left: 3cm;
+      margin-top: <?= $customSettings['margin_top'] ?? '0.5cm' ?>;
+      margin-bottom: <?= $customSettings['margin_bottom'] ?? '0.9cm' ?>;
+      margin-right: <?= $customSettings['margin_right'] ?? '0.9cm' ?>;
+      margin-left: <?= $customSettings['margin_left'] ?? '3cm' ?>;
       size: 330mm 210mm;
     }
 
@@ -18,8 +18,8 @@
 
     body {
       font-family: "Times New Roman", "DejaVu Sans", serif;
-      font-size: 9pt;
-      line-height: 1.1;
+      font-size: <?= $customSettings['font_size'] ?? '9pt' ?>;
+      line-height: <?= $customSettings['line_height'] ?? '1.1' ?>;
       margin: 0;
       padding: 0;
     }
@@ -46,17 +46,14 @@
       padding: 0;
       text-align: center;
       color: #333;
-      font-size: 12pt;
+      font-size: <?= $customSettings['font_judul'] ?? '12pt' ?>;
     }
-
 
     .header-info {
       text-align: center;
       margin-bottom: 1px;
       margin-top: 2px;
     }
-
-    .header-info table {}
 
     .header-info td {
       padding: 1px 3px;
@@ -74,14 +71,6 @@
       margin-bottom: 5px;
     }
 
-    .section-title {
-      margin-top: 25px;
-      font-weight: bold;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 5px;
-      margin-bottom: 10px;
-    }
-
     .table-bulanan {
       width: 100%;
       border-collapse: collapse;
@@ -91,7 +80,7 @@
     .table-bulanan th,
     .table-bulanan td {
       border: 1px solid black;
-      padding: 3px 5px;
+      padding: <?= $customSettings['cell_padding'] ?? '3px 5px' ?>;
       text-align: left;
       vertical-align: top;
     }
@@ -100,61 +89,36 @@
       background-color: #f2f2f2;
       font-weight: bold;
       text-align: center;
-      /* Ukuran font judul lebih kecil */
+      font-size: <?= $customSettings['font_judul'] ?? '12pt' ?>;
     }
 
     .keterangan-item {
       display: block;
-      font-size: 9.5pt;
-      margin-bottom: 1px;
+      font-size: <?= $customSettings['font_size'] ?? '9pt' ?>;
+      margin-bottom: <?= $customSettings['point_spacing'] ?? '1px' ?>;
       padding: 1px;
-      line-height: 1.1;
+      line-height: <?= $customSettings['line_height'] ?? '1.1' ?>;
     }
 
     .page-break {
       page-break-before: always;
     }
   </style>
-
 </head>
 
 <body>
-
   <?php
   $print_mode = $print_mode ?? 'all';
   $selected_santri_id = $selected_santri_id ?? null;
   foreach ($listSantris as $santri):
     if ($print_mode === 'single' && $santri['santri_id'] != $selected_santri_id) {
       continue;
-    } ?>
-    <?php
-    // Cek apakah semua capaian berisi data atau tidak
-    // $has_data = false;
-
-    // if (isset($laporan_data[$santri['id']])) {
-    //   $santri_data = $laporan_data[$santri['id']];
-
-    //   foreach ($capaian_list_id as $id_capaian) {
-    //     if (
-    //       isset($santri_data['capaian'][$id_capaian]) &&
-    //       is_array($santri_data['capaian'][$id_capaian]) &&
-    //       !empty($santri_data['capaian'][$id_capaian])
-    //     ) {
-    //       $has_data = true;
-    //       break;
-    //     }
-    //   }
-    // }
-
-    // // Skip santri jika tidak ada data
-    // if (!$has_data) {
-    //   continue;
-    // }
-    ?>
+    }
+  ?>
     <center style="margin-bottom: 3px;">
       <h2 style="margin-bottom: 13px;">PENILAIAN BULANAN</h2>
       <h2 style="margin-bottom: 13px;"><?= esc($nama_tingkat) ?></h2>
-      <h4 style="margin-top: 1px;">Tahun Pelajaran <?= esc($tahun) ?></h4>
+      <h4 style="margin-top: 1px; font-size: <?= $customSettings['font_size'] ?? '9pt' ?>;">Tahun Pelajaran <?= esc($tahun) ?></h4>
     </center>
     <img src="<?= base_url('logo-200px.png') ?>" alt="" style="position:absolute; top:0px; width:50px;">
     <hr style="margin: 3px 0;">
@@ -167,19 +131,16 @@
             <td>:</td>
             <td><strong><?= esc($santri['nama']) ?></strong></td>
           </tr>
-
           <tr>
             <td>Kelas</td>
             <td>:</td>
             <td><?= esc($santri['kelas_tingkat']) ?> <?= esc($santri['kelas_nama']) ?></td>
           </tr>
-
           <tr>
             <td>Semester</td>
             <td>:</td>
             <td><?= esc($semester) ?></td>
           </tr>
-
           <tr>
             <td>Bulan</td>
             <td>:</td>
@@ -192,7 +153,7 @@
         <thead>
           <tr>
             <?php foreach ($capaian_list as $index => $nama_capaian) : ?>
-              <th style="width: 33%; font-size: 11pt; background-color: <?= htmlspecialchars($capaian_list_warna[$index]) ?>;">
+              <th style="width: 33%; background-color: <?= htmlspecialchars($capaian_list_warna[$index]) ?>;">
                 <?= esc($nama_capaian) ?>
               </th>
             <?php endforeach; ?>
@@ -203,18 +164,13 @@
             <?php foreach ($capaian_list_id as $id_capaian) : ?>
               <td>
                 <?php
-                // Cek apakah santri ini ada di data laporan
                 if (isset($laporan_data[$santri['id']])) {
                   $santri_data = $laporan_data[$santri['id']];
-
-                  // Cek apakah ada data untuk capaian ini
                   if (
                     isset($santri_data['capaian'][$id_capaian]) &&
                     is_array($santri_data['capaian'][$id_capaian]) &&
                     !empty($santri_data['capaian'][$id_capaian])
                   ) {
-
-                    // Loop setiap keterangan
                     foreach ($santri_data['capaian'][$id_capaian] as $keterangan) {
                       if (!empty($keterangan)) {
                         echo '<div class="keterangan-item">• ' . esc($keterangan) . '</div>';
@@ -239,17 +195,14 @@
         <td width="50%">Mengetahui</td>
         <td width="50%"></td>
       </tr>
-
       <tr>
         <td><?= esc($nama_kepala) ?></td>
         <td>Wali Kelas</td>
       </tr>
-
       <tr>
         <td height="50px"></td>
         <td></td>
       </tr>
-
       <tr>
         <td><?= esc($kepala) ?></td>
         <td><?= esc($wali) ?></td>
@@ -261,7 +214,6 @@
     <?php endif; ?>
 
   <?php endforeach; ?>
-
 </body>
 
 </html>

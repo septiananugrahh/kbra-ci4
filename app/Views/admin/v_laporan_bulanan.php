@@ -399,7 +399,7 @@
 
   function handlePrint() {
     const id = $(this).data('id');
-    window.open(BASE_URL + 'laporan-bulanan/download-pdf/' + id, '_blank');
+    window.location.href = BASE_URL + 'laporan-bulanan/customize/' + id;
   }
 
   function showDeleteModal() {

@@ -772,4 +772,270 @@ class LaporanBulanan extends CustomController
     $pdfFileName = 'laporan_bulanan_' . $laporan['bulan'] . '_' . str_replace('/', '-', $laporan['tahun']) . '.pdf';
     $dompdf->stream($pdfFileName, ['Attachment' => 0]);
   }
+
+  /**
+   * Halaman customize PDF - semua santri
+   */
+  public function customize($laporan_id)
+  {
+    $laporan = $this->laporanModel->find($laporan_id);
+    if (!$laporan) {
+      throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+    }
+
+    $data = $this->_buildPdfData($laporan, 'all');
+    $data['laporan_id']  = $laporan_id;
+    $data['santri_id']   = null;
+    $data['santri_nama'] = null;
+    $data['print_mode']  = 'all';
+    $data['back_url']    = base_url('laporan-bulanan');
+
+    return view('admin/pdf/customize_pdf_bulanan', $data);
+  }
+
+  /**
+   * Halaman customize PDF - per santri
+   */
+  public function customizeSantri($laporan_id, $santri_id)
+  {
+    $laporan = $this->laporanModel->find($laporan_id);
+    if (!$laporan) {
+      throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+    }
+
+    $santri = $this->santriModel->find($santri_id);
+    if (!$santri) {
+      throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+    }
+
+    $data = $this->_buildPdfData($laporan, 'single', $santri_id);
+    $data['laporan_id']  = $laporan_id;
+    $data['santri_id']   = $santri_id;
+    $data['santri_nama'] = $santri['nama'];
+    $data['print_mode']  = 'single';
+    $data['back_url']    = base_url('laporan-bulanan/edit/' . $laporan_id);
+
+    return view('admin/pdf/customize_pdf_bulanan', $data);
+  }
+
+  /**
+   * Preview PDF Direct - semua santri
+   */
+  public function previewPdfDirect()
+  {
+    try {
+      $laporan_id = $this->request->getPost('laporan_id');
+      if (!$laporan_id) {
+        return $this->response->setStatusCode(400)->setBody('Laporan ID tidak ditemukan');
+      }
+
+      $laporan = $this->laporanModel->find($laporan_id);
+      $customSettings = $this->_getCustomSettings();
+      $data = $this->_buildPdfData($laporan, 'all');
+      $data['customSettings'] = $customSettings;
+      $data['print_mode'] = 'all';
+
+      return $this->_renderPdf($data);
+    } catch (\Exception $e) {
+      log_message('error', 'Preview PDF Bulanan Error: ' . $e->getMessage());
+      return $this->response->setStatusCode(500)->setBody('Error: ' . $e->getMessage());
+    }
+  }
+
+  /**
+   * Preview PDF Direct - per santri
+   */
+  public function previewPdfDirectSantri()
+  {
+    try {
+      $laporan_id = $this->request->getPost('laporan_id');
+      $santri_id  = $this->request->getPost('santri_id');
+      if (!$laporan_id || !$santri_id) {
+        return $this->response->setStatusCode(400)->setBody('Parameter tidak lengkap');
+      }
+
+      $laporan = $this->laporanModel->find($laporan_id);
+      $customSettings = $this->_getCustomSettings();
+      $data = $this->_buildPdfData($laporan, 'single', $santri_id);
+      $data['customSettings'] = $customSettings;
+      $data['print_mode'] = 'single';
+      $data['selected_santri_id'] = $santri_id;
+
+      return $this->_renderPdf($data);
+    } catch (\Exception $e) {
+      log_message('error', 'Preview PDF Bulanan Santri Error: ' . $e->getMessage());
+      return $this->response->setStatusCode(500)->setBody('Error: ' . $e->getMessage());
+    }
+  }
+
+  /**
+   * Generate/Download PDF custom - semua santri
+   */
+  public function generateCustomPdf()
+  {
+    $laporan_id = $this->request->getPost('laporan_id');
+    $laporan = $this->laporanModel->find($laporan_id);
+    $customSettings = $this->_getCustomSettings();
+
+    $data = $this->_buildPdfData($laporan, 'all');
+    $data['customSettings'] = $customSettings;
+    $data['print_mode'] = 'all';
+
+    $html = view('admin/pdf/bulanan_pdf_template', $data);
+    $filename = 'laporan_bulanan_' . $laporan['bulan'] . '_' . str_replace('/', '-', $laporan['tahun']) . '.pdf';
+    $this->_streamPdf($html, $filename);
+  }
+
+  /**
+   * Generate/Download PDF custom - per santri
+   */
+  public function generateCustomPdfSantri()
+  {
+    $laporan_id = $this->request->getPost('laporan_id');
+    $santri_id  = $this->request->getPost('santri_id');
+    $laporan = $this->laporanModel->find($laporan_id);
+    $santri  = $this->santriModel->find($santri_id);
+    $customSettings = $this->_getCustomSettings();
+
+    $data = $this->_buildPdfData($laporan, 'single', $santri_id);
+    $data['customSettings'] = $customSettings;
+    $data['print_mode'] = 'single';
+    $data['selected_santri_id'] = $santri_id;
+
+    $html = view('admin/pdf/bulanan_pdf_template', $data);
+    $filename = 'laporan_' . strtolower(str_replace(' ', '_', $santri['nama'])) . '_' . $laporan['bulan'] . '.pdf';
+    $this->_streamPdf($html, $filename);
+  }
+
+  // =====================================================================
+  // PRIVATE HELPER METHODS
+  // =====================================================================
+
+  /**
+   * Ambil customSettings dari POST
+   */
+  private function _getCustomSettings(): array
+  {
+    return [
+      'margin_top'    => $this->request->getPost('margin_top')    ?? '0.5cm',
+      'margin_bottom' => $this->request->getPost('margin_bottom') ?? '0.9cm',
+      'margin_left'   => $this->request->getPost('margin_left')   ?? '3cm',
+      'margin_right'  => $this->request->getPost('margin_right')  ?? '0.9cm',
+      'font_size'     => $this->request->getPost('font_size')     ?? '9pt',
+      'font_judul'    => $this->request->getPost('font_judul')    ?? '12pt',
+      'line_height'   => $this->request->getPost('line_height')   ?? '1.1',
+      'point_spacing' => $this->request->getPost('point_spacing') ?? '1px',
+      'cell_padding'  => $this->request->getPost('cell_padding')  ?? '3px 5px',
+    ];
+  }
+
+  /**
+   * Build data array untuk PDF (dipakai bersama oleh semua method)
+   */
+  private function _buildPdfData(array $laporan, string $print_mode, $santri_id = null): array
+  {
+    $kelas = $this->kelasModel->find($laporan['kelas_id']);
+    $semester = $this->semesterModel
+      ->where('tingkat', $kelas['jenjang'])
+      ->where('tahun', $laporan['tahun'])
+      ->where('semester', $laporan['semester'])
+      ->first();
+
+    $kepala = $this->guruModel->find($semester['kepala']);
+    $wali   = $this->guruModel->find($kelas['wali']);
+
+    // Ambil laporan_data sesuai mode
+    if ($print_mode === 'single' && $santri_id) {
+      $laporan_data = $this->detailModel->getDetailForSingleSantri($laporan['id'], $santri_id);
+      $listSantri   = $this->ruangKelasModel->getSantriByKelas($laporan['kelas_id']);
+    } else {
+      $laporan_data = $this->detailModel->getDetailGroupedForPDF($laporan['id']);
+      $listSantri   = $this->ruangKelasModel->getSantriByKelas($laporan['kelas_id']);
+    }
+
+    // Capaian pembelajaran
+    $capaian_pembelajaran = $this->capaianModel->where('setting', $laporan['tahun'])->findAll();
+    $capaian_list   = [];
+    $capaian_list_id    = [];
+    $capaian_list_warna = [];
+    foreach ($capaian_pembelajaran as $item) {
+      $capaian_list[]       = $item['nama'];
+      $capaian_list_id[]    = $item['id'];
+      $capaian_list_warna[] = $item['warna'];
+    }
+
+    // Nama tingkat
+    if ($kelas['jenjang'] == 'RA') {
+      $nama_tingkat = "RA ISLAMIC CENTER ABDULLAH GHANIM AS SAMAIL";
+      $nama_kepala  = "Kepala Sekolah";
+    } else {
+      $nama_tingkat = "KB IT ISLAMIC CENTER PONOROGO";
+      $nama_kepala  = "Kepala KB IT Islamic Center";
+    }
+
+    return [
+      'kepala'             => $kepala['nama'],
+      'wali'               => $wali['nama'],
+      'capaian_pembelajaran' => $capaian_pembelajaran,
+      'semester'           => $laporan['semester'],
+      'tahun'              => $laporan['tahun'],
+      'nama_tingkat'       => $nama_tingkat,
+      'nama_kepala'        => $nama_kepala,
+      'bulan'              => $laporan['nama_bulan'],
+      'listSantris'        => $listSantri,
+      'capaian_list'       => $capaian_list,
+      'capaian_list_id'    => $capaian_list_id,
+      'capaian_list_warna' => $capaian_list_warna,
+      'laporan_data'       => $laporan_data,
+      'selected_santri_id' => $santri_id,
+    ];
+  }
+
+  /**
+   * Render HTML ke PDF dan return sebagai response (untuk preview)
+   */
+  private function _renderPdf(array $data)
+  {
+    $html = view('admin/pdf/bulanan_pdf_template', $data);
+
+    $options = new Options();
+    $options->set('isHtml5ParserEnabled', true);
+    $options->set('isRemoteEnabled', true);
+    $options->set('defaultFont', 'Times New Roman');
+
+    $dompdf = new Dompdf($options);
+    $html = preg_replace('/>\s+</', '><', $html);
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('A4', 'landscape');
+    $dompdf->render();
+
+    $canvas     = $dompdf->getCanvas();
+    $totalPages = $canvas->get_page_count();
+    $pdfOutput  = $dompdf->output();
+
+    return $this->response
+      ->setHeader('Content-Type', 'application/pdf')
+      ->setHeader('Content-Disposition', 'inline; filename="preview.pdf"')
+      ->setHeader('Cache-Control', 'no-cache, no-store, must-revalidate')
+      ->setHeader('X-Total-Pages', $totalPages)
+      ->setBody($pdfOutput);
+  }
+
+  /**
+   * Stream PDF ke browser sebagai download
+   */
+  private function _streamPdf(string $html, string $filename)
+  {
+    $options = new Options();
+    $options->set('isHtml5ParserEnabled', true);
+    $options->set('isRemoteEnabled', true);
+    $options->set('defaultFont', 'Times New Roman');
+
+    $dompdf = new Dompdf($options);
+    $html = preg_replace('/>\s+</', '><', $html);
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('A4', 'landscape');
+    $dompdf->render();
+    $dompdf->stream($filename, ['Attachment' => 1]);
+  }
 }

@@ -46,7 +46,7 @@
                             <a href="<?= base_url('laporan-bulanan') ?>" class="btn btn-secondary btn-sm me-2">
                                 <i class="ri-arrow-left-line"></i> Kembali
                             </a>
-                            <a href="<?= base_url('laporan-bulanan/download-pdf/' . $laporan['id']) ?>"
+                            <a href="<?= base_url('laporan-bulanan/customize/' . $laporan['id']) ?>"
                                 class="btn btn-success btn-sm" target="_blank">
                                 <i class="ri-printer-line"></i> Print PDF
                             </a>
@@ -72,7 +72,7 @@
                                         <h5 class="mb-0">
                                             <i class="ri-user-line"></i> <?= esc($santri_data['santri_nama']) ?>
                                         </h5>
-                                        <a href="<?= base_url('laporan-bulanan/download-pdf-per-santri/' . $laporan['id'] . '/' . $santri_id) ?>"
+                                        <a href="<?= base_url('laporan-bulanan/customize-santri/' . $laporan['id'] . '/' . $santri_id) ?>"
                                             class="btn btn-sm btn-success no-print" target="_blank">
                                             <i class="ri-printer-line"></i> Print
                                         </a>

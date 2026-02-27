@@ -206,6 +206,13 @@ $routes->group('laporan-bulanan', ['filter' => 'auth'], function ($routes) {
   $routes->get('download-pdf-per-santri/(:num)/(:num)', 'LaporanBulanan::downloadPDFPerSantri/$1/$2');
 });
 
+$routes->get('laporan-bulanan/customize/(:num)', 'LaporanBulanan::customize/$1');
+$routes->get('laporan-bulanan/customize-santri/(:num)/(:num)', 'LaporanBulanan::customizeSantri/$1/$2');
+$routes->post('laporan-bulanan/preview-pdf-direct', 'LaporanBulanan::previewPdfDirect');
+$routes->post('laporan-bulanan/preview-pdf-direct-santri', 'LaporanBulanan::previewPdfDirectSantri');
+$routes->post('laporan-bulanan/generate-pdf', 'LaporanBulanan::generateCustomPdf');
+$routes->post('laporan-bulanan/generate-pdf-santri', 'LaporanBulanan::generateCustomPdfSantri');
+
 // end laporan bulanan
 // end laporan bulanan
 
