@@ -298,7 +298,7 @@
               <td class="photo-cell">
                 <table class="inner-table">
                   <tr>
-                    <td style="width: 160px; text-align: right;">
+                    <td style="width: auto; text-align: right;">
                       <img src="<?= FCPATH . 'uploads/penilaian/' . $record['foto1'] ?>" alt="Foto 1">
                     </td>
                     <td style="text-align: left;">
