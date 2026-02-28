@@ -5,217 +5,220 @@
   <title>Laporan Bulanan <?= esc($bulan) ?></title>
   <style>
     @page {
-      margin-top: <?= $customSettings['margin_top'] ?? '0.5cm' ?>;
-      margin-bottom: <?= $customSettings['margin_bottom'] ?? '0.9cm' ?>;
-      margin-right: <?= $customSettings['margin_right'] ?? '0.9cm' ?>;
-      margin-left: <?= $customSettings['margin_left'] ?? '3cm' ?>;
+      /* Margin kiri 3cm untuk lubang binder/penjilidan */
+      margin: <?= $customSettings['margin_top'] ?? '0.5cm' ?> <?= $customSettings['margin_right'] ?? '0.9cm' ?> <?= $customSettings['margin_bottom'] ?? '0.9cm' ?> <?= $customSettings['margin_left'] ?? '3cm' ?>;
       size: 330mm 210mm;
-    }
-
-    .page:last-child {
-      page-break-after: unset;
+      /* F4 Landscape */
     }
 
     body {
-      font-family: "Times New Roman", "DejaVu Sans", serif;
+      font-family: "DejaVu Sans", "Times New Roman", serif;
       font-size: <?= $customSettings['font_size'] ?? '9pt' ?>;
-      line-height: <?= $customSettings['line_height'] ?? '1.1' ?>;
+      line-height: 1.2;
+      margin: 0;
+    }
+
+    /* Container Kop & Info dalam Table Header */
+    .header-wrapper {
+      width: 100%;
+      text-align: center;
+      border-bottom: 2px solid #000;
+      margin-bottom: 10px;
+    }
+
+    .logo {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 60px;
+    }
+
+    /* Container tabel info agar tidak ada jarak luar */
+    .info-table {
+      width: auto;
+      border-collapse: collapse;
       margin: 0;
       padding: 0;
+      line-height: 1;
+      /* Mengatur kerapatan teks vertikal */
     }
 
-    p {
-      line-height: 0.9em;
-      margin-top: 0.2em;
-      margin-bottom: 0.2em;
-      padding: 0;
-      text-align: justify;
-      color: #555;
+    /* Mengatur sel tabel info */
+    .info-table td {
+      padding: 0px 2px;
+      /* 0px atas-bawah, 2px kiri-kanan untuk spasi titik dua */
+      border: none !important;
+      vertical-align: baseline;
+      font-size: 9pt;
+      /* Sesuaikan dengan kebutuhan */
     }
 
-    h4 {
-      line-height: 0.3em;
-      margin: 0;
-      padding: 0;
+    /* Opsional: Jika ingin lebih rengket lagi, paksa tinggi baris */
+    .info-table tr {
+      height: 0;
     }
 
-    h2 {
-      line-height: 0.5em;
-      margin-top: 0.2em;
-      margin-bottom: 0.2em;
-      padding: 0;
-      text-align: center;
-      color: #333;
-      font-size: <?= $customSettings['font_judul'] ?? '12pt' ?>;
-    }
-
-    .header-info {
-      text-align: center;
-      margin-bottom: 1px;
-      margin-top: 2px;
-    }
-
-    .header-info td {
-      padding: 1px 3px;
-    }
-
-    .record-card {
-      padding: 2px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      page-break-inside: avoid;
-      page-break-after: always;
-    }
-
-    .record-card p {
-      margin-bottom: 5px;
-    }
-
+    /* Tabel Utama */
     .table-bulanan {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 20px;
-    }
-
-    .table-bulanan th,
-    .table-bulanan td {
-      border: 1px solid black;
-      padding: <?= $customSettings['cell_padding'] ?? '3px 5px' ?>;
-      text-align: left;
-      vertical-align: top;
+      table-layout: fixed;
+      /* Menjaga lebar kolom konsisten */
     }
 
     .table-bulanan th {
+      border: 1px solid #000;
+      padding: 5px;
       background-color: #f2f2f2;
       font-weight: bold;
       text-align: center;
-      font-size: <?= $customSettings['font_judul'] ?? '12pt' ?>;
     }
 
-    .keterangan-item {
-      display: block;
-      font-size: <?= $customSettings['font_size'] ?? '9pt' ?>;
-      margin-bottom: <?= $customSettings['point_spacing'] ?? '1px' ?>;
-      padding: 1px;
-      line-height: <?= $customSettings['line_height'] ?? '1.1' ?>;
+    .table-bulanan td {
+      border: 1px solid #000;
+      padding: 5px;
+      vertical-align: top;
+      word-wrap: break-word;
+    }
+
+    .signature-table {
+      width: 100%;
+      margin-top: 20px;
+      page-break-inside: avoid;
+      /* Jangan potong tanda tangan */
     }
 
     .page-break {
-      page-break-before: always;
+      page-break-after: always;
+    }
+
+    .keterangan-item {
+      margin-bottom: 2px;
     }
   </style>
 </head>
 
 <body>
+
   <?php
-  $print_mode = $print_mode ?? 'all';
-  $selected_santri_id = $selected_santri_id ?? null;
-  foreach ($listSantris as $santri):
-    $current_santri_id = $santri['santri_id'] ?? $santri['id'] ?? null;
-    if ($print_mode === 'single' && $current_santri_id != $selected_santri_id) {
-      continue;
+  // Fungsi bantu untuk gambar (letakkan di atas atau di Helper CI4)
+  function imageToBase64($path)
+  {
+    if (!file_exists($path)) return '';
+    $type = pathinfo($path, PATHINFO_EXTENSION);
+    $data = file_get_contents($path);
+    return 'data:image/' . $type . ';base64,' . base64_encode($data);
+  }
+
+  $logoBase64 = imageToBase64(FCPATH . 'logo-200px.png');
+  ?>
+
+  <?php foreach ($listSantris as $indexSantri => $santri):
+    $lookup_id = $santri['id'] ?? $santri['santri_id'];
+
+    // Skip jika mode single
+    if (isset($print_mode) && $print_mode === 'single' && $lookup_id != $selected_santri_id) continue;
+
+    // Siapkan data per kolom agar bisa di-loop sekaligus
+    $data_per_kolom = [];
+    $max_rows = 0;
+    foreach ($capaian_list_id as $id_capaian) {
+      $items = isset($laporan_data[$lookup_id]['capaian'][$id_capaian]) ?
+        array_values(array_filter($laporan_data[$lookup_id]['capaian'][$id_capaian])) : [];
+      $data_per_kolom[$id_capaian] = $items;
+      $max_rows = max($max_rows, count($items));
     }
   ?>
-    <center style="margin-bottom: 3px;">
-      <h2 style="margin-bottom: 13px;">PENILAIAN BULANAN</h2>
-      <h2 style="margin-bottom: 13px;"><?= esc($nama_tingkat) ?></h2>
-      <h4 style="margin-top: 1px; font-size: <?= $customSettings['font_size'] ?? '9pt' ?>;">Tahun Pelajaran <?= esc($tahun) ?></h4>
-    </center>
-    <img src="<?= base_url('logo-200px.png') ?>" alt="" style="position:absolute; top:0px; width:50px;">
-    <hr style="margin: 3px 0;">
 
-    <div>
-      <div class="header-info">
-        <table>
-          <tr>
-            <td>Nama Santri</td>
-            <td>:</td>
-            <td><strong><?= esc($santri['nama']) ?></strong></td>
-          </tr>
-          <tr>
-            <td>Kelas</td>
-            <td>:</td>
-            <td><?= esc($santri['kelas_tingkat']) ?> <?= esc($santri['kelas_nama']) ?></td>
-          </tr>
-          <tr>
-            <td>Semester</td>
-            <td>:</td>
-            <td><?= esc($semester) ?></td>
-          </tr>
-          <tr>
-            <td>Bulan</td>
-            <td>:</td>
-            <td><?= esc($bulan) ?></td>
-          </tr>
-        </table>
-      </div>
+    <table class="table-bulanan">
+      <thead>
+        <tr>
+          <th colspan="<?= count($capaian_list) ?>" style="border:none; background:none; padding:0;">
+            <div style="position: relative; text-align: center; padding-bottom: 5px;">
+              <?php if ($logoBase64): ?>
+                <img src="<?= $logoBase64 ?>" class="logo" style="position:absolute; left:0;">
+              <?php endif; ?>
+              <h2 style="margin:0; font-size: 14pt;">PENILAIAN BULANAN <br><?= esc($nama_tingkat) ?></h2>
+              <p style="margin:2px 0;">Tahun Pelajaran <?= esc($tahun) ?></p>
+              <hr style="border: 1px solid #000;">
+            </div>
 
-      <table class="table-bulanan">
-        <thead>
-          <tr>
-            <?php foreach ($capaian_list as $index => $nama_capaian) : ?>
-              <th style="width: 33%; background-color: <?= htmlspecialchars($capaian_list_warna[$index]) ?>;">
-                <?= esc($nama_capaian) ?>
-              </th>
-            <?php endforeach; ?>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <?php foreach ($capaian_list_id as $id_capaian) : ?>
-              <td>
-                <?php
-                $lookup_id = $santri['id'] ?? $santri['santri_id'] ?? null;
-                if (isset($laporan_data[$lookup_id])) {
-                  $santri_data = $laporan_data[$lookup_id];
-                  if (
-                    isset($santri_data['capaian'][$id_capaian]) &&
-                    is_array($santri_data['capaian'][$id_capaian]) &&
-                    !empty($santri_data['capaian'][$id_capaian])
-                  ) {
-                    foreach ($santri_data['capaian'][$id_capaian] as $keterangan) {
-                      if (!empty($keterangan)) {
-                        echo '<div class="keterangan-item">• ' . esc($keterangan) . '</div>';
-                      }
-                    }
-                  } else {
-                    echo '<div class="text-center">-</div>';
-                  }
-                } else {
-                  echo '<div class="text-center">-</div>';
-                }
-                ?>
-              </td>
-            <?php endforeach; ?>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+            <table class="info-table">
+              <tr>
+                <td style="width: 100px;">Nama Santri</td>
+                <td>: <strong><?= esc($santri['nama']) ?></strong></td>
+              </tr>
+              <tr>
+                <td>Kelas</td>
+                <td>: <?= esc($santri['kelas_tingkat'] ?? '') ?> <?= esc($santri['kelas_nama'] ?? '') ?></td>
+              </tr>
+              <tr>
+                <td>Semester</td>
+                <td>: <?= esc($semester) ?></td>
+              </tr>
+              <tr>
+                <td>Bulan</td>
+                <td>: <?= esc($bulan) ?></td>
+              </tr>
+            </table>
+          </th>
+        </tr>
 
-    <table width="100%" border="0" style="text-align: center; margin-top:3px">
-      <tr>
-        <td width="50%">Mengetahui</td>
-        <td width="50%"></td>
-      </tr>
-      <tr>
-        <td><?= esc($nama_kepala) ?></td>
-        <td>Wali Kelas</td>
-      </tr>
-      <tr>
-        <td height="50px"></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><?= esc($kepala) ?></td>
-        <td><?= esc($wali) ?></td>
-      </tr>
+        <tr>
+          <?php foreach ($capaian_list as $idx => $nama): ?>
+            <th style="width: <?= 100 / count($capaian_list) ?>%; background-color: <?= $capaian_list_warna[$idx] ?? '#f2f2f2' ?>;">
+              <?= esc($nama) ?>
+            </th>
+          <?php endforeach; ?>
+        </tr>
+      </thead>
+
+      <tbody>
+        <?php if ($max_rows > 0): ?>
+          <?php for ($i = 0; $i < $max_rows; $i++): ?>
+            <tr>
+              <?php foreach ($capaian_list_id as $id_capaian): ?>
+                <td>
+                  <?php if (isset($data_per_kolom[$id_capaian][$i])): ?>
+                    <div class="keterangan-item">• <?= esc($data_per_kolom[$id_capaian][$i]) ?></div>
+                  <?php endif; ?>
+                </td>
+              <?php endforeach; ?>
+            </tr>
+          <?php endfor; ?>
+        <?php else: ?>
+          <tr>
+            <td colspan="<?= count($capaian_list) ?>" style="text-align:center; padding: 20px;">Data Belum Tersedia</td>
+          </tr>
+        <?php endif; ?>
+      </tbody>
+
+      <tfoot>
+        <tr>
+          <td colspan="<?= count($capaian_list) ?>" style="border:none; padding:0;">
+            <table class="signature-table">
+              <tr>
+                <td style="width: 50%; text-align: center; border:none;">
+                  Mengetahui,<br>Kepala Madrasah<br><br><br><br>
+                  <strong><?= esc($kepala ?? '....................') ?></strong>
+                </td>
+                <td style="width: 50%; text-align: center; border:none;">
+                  <?= date('d F Y') ?><br>Wali Kelas<br><br><br><br>
+                  <strong><?= esc($wali ?? '....................') ?></strong>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </tfoot>
     </table>
 
-    <?php if ($santri !== end($listSantris)): ?>
+    <?php if ($indexSantri < count($listSantris) - 1): ?>
       <div class="page-break"></div>
     <?php endif; ?>
 
   <?php endforeach; ?>
+
 </body>
 
 </html>
