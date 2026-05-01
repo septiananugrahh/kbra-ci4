@@ -203,7 +203,7 @@
                   <strong><?= esc($kepala ?? '....................') ?></strong>
                 </td>
                 <td style="width: 50%; text-align: center; border:none;">
-                  <?= date('d F Y') ?><br>Wali Kelas<br><br><br><br>
+                  &nbsp <br>Wali Kelas<br><br><br><br>
                   <strong><?= esc($wali ?? '....................') ?></strong>
                 </td>
               </tr>
