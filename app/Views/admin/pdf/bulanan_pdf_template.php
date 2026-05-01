@@ -203,7 +203,7 @@
                   <strong><?= esc($kepala ?? '....................') ?></strong>
                 </td>
                 <td style="width: 50%; text-align: center; border:none;">
-                  &nbsp <br>Wali Kelas<br><br><br><br>
+                  <br>Wali Kelas<br><br><br><br>
                   <strong><?= esc($wali ?? '....................') ?></strong>
                 </td>
               </tr>
