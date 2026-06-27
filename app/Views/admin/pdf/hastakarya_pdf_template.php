@@ -196,7 +196,7 @@
           <tr>
             <td>SubTopik/Kegiatan</td>
             <td>:</td>
-            <td></strong> <?= esc($record['topik_pembelajaran']) ?> /<?= esc($record['kegiatan']) ?></td>
+            <td></strong> <?= esc($record['subtopik_pembelajaran']) ?> /<?= esc($record['kegiatan']) ?></td>
           </tr>
 
           <tr>
