@@ -465,49 +465,38 @@ class Asesmen extends CustomController
 
 
 
-  public function form($modulAjarId, $subtopikIndex)
+  public function form($modulAjarId)
   {
-    // $santri = $this->santriModel->findAll();
     $kelasId = $this->session->get('kelas_id');
     $santri = $this->santriModel
-      ->select('santri.nama, santri.id') // <-- pilih kolom tertentu
+      ->select('santri.nama, santri.id')
       ->join('ruang_kelas', 'santri.id = ruang_kelas.santri_id')
       ->where('ruang_kelas.kelas_id', $kelasId)
       ->where('santri.deleted', 0)
       ->findAll();
 
-
     $modul = $this->modulAjarModel->find($modulAjarId);
-
-    // Validasi modul ajar
     if (!$modul) {
       throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Modul Ajar tidak ditemukan.");
     }
 
-    // Validasi angka 1 sampai 5 untuk subtopik
-    if (!in_array($subtopikIndex, [1, 2, 3, 4, 5])) {
-      throw new \CodeIgniter\Exceptions\PageNotFoundException("Subtopik tidak valid.");
+    // Kumpulkan tanggal yang tersedia
+    $tanggalList = [];
+    for ($i = 1; $i <= 5; $i++) {
+      $field = 'subsubTopik_tanggal' . $i;
+      if (!empty($modul[$field])) {
+        $tanggalList[] = ['index' => $i, 'tanggal' => $modul[$field]];
+      }
     }
 
-    // Ambil nama field tanggal berdasarkan angka subtopik
-    $tanggalField = 'subsubTopik_tanggal' . $subtopikIndex;
-    $tanggal = $modul[$tanggalField] ?? null;
-
-    if (!$tanggal) {
-      throw new \CodeIgniter\Exceptions\PageNotFoundException("Tanggal untuk subtopik ini tidak ditemukan.");
-    }
-
-    // --- Bagian baru untuk mengambil dan memproses Tujuan Pembelajaran ---
-    $tujuanPembelajaranJson = $modul['tujuan_pembelajaran'] ?? '[]'; // Ambil JSON, default array kosong jika null
-    $tujuanPembelajaranIds = json_decode($tujuanPembelajaranJson, true);
-
+    // Tujuan pembelajaran
+    $tujuanPembelajaranIds = json_decode($modul['tujuan_pembelajaran'] ?? '[]', true);
     $validIds = [];
     if (is_array($tujuanPembelajaranIds)) {
       foreach ($tujuanPembelajaranIds as $item) {
-        // Ini menangani kedua format: [{"id": "1", "text": "..."}] dan ["1", "2"]
         if (is_array($item) && isset($item['id'])) {
           $validIds[] = $item['id'];
-        } elseif (is_numeric($item) || (is_string($item) && is_numeric($item))) { // Pastikan string angka juga diambil
+        } elseif (is_numeric($item)) {
           $validIds[] = $item;
         }
       }
@@ -515,23 +504,21 @@ class Asesmen extends CustomController
 
     $dataTujuanPembelajaranDetail = [];
     if (!empty($validIds)) {
-      // Ambil detail tujuan pembelajaran dari database
-      // Alias 'nama' menjadi 'text' agar konsisten dengan Select2 di frontend
-      $dataTujuanPembelajaranDetail = $this->tujuanPembelajaranModel->select('id, capaian, nama as text')
+      $dataTujuanPembelajaranDetail = $this->tujuanPembelajaranModel
+        ->select('id, capaian, nama as text')
         ->whereIn('id', $validIds)
         ->findAll();
     }
-    // --- Akhir Bagian baru ---
+
     $data = [
-      'title'              => 'Asesmen Santri | KBRA Islamic Center',
-      'nav'                => 'modul_ajar',
-      'username'           => $this->session->get('username'),
-      'modul'              => $modul,
-      'tanggal'            => $tanggal,
-      'santriList'         => $santri,
-      'subtopik_ke'        => $subtopikIndex,
+      'title'                      => 'Asesmen Santri | KBRA Islamic Center',
+      'nav'                        => 'modul_ajar',
+      'username'                   => $this->session->get('username'),
+      'modul'                      => $modul,
+      'tanggalList'                => $tanggalList,
+      'santriList'                 => $santri,
       'capaianPembelajaran'        => $this->capaianPembelajaranModel->findAll(),
-      'tujuan_pembelajaran_detail' => $dataTujuanPembelajaranDetail, // Ini data yang akan Anda kirim ke view
+      'tujuan_pembelajaran_detail' => $dataTujuanPembelajaranDetail,
     ];
 
     return $this->render('admin/v_asesmenForm', $data);
@@ -547,17 +534,13 @@ class Asesmen extends CustomController
 
       $santriId = $input->santri_id ?? null;
       $modulAjarId = $input->modul_ajar_id ?? null;
-      $tanggal = $input->tanggal ?? null; // Perhatikan tanggal ini mungkin perlu disesuaikan per jenis asesmen jika tanggalnya berbeda
 
-      // Validasi dasar
-      if (!$santriId || !$modulAjarId || !$tanggal) {
-        log_message('warning', 'Parameter tidak lengkap pada getData: ' . json_encode($input));
-        return $this->response->setJSON(['error' => 'Parameter santri_id, modul_ajar_id, atau tanggal tidak lengkap.']);
+      if (!$santriId || !$modulAjarId) {
+        return $this->response->setJSON(['error' => 'Parameter tidak lengkap.']);
       }
 
       $db = \Config\Database::connect();
 
-      // --- 1. Inisialisasi Struktur Data Default Kosong ---
       $finalData = [
         'foto1' => null,
         'ket_foto1' => null,
@@ -565,29 +548,33 @@ class Asesmen extends CustomController
         'ket_foto2' => null,
         'foto3' => null,
         'ket_foto3' => null,
-        'analisis_guru' => null,
+        'analisis_guru_json' => null,
         'umpan_balik' => null,
         'tempat' => null,
         'peristiwa' => null,
-        'keterangan' => null,
+        'keterangan_anekdot_json' => null,
         'kegiatan' => null,
-        'foto' => null,
-        'catatan' => null,
-        'isi' => null, // Ini akan berisi string JSON dari asesmen_checklist
-        'hasil_penilaian_decoded' => [] // Ini akan berisi array hasil decode
+        'foto_hk' => null,
+        'catatan_hasil_karya_json' => null,
+        'hasil_penilaian_decoded' => [],
+        'kejadian_checklist_json' => null,
+        'konteks' => null,
+        'tempat_waktu' => null,
+        // tanggal per tab
+        'tanggal_checklist' => null,
+        'tanggal_hasilkarya' => null,
+        'tanggal_fotoberseri' => null,
+        'tanggal_anekdot' => null,
       ];
 
-      // --- 2. Ambil Data Per Asesmen Secara Terpisah ---
-      $finalData['santri'] = $santriId ?? null;
-      $finalData['modul_ajar_id'] = $modulAjarId ?? null;
-      $finalData['tanggal'] = $tanggal ?? null;
+      $finalData['santri'] = $santriId;
+      $finalData['modul_ajar_id'] = $modulAjarId;
 
-      // A. Data dari asesmen_fotoberseri
-      $builderAf = $db->table('asesmen_fotoberseri');
-      $builderAf->where('santri', $santriId);
-      $builderAf->where('modul_ajar_id', $modulAjarId);
-      // $builderAf->where('tanggal', $tanggal);
-      $fotoberseriData = $builderAf->get()->getRowArray();
+      // Foto Berseri
+      $fotoberseriData = $db->table('asesmen_fotoberseri')
+        ->where('santri', $santriId)
+        ->where('modul_ajar_id', $modulAjarId)
+        ->get()->getRowArray();
       if ($fotoberseriData) {
         $finalData['foto1'] = $fotoberseriData['foto1'] ?? null;
         $finalData['foto2'] = $fotoberseriData['foto2'] ?? null;
@@ -597,63 +584,51 @@ class Asesmen extends CustomController
         $finalData['ket_foto3'] = $fotoberseriData['ket_foto3'] ?? null;
         $finalData['analisis_guru_json'] = $fotoberseriData['analisis_guru'] ?? null;
         $finalData['umpan_balik'] = $fotoberseriData['umpan_balik'] ?? null;
+        $finalData['tanggal_fotoberseri'] = $fotoberseriData['tanggal'] ?? null;
       }
 
-      // B. Data dari asesmen_anekdot
-      $builderAa = $db->table('asesmen_anekdot');
-      $builderAa->where('santri', $santriId);
-      $builderAa->where('modul_ajar_id', $modulAjarId);
-      // $builderAf->where('tanggal', $tanggal);
-      $anekdotData = $builderAa->get()->getRowArray();
+      // Anekdot
+      $anekdotData = $db->table('asesmen_anekdot')
+        ->where('santri', $santriId)
+        ->where('modul_ajar_id', $modulAjarId)
+        ->get()->getRowArray();
       if ($anekdotData) {
-        // Kita hanya ingin mengambil kolom 'tempat', 'peristiwa', 'keterangan'
         $finalData['tempat'] = $anekdotData['tempat'] ?? null;
         $finalData['peristiwa'] = $anekdotData['peristiwa'] ?? null;
         $finalData['keterangan_anekdot_json'] = $anekdotData['keterangan'] ?? null;
+        $finalData['tanggal_anekdot'] = $anekdotData['tanggal'] ?? null;
       }
 
-      // C. Data dari asesmen_hasilkarya
-      $builderAhk = $db->table('asesmen_hasilkarya');
-      $builderAhk->where('santri', $santriId);
-      $builderAhk->where('modul_ajar_id', $modulAjarId);
-      // $builderAf->where('tanggal', $tanggal);
-      $hasilkaryaData = $builderAhk->get()->getRowArray();
+      // Hasil Karya
+      $hasilkaryaData = $db->table('asesmen_hasilkarya')
+        ->where('santri', $santriId)
+        ->where('modul_ajar_id', $modulAjarId)
+        ->get()->getRowArray();
       if ($hasilkaryaData) {
-        // Kita hanya ingin mengambil kolom 'kegiatan', 'foto', 'catatan'
         $finalData['kegiatan'] = $hasilkaryaData['kegiatan'] ?? null;
         $finalData['foto_hk'] = $hasilkaryaData['foto'] ?? null;
         $finalData['catatan_hasil_karya_json'] = $hasilkaryaData['catatan'] ?? null;
+        $finalData['tanggal_hasilkarya'] = $hasilkaryaData['tanggal'] ?? null;
       }
 
-      // D. Data dari asesmen_checklist
-      $builderAck = $db->table('asesmen_checklist');
-      $builderAck->where('santri', $santriId);
-      $builderAck->where('modul_ajar_id', $modulAjarId);
-      // $builderAf->where('tanggal', $tanggal);
-      $checklistData = $builderAck->get()->getRowArray();
+      // Checklist
+      $checklistData = $db->table('asesmen_checklist')
+        ->where('santri', $santriId)
+        ->where('modul_ajar_id', $modulAjarId)
+        ->get()->getRowArray();
       if ($checklistData) {
-        $finalData['isi'] = $checklistData['isi'] ?? null;
         $finalData['konteks'] = $checklistData['konteks'] ?? null;
         $finalData['tempat_waktu'] = $checklistData['tempat_waktu'] ?? null;
         $finalData['kejadian_checklist_json'] = $checklistData['kejadian'] ?? null;
-      }
+        $finalData['tanggal_checklist'] = $checklistData['tanggal'] ?? null;
 
-      // --- 3. Dekode Hasil Penilaian (Checklist) ---
-      if (isset($finalData['isi']) && !empty($finalData['isi'])) {
-        $decodedChecklist = json_decode($finalData['isi'], true);
-        if (json_last_error() === JSON_ERROR_NONE) {
-          $finalData['hasil_penilaian_decoded'] = $decodedChecklist;
-        } else {
-          log_message('error', 'Gagal mendekode JSON checklist untuk santriId: ' . $santriId . ' modulId: ' . $modulAjarId . ' - ' . json_last_error_msg());
+        $isi = $checklistData['isi'] ?? null;
+        if ($isi) {
+          $decoded = json_decode($isi, true);
+          $finalData['hasil_penilaian_decoded'] = json_last_error() === JSON_ERROR_NONE ? $decoded : [];
         }
-      } else {
-        $finalData['hasil_penilaian_decoded'] = [];
       }
 
-      // Hapus kolom 'isi' karena sudah dipecah ke 'hasil_penilaian_decoded'
-      unset($finalData['isi']);
-
-      // Kirim hasil sebagai JSON
       return $this->response->setJSON($finalData);
     }
 

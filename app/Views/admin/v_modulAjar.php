@@ -2632,7 +2632,7 @@
       if (isOwner) {
         // Row 1
         html += `
-        <a href="${CONFIG.baseUrl}asesmen/index/${row.id}" class="btn btn-sm btn-primary" style="width:100%">Asesmen</a>
+        <a href="${CONFIG.baseUrl}asesmen/form/${row.id}" class="btn btn-sm btn-primary" style="width:100%">Asesmen</a>
         <a href="${CONFIG.baseUrl}${CONFIG.endpoints.download}/${row.id}" class="btn btn-sm btn-success" style="width:100%">Download</a>
         `;
 
@@ -2650,7 +2650,7 @@
       } else {
         // Bukan owner → hanya 2 tombol, tetap 2 kolom
         html += `
-            <a href="${CONFIG.baseUrl}asesmen/index/${row.id}" class="btn btn-sm btn-primary" style="width:100%">Asesmen</a>
+            <a href="${CONFIG.baseUrl}asesmen/form/${row.id}" class="btn btn-sm btn-primary" style="width:100%">Asesmen</a>
             <a href="${CONFIG.baseUrl}${CONFIG.endpoints.download}/${row.id}" class="btn btn-sm btn-success" style="width:100%">Download</a>
         `;
       }
@@ -2731,14 +2731,14 @@
                     ${this.buildDataAttributes(data)}>Edit</button>
             </div>
             <div class="col-6">
-                <a href="${CONFIG.baseUrl}asesmen/index/${data.id}" 
+                <a href="${CONFIG.baseUrl}asesmen/form/${data.id}" 
                    class="btn btn-lg btn-primary" style="width:100%">Asesmen</a>
             </div>`;
       } else {
         // Jika bukan pemilik, hanya tombol Asesmen yang tampil di row pertama
         content += `
             <div class="col-12">
-                <a href="${CONFIG.baseUrl}asesmen/index/${data.id}" 
+                <a href="${CONFIG.baseUrl}asesmen/form/${data.id}" 
                    class="btn btn-lg btn-primary" style="width:100%">Asesmen</a>
             </div>`;
       }

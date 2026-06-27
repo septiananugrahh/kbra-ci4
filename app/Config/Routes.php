@@ -137,7 +137,7 @@ $routes->post('modulajar/render/preview-pdf-direct', 'ModulAjar::previewPdfDirec
 // start asesmen
 // start asesmen
 $routes->get('asesmen/index/(:num)', 'Asesmen::index/$1'); // halaman daftar tanggal
-$routes->get('asesmen/form/(:num)/(:segment)', 'Asesmen::form/$1/$2'); // $1 = modulAjarId, $2 = tanggal
+$routes->get('asesmen/form/(:num)', 'Asesmen::form/$1');
 $routes->post('asesmen/simpan', 'Asesmen::simpan');
 $routes->post('asesmen/getData', 'Asesmen::getData');
 $routes->get('asesmen/downloadlaporan', 'Asesmen::downloadLaporan');
