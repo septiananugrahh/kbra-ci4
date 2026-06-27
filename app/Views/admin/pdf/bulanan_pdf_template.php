@@ -63,8 +63,8 @@
       width: 100%;
       border-collapse: collapse;
       table-layout: fixed;
-      border: 1px solid #000;
-      /* border luar tabel data saja */
+      outline: 1px solid #000;
+      /* ganti dari border ke outline */
     }
 
     .table-bulanan th {
