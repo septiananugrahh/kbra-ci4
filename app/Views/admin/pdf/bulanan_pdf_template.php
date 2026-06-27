@@ -63,7 +63,8 @@
       width: 100%;
       border-collapse: collapse;
       table-layout: fixed;
-      /* Menjaga lebar kolom konsisten */
+      border: 1px solid #000;
+      /* border luar tabel data saja */
     }
 
     .table-bulanan th {
@@ -75,7 +76,8 @@
     }
 
     .table-bulanan td {
-      border: 1px solid #000;
+      border-left: 1px solid #000;
+      border-right: 1px solid #000;
       padding: 5px;
       vertical-align: top;
       word-wrap: break-word;
@@ -101,7 +103,6 @@
 <body>
 
   <?php
-  // Fungsi bantu untuk gambar (letakkan di atas atau di Helper CI4)
   function imageToBase64($path)
   {
     if (!file_exists($path)) return '';
@@ -109,17 +110,13 @@
     $data = file_get_contents($path);
     return 'data:image/' . $type . ';base64,' . base64_encode($data);
   }
-
   $logoBase64 = imageToBase64(FCPATH . 'logo-200px.png');
   ?>
 
   <?php foreach ($listSantris as $indexSantri => $santri):
     $lookup_id = $santri['id'] ?? $santri['santri_id'];
-
-    // Skip jika mode single
     if (isset($print_mode) && $print_mode === 'single' && $lookup_id != $selected_santri_id) continue;
 
-    // Siapkan data per kolom agar bisa di-loop sekaligus
     $data_per_kolom = [];
     $max_rows = 0;
     foreach ($capaian_list_id as $id_capaian) {
@@ -130,40 +127,38 @@
     }
   ?>
 
+    <!-- {{-- KOP - di luar tabel --}} -->
+    <div style="position: relative; text-align: center; padding-bottom: 5px; border-bottom: 2px solid #000; margin-bottom: 5px;">
+      <?php if ($logoBase64): ?>
+        <img src="<?= $logoBase64 ?>" class="logo" style="position:absolute; left:0;">
+      <?php endif; ?>
+      <h2 style="margin:0; font-size: 14pt;">PENILAIAN BULANAN <br><?= esc($nama_tingkat) ?></h2>
+      <p style="margin:2px 0;">Tahun Pelajaran <?= esc($tahun) ?></p>
+    </div>
+
+    <!-- {{-- INFO SANTRI - di luar tabel --}} -->
+    <table class="info-table" style="margin-bottom: 5px;">
+      <tr>
+        <td style="width: 100px;">Nama Santri</td>
+        <td>: <strong><?= esc($santri['nama']) ?></strong></td>
+      </tr>
+      <tr>
+        <td>Kelas</td>
+        <td>: <?= esc($santri['kelas_tingkat'] ?? '') ?> <?= esc($santri['kelas_nama'] ?? '') ?></td>
+      </tr>
+      <tr>
+        <td>Semester</td>
+        <td>: <?= esc($semester) ?></td>
+      </tr>
+      <tr>
+        <td>Bulan</td>
+        <td>: <?= esc($bulan) ?></td>
+      </tr>
+    </table>
+
+    <!-- {{-- TABEL DATA UTAMA --}} -->
     <table class="table-bulanan">
       <thead>
-        <tr>
-          <th colspan="<?= count($capaian_list) ?>" style="border:none; background:none; padding:0;">
-            <div style="position: relative; text-align: center; padding-bottom: 5px;">
-              <?php if ($logoBase64): ?>
-                <img src="<?= $logoBase64 ?>" class="logo" style="position:absolute; left:0;">
-              <?php endif; ?>
-              <h2 style="margin:0; font-size: 14pt;">PENILAIAN BULANAN <br><?= esc($nama_tingkat) ?></h2>
-              <p style="margin:2px 0;">Tahun Pelajaran <?= esc($tahun) ?></p>
-              <hr style="border: 1px solid #000;">
-            </div>
-
-            <table class="info-table">
-              <tr>
-                <td style="width: 100px;">Nama Santri</td>
-                <td>: <strong><?= esc($santri['nama']) ?></strong></td>
-              </tr>
-              <tr>
-                <td>Kelas</td>
-                <td>: <?= esc($santri['kelas_tingkat'] ?? '') ?> <?= esc($santri['kelas_nama'] ?? '') ?></td>
-              </tr>
-              <tr>
-                <td>Semester</td>
-                <td>: <?= esc($semester) ?></td>
-              </tr>
-              <tr>
-                <td>Bulan</td>
-                <td>: <?= esc($bulan) ?></td>
-              </tr>
-            </table>
-          </th>
-        </tr>
-
         <tr>
           <?php foreach ($capaian_list as $idx => $nama): ?>
             <th style="width: <?= 100 / count($capaian_list) ?>%; background-color: <?= $capaian_list_warna[$idx] ?? '#f2f2f2' ?>;">
@@ -192,25 +187,20 @@
           </tr>
         <?php endif; ?>
       </tbody>
+    </table>
 
-      <tfoot>
-        <tr>
-          <td colspan="<?= count($capaian_list) ?>" style="border:none; padding:0;">
-            <table class="signature-table">
-              <tr>
-                <td style="width: 50%; text-align: center; border:none;">
-                  Mengetahui,<br>Kepala Madrasah<br><br><br><br>
-                  <strong><?= esc($kepala ?? '....................') ?></strong>
-                </td>
-                <td style="width: 50%; text-align: center; border:none;">
-                  <br>Wali Kelas<br><br><br><br>
-                  <strong><?= esc($wali ?? '....................') ?></strong>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </tfoot>
+    <!-- {{-- TANDA TANGAN - di luar tabel --}} -->
+    <table class="signature-table">
+      <tr>
+        <td style="width: 50%; text-align: center; border:none;">
+          Mengetahui,<br>Kepala Madrasah<br><br><br><br>
+          <strong><?= esc($kepala ?? '....................') ?></strong>
+        </td>
+        <td style="width: 50%; text-align: center; border:none;">
+          <br>Wali Kelas<br><br><br><br>
+          <strong><?= esc($wali ?? '....................') ?></strong>
+        </td>
+      </tr>
     </table>
 
     <?php if ($indexSantri < count($listSantris) - 1): ?>
