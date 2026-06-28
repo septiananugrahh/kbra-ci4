@@ -145,6 +145,9 @@ $routes->get('asesmen/downloadlaporan', 'Asesmen::downloadLaporan');
 // start asesmen
 
 
+
+
+
 // start tujuan pembelajaran
 // start tujuan pembelajaran
 $routes->get('tujuanpembelajaran', 'TujuanPembelajaran::index', ['filter' => 'auth']);
@@ -202,6 +205,8 @@ $routes->group('laporan-bulanan', ['filter' => 'auth'], function ($routes) {
   $routes->post('update-detail', 'LaporanBulanan::updateDetail');
   $routes->delete('delete/(:num)', 'LaporanBulanan::delete/$1');
   $routes->get('download-pdf/(:num)', 'LaporanBulanan::downloadPDF/$1');
+  $routes->post('delete-detail', 'LaporanBulanan::deleteDetail');
+  $routes->post('add-detail', 'LaporanBulanan::addDetail');
   // Route BARU untuk print per santri
   $routes->get('download-pdf-per-santri/(:num)/(:num)', 'LaporanBulanan::downloadPDFPerSantri/$1/$2');
 });

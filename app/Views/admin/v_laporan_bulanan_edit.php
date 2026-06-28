@@ -100,14 +100,22 @@
                                                                 $keterangan_list = $santri_data['capaian'][$capaian_id]['keterangan'];
                                                                 foreach ($keterangan_list as $ket):
                                                             ?>
-                                                                    <div class="editable-item mb-2 p-2 border rounded"
+                                                                    <div class="editable-item mb-2 p-2 border rounded position-relative"
                                                                         data-id="<?= $ket['id'] ?>"
                                                                         style="background-color: #f8f9fa;">
-                                                                        <div class="editable-text">
+
+                                                                        <!-- Tombol Hapus -->
+                                                                        <button class="btn-hapus-item position-absolute"
+                                                                            style="top:4px; right:4px; background:none; border:none; color:#dc3545; cursor:pointer; padding:0 4px; font-size:14px; line-height:1;"
+                                                                            data-id="<?= $ket['id'] ?>"
+                                                                            title="Hapus item">
+                                                                            &times;
+                                                                        </button>
+
+                                                                        <div class="editable-text" style="padding-right: 20px;">
                                                                             <?= esc($ket['keterangan']) ?>
                                                                         </div>
-                                                                        <textarea class="form-control editable-input"
-                                                                            rows="3"><?= esc($ket['keterangan']) ?></textarea>
+                                                                        <textarea class="form-control editable-input" rows="3"><?= esc($ket['keterangan']) ?></textarea>
                                                                     </div>
                                                                 <?php
                                                                 endforeach;
@@ -115,6 +123,22 @@
                                                                 ?>
                                                                 <span class="text-muted">-</span>
                                                             <?php endif; ?>
+                                                            <!-- Tombol Tambah -->
+                                                            <div class="mt-2">
+                                                                <div class="add-item-form" style="display:none;">
+                                                                    <textarea class="form-control add-item-input mb-1" rows="2" placeholder="Ketik keterangan baru..."></textarea>
+                                                                    <button class="btn btn-sm btn-primary btn-save-add"
+                                                                        data-laporan-id="<?= $laporan['id'] ?>"
+                                                                        data-santri-id="<?= $santri_id ?>"
+                                                                        data-capaian-id="<?= $capaian['id'] ?>">
+                                                                        Simpan
+                                                                    </button>
+                                                                    <button class="btn btn-sm btn-secondary btn-cancel-add ms-1">Batal</button>
+                                                                </div>
+                                                                <button class="btn btn-sm btn-outline-primary btn-show-add w-100">
+                                                                    <i class="ri-add-line"></i> Tambah Item
+                                                                </button>
+                                                            </div>
                                                         </td>
                                                     <?php endforeach; ?>
                                                 </tr>
@@ -169,6 +193,134 @@
             if (e.key === 'Escape') {
                 cancelEdit($(this).closest('.editable-item'));
             }
+        });
+    });
+
+    // Tampilkan form tambah
+    $(document).on('click', '.btn-show-add', function() {
+        const $wrapper = $(this).closest('td').find('.add-item-form');
+        $wrapper.show();
+        $(this).hide();
+        $wrapper.find('.add-item-input').focus();
+    });
+
+    // Batal tambah
+    $(document).on('click', '.btn-cancel-add', function() {
+        const $td = $(this).closest('td');
+        $(this).closest('.add-item-form').hide().find('.add-item-input').val('');
+        $td.find('.btn-show-add').show();
+    });
+
+    // Simpan item baru
+    $(document).on('click', '.btn-save-add', function() {
+        const $btn = $(this);
+        const $td = $btn.closest('td');
+        const $input = $btn.closest('.add-item-form').find('.add-item-input');
+        const keterangan = $input.val().trim();
+        const laporan_id = $btn.data('laporan-id');
+        const santri_id = $btn.data('santri-id');
+        const capaian_id = $btn.data('capaian-id');
+
+        if (!keterangan) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Perhatian',
+                text: 'Keterangan tidak boleh kosong!'
+            });
+            return;
+        }
+
+        $btn.prop('disabled', true);
+
+        $.ajax({
+            url: BASE_URL + 'laporan-bulanan/add-detail',
+            type: 'POST',
+            data: {
+                laporan_id,
+                santri_id,
+                capaian_id,
+                keterangan
+            },
+            dataType: 'json',
+            success: function(res) {
+                if (res.success) {
+                    // Inject item baru ke DOM sebelum form tambah
+                    const html = `
+                    <div class="editable-item mb-2 p-2 border rounded position-relative" data-id="${res.new_id}" style="background-color:#f8f9fa;">
+                        <button class="btn-hapus-item position-absolute"
+                            style="top:4px;right:4px;background:none;border:none;color:#dc3545;cursor:pointer;padding:0 4px;font-size:14px;line-height:1;"
+                            data-id="${res.new_id}" title="Hapus item">&times;</button>
+                        <div class="editable-text" style="padding-right:20px;">${res.keterangan}</div>
+                        <textarea class="form-control editable-input" rows="3">${res.keterangan}</textarea>
+                    </div>`;
+                    $td.find('.add-item-form').before(html);
+                    $input.val('');
+                    $td.find('.add-item-form').hide();
+                    $td.find('.btn-show-add').show();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: res.message
+                    });
+                }
+            },
+            error: function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Terjadi kesalahan.'
+                });
+            },
+            complete: function() {
+                $btn.prop('disabled', false);
+            }
+        });
+    });
+
+    // Hapus item
+    $(document).on('click', '.btn-hapus-item', function(e) {
+        e.stopPropagation();
+        const $item = $(this).closest('.editable-item');
+        const id = $(this).data('id');
+
+        Swal.fire({
+            icon: 'warning',
+            title: 'Hapus item ini?',
+            text: 'Data akan dihapus permanen.',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            confirmButtonText: 'Ya, hapus',
+            cancelButtonText: 'Batal'
+        }).then(result => {
+            if (!result.isConfirmed) return;
+
+            $.ajax({
+                url: BASE_URL + 'laporan-bulanan/delete-detail',
+                type: 'POST',
+                data: {
+                    detail_id: id
+                },
+                dataType: 'json',
+                success: function(res) {
+                    if (res.success) {
+                        $item.fadeOut(300, () => $item.remove());
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: res.message
+                        });
+                    }
+                },
+                error: function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan.'
+                    });
+                }
+            });
         });
     });
 

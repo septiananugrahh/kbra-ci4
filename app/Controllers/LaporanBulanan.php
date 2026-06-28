@@ -533,6 +533,70 @@ class LaporanBulanan extends CustomController
     return $this->render('admin/v_laporan_bulanan_edit', $data);
   }
 
+  public function deleteDetail()
+  {
+    $detail_id = $this->request->getPost('detail_id');
+    $detail = $this->detailModel->find($detail_id);
+
+    if (!$detail) {
+      return $this->response->setJSON(['success' => false, 'message' => 'Data tidak ditemukan']);
+    }
+
+    $laporan = $this->laporanModel->find($detail['laporan_bulanan_id']);
+    $guru_id = session()->get('user_id');
+    $roles = session()->get('roles');
+
+    if ($laporan['dibuat_oleh'] != $guru_id && !in_array('3', $roles)) {
+      return $this->response->setJSON(['success' => false, 'message' => 'Anda tidak memiliki akses']);
+    }
+
+    $this->detailModel->delete($detail_id);
+    return $this->response->setJSON(['success' => true, 'message' => 'Item berhasil dihapus']);
+  }
+
+  public function addDetail()
+  {
+    $laporan_id   = $this->request->getPost('laporan_id');
+    $santri_id    = $this->request->getPost('santri_id');
+    $capaian_id   = $this->request->getPost('capaian_id');
+    $keterangan   = $this->request->getPost('keterangan');
+
+    if (!$keterangan) {
+      return $this->response->setJSON(['success' => false, 'message' => 'Keterangan tidak boleh kosong']);
+    }
+
+    $laporan = $this->laporanModel->find($laporan_id);
+    $guru_id = session()->get('user_id');
+    $roles   = session()->get('roles');
+
+    if ($laporan['dibuat_oleh'] != $guru_id && !in_array('3', $roles)) {
+      return $this->response->setJSON(['success' => false, 'message' => 'Anda tidak memiliki akses']);
+    }
+
+    // Ambil urutan terakhir
+    $lastUrutan = $this->detailModel
+      ->where(['laporan_bulanan_id' => $laporan_id, 'santri_id' => $santri_id, 'capaian_pembelajaran_id' => $capaian_id])
+      ->orderBy('urutan', 'DESC')
+      ->first();
+
+    $urutan = $lastUrutan ? ($lastUrutan['urutan'] + 1) : 0;
+
+    $newId = $this->detailModel->insert([
+      'laporan_bulanan_id'      => $laporan_id,
+      'santri_id'               => $santri_id,
+      'capaian_pembelajaran_id' => $capaian_id,
+      'keterangan'              => $keterangan,
+      'urutan'                  => $urutan
+    ]);
+
+    return $this->response->setJSON([
+      'success'    => true,
+      'message'    => 'Item berhasil ditambahkan',
+      'new_id'     => $this->detailModel->getInsertID(),
+      'keterangan' => $keterangan
+    ]);
+  }
+
   /**
    * Update detail laporan
    */
