@@ -521,10 +521,13 @@
       });
     });
 
+    let selectedSantriIds = new Set();
+
     $('#btnTambahSantri').on('click', function() {
       const kelasId = $('#modalAturKelas').data('kelas-id');
+      selectedSantriIds.clear();
 
-      $('#tablePilihSantri').DataTable({
+      const tablePilihSantri = $('#tablePilihSantri').DataTable({
         destroy: true,
         ajax: `<?= site_url('kelas/get_santri_tanpa_kelas') ?>/${kelasId}`,
         columns: [{
@@ -532,26 +535,39 @@
             orderable: false,
             searchable: false,
             render: function(data, type, row) {
-              return `<input type="checkbox" class="checkboxSantri" value="${row.id}">`;
+              const checked = selectedSantriIds.has(String(row.id)) ? 'checked' : '';
+              return `<input type="checkbox" class="checkboxSantri" value="${row.id}" ${checked}>`;
             }
           },
           {
             data: 'nama'
           }
-        ]
+        ],
+        drawCallback: function() {
+          // re-apply status checked tiap redraw/pindah halaman
+          $('.checkboxSantri').each(function() {
+            $(this).prop('checked', selectedSantriIds.has(String($(this).val())));
+          });
+        }
       });
 
       $('#modalPilihSantri').modal('show');
     });
 
+    // tandai/hapus id di Set setiap checkbox diklik
+    $('#tablePilihSantri').on('change', '.checkboxSantri', function() {
+      const id = String($(this).val());
+      if ($(this).is(':checked')) {
+        selectedSantriIds.add(id);
+      } else {
+        selectedSantriIds.delete(id);
+      }
+    });
+
+
     $('#btnSimpanSantri').on('click', function() {
       const kelasId = $('#modalAturKelas').data('kelas-id');
-
-      // Ambil semua checkbox yang dicentang
-      const selectedIds = [];
-      $('.checkboxSantri:checked').each(function() {
-        selectedIds.push($(this).val());
-      });
+      const selectedIds = Array.from(selectedSantriIds);
 
       if (selectedIds.length === 0) {
         alert('Pilih setidaknya satu santri');
@@ -566,6 +582,7 @@
           santri_ids: selectedIds
         },
         success: function(res) {
+          selectedSantriIds.clear();
           $('#modalPilihSantri').modal('hide');
           $('#tableSantriKelas').DataTable().ajax.reload();
         },
