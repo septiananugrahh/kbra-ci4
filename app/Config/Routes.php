@@ -71,6 +71,7 @@ $routes->post('santri/simpandata', 'Santri::simpandata', ['filter' => ['auth', '
 $routes->post('santri/ubahdata', 'Santri::ubahdata', ['filter' => 'auth']);
 $routes->post('santri/hapusdata_soft', 'Santri::hapusdata_soft', ['filter' => ['auth', 'role:3']]);
 $routes->post('santri/import_excel', 'Santri::importExcel', ['filter' => ['auth', 'role:3']]);
+$routes->post('santri/ubah_jenjang_massal', 'Santri::ubah_jenjang_massal', ['filter' => ['auth', 'role:3']]);
 // end santri  
 // end santri
 

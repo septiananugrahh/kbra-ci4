@@ -87,6 +87,32 @@ class Santri extends CustomController
     ]);
   }
 
+  public function ubah_jenjang_massal()
+  {
+    if (!array_intersect(['3'], session('roles'))) {
+      return $this->response->setStatusCode(403)->setJSON([
+        'status' => 'gagal',
+        'message' => 'Tidak memiliki akses.'
+      ]);
+    }
+
+    $ids = $this->request->getPost('id');
+    $jenjangBaru = $this->request->getPost('jenjang_baru');
+
+    if (empty($ids) || !in_array($jenjangBaru, ['KB', 'RA', 'LULUS', 'KELUAR'])) {
+      return $this->response->setJSON([
+        'status' => 'gagal',
+        'message' => 'Data tidak valid.'
+      ]);
+    }
+
+    $this->santriModel->whereIn('id', $ids)->set(['jenjang' => $jenjangBaru])->update();
+
+    return $this->response->setJSON([
+      'status' => 'success',
+      'message' => count($ids) . ' santri berhasil diubah ke jenjang ' . $jenjangBaru
+    ]);
+  }
 
   public function ubahdata()
   {

@@ -33,6 +33,14 @@
                 </button>
               </div>
 
+              <div id="bulkToolbar" class="alert alert-secondary d-flex justify-content-between align-items-center mb-10" style="display:none;">
+                <span><span id="countSelected">0</span> santri dipilih</span>
+                <div>
+                  <button type="button" id="btn-batal-pilih" class="btn btn-sm btn-outline-secondary me-2">Batal Pilih</button>
+                  <button type="button" id="btn-ubah-jenjang-massal" class="btn btn-sm btn-primary">Ubah Jenjang</button>
+                </div>
+              </div>
+
             <?php endif; ?>
 
 
@@ -45,6 +53,9 @@
                   <table id="table-santri" class="table table-bordered table-striped" style="width:100%">
                     <thead>
                       <tr>
+                        <?php if (array_intersect(['3'], session('roles'))) : ?>
+                          <th><input type="checkbox" id="checkAll"></th>
+                        <?php endif; ?>
                         <th>ID</th>
                         <th>Foto Santri</th>
                         <th>Nama Santri</th>
@@ -71,6 +82,30 @@
   </div>
 </div>
 
+<div class="modal fade" id="modalBulkJenjang" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Ubah Jenjang Massal</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p><span id="bulkCount">0</span> santri akan diubah jenjangnya.</p>
+        <label class="form-label">Jenjang Tujuan</label>
+        <select id="jenjang_massal" class="form-select">
+          <option value="KB">KB</option>
+          <option value="RA">RA</option>
+          <option value="LULUS">LULUS</option>
+          <option value="KELUAR">KELUAR</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button type="button" id="btn-simpan-jenjang-massal" class="btn btn-primary">Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="modal fade" id="UploadSantri" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
@@ -252,6 +287,7 @@
               <option value="KB">KB</option>
               <option value="RA">RA</option>
               <option value="LULUS">LULUS</option>
+              <option value="KELUAR">KELUAR</option>
             </select>
           </div>
         </div>
@@ -291,6 +327,92 @@
 <script src="https://cdn.jsdelivr.net/npm/just-validate@4.2.0/dist/just-validate.production.min.js"></script>
 <script type="text/javascript" language="javascript">
   $(document).ready(function() {
+
+    var userRole = <?= session('roles') ? json_encode(session('roles')) : '[]' ?>;
+    var kelasId = <?= session('kelas_id') ?? 'null' ?>;
+    // bulk pindah jenjang 
+    // bulk pindah jenjang 
+    const selectedSantri = new Set();
+
+    function updateToolbar() {
+      const count = selectedSantri.size;
+      $('#countSelected').text(count);
+      $('#bulkToolbar').toggle(count > 0);
+    }
+
+    $('#table-santri').on('click', '.rowCheck', function() {
+      const id = $(this).val();
+      if (this.checked) {
+        selectedSantri.add(id);
+      } else {
+        selectedSantri.delete(id);
+      }
+      updateToolbar();
+    });
+
+    $('#checkAll').on('click', function() {
+      const checked = this.checked;
+      $('.rowCheck').each(function() {
+        $(this).prop('checked', checked);
+        const id = $(this).val();
+        checked ? selectedSantri.add(id) : selectedSantri.delete(id);
+      });
+      updateToolbar();
+    });
+
+
+    $('#btn-batal-pilih').on('click', function() {
+      selectedSantri.clear();
+      $('.rowCheck, #checkAll').prop('checked', false);
+      updateToolbar();
+    });
+
+    $('#btn-ubah-jenjang-massal').on('click', function() {
+      $('#bulkCount').text(selectedSantri.size);
+      $('#modalBulkJenjang').modal('show');
+    });
+
+    $('#btn-simpan-jenjang-massal').on('click', function() {
+      const jenjangBaru = $('#jenjang_massal').val();
+      const ids = Array.from(selectedSantri);
+
+      $('#modalBulkJenjang').modal('hide');
+
+      Swal.fire({
+        icon: 'warning',
+        title: 'Yakin?',
+        text: `Ubah jenjang ${ids.length} santri menjadi ${jenjangBaru}?`,
+        showCancelButton: true,
+        confirmButtonText: 'Ya, ubah'
+      }).then((result) => {
+        if (!result.isConfirmed) {
+          $('#modalBulkJenjang').modal('show'); // buka lagi kalau batal
+          return;
+        }
+
+        $.ajax({
+          url: "<?= site_url('santri/ubah_jenjang_massal'); ?>",
+          type: "POST",
+          data: {
+            id: ids,
+            jenjang_baru: jenjangBaru
+          },
+          dataType: "json",
+          success: function(res) {
+            Swal.fire('Berhasil', res.message, 'success');
+            selectedSantri.clear();
+            $('#checkAll').prop('checked', false);
+            updateToolbar();
+            dataTable_santri.ajax.reload(null, false);
+          },
+          error: function(xhr) {
+            Swal.fire('Gagal', xhr.responseText, 'error');
+          }
+        });
+      });
+    });
+    // end bulk pindah jenjang 
+    // end bulk pindah jenjang 
 
 
     const modal_santri = $('#modalSantri');
@@ -399,8 +521,7 @@
       isValidasiDataSantri = false;
     });
 
-    var userRole = <?= session('roles') ? json_encode(session('roles')) : '[]' ?>;
-    var kelasId = <?= session('kelas_id') ?? 'null' ?>;
+
 
     console.log(userRole + " - " + kelasId)
 
@@ -422,7 +543,14 @@
         type: "POST",
       },
       columns: [
-
+        ...(userRole.includes("3") ? [{
+          data: null,
+          orderable: false,
+          searchable: false,
+          render: function(data, type, row) {
+            return `<input type="checkbox" class="rowCheck" value="${row.id}">`;
+          }
+        }] : []),
         {
           data: "id",
           className: "none",
@@ -516,6 +644,14 @@
 
         }
       ]
+    });
+
+    // sinkronkan checkbox saat pindah/reload halaman DataTables
+    dataTable_santri.on('draw', function() {
+      $('.rowCheck').each(function() {
+        $(this).prop('checked', selectedSantri.has($(this).val()));
+      });
+      $('#checkAll').prop('checked', false);
     });
 
     $('#table-santri').on('click', '.editBtn', function() {
