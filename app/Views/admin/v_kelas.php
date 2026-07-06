@@ -334,17 +334,6 @@
       }
     ]);
 
-    // Load opsi tahun
-    $.ajax({
-      url: "<?= site_url('kelas/get_tahun_list'); ?>",
-      type: "GET",
-      success: function(response) {
-        response.data.forEach(function(item) {
-          $('#filter-tahun').append(`<option value="${item.tahun}">${item.tahun}</option>`);
-        });
-      }
-    });
-
     // Event listener untuk filter
     $('#filter-tahun, #filter-jenjang').on('change', function() {
       dataTable_kelas.ajax.reload();
@@ -421,6 +410,24 @@
           }
         }
       ]
+    });
+
+    // Load opsi tahun
+    $.ajax({
+      url: "<?= site_url('kelas/get_tahun_list'); ?>",
+      type: "GET",
+      success: function(response) {
+        response.data.forEach(function(item) {
+          $('#filter-tahun').append(`<option value="${item.tahun}">${item.tahun}</option>`);
+        });
+
+        // pilih tahun tertinggi (urutkan dulu biar aman, tidak tergantung urutan dari server)
+        const tahunList = response.data.map(item => item.tahun).sort();
+        if (tahunList.length > 0) {
+          $('#filter-tahun').val(tahunList[tahunList.length - 1]);
+          dataTable_kelas.ajax.reload();
+        }
+      }
     });
 
     $('#table-kelas').on('click', '.aturkelasBtn', function() {
