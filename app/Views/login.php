@@ -170,8 +170,8 @@
               <div class="mb-6">
                 <label for="semester">Semester</label>
                 <select name="semester" id="semester" class="form-select" required>
-                  <option value="ganjil">Ganjil</option>
-                  <option value="genap" selected>Genap</option>
+                  <option value="ganjil" selected>Ganjil</option>
+                  <option value="genap">Genap</option>
                 </select>
               </div>
 
@@ -179,8 +179,8 @@
                 <label for="tahun">Tahun Ajar</label>
                 <select name="tahun" id="tahun" class="form-select" required>
                   <option value="2024/2025">2024/2025</option>
-                  <option value="2025/2026" selected>2025/2026</option>
-                  <option value="2026/2027">2026/2027</option>
+                  <option value="2025/2026">2025/2026</option>
+                  <option value="2026/2027" selected>2026/2027</option>
                   <option value="2027/2028">2027/2028</option>
                 </select>
               </div>
