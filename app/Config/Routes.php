@@ -78,6 +78,7 @@ $routes->post('santri/ubah_jenjang_massal', 'Santri::ubah_jenjang_massal', ['fil
 
 // start kelas  
 // start kelas  
+$routes->post('kelas/get_kelas_by_tahun', 'Kelas::get_kelas_by_tahun');
 $routes->get('kelas', 'Kelas::index', ['filter' => 'auth']);
 $routes->post('kelas/getSemestersByJenjang', 'Kelas::getSemestersByJenjang'); // Untuk AJAX
 $routes->get('kelas/get_tahun_list', 'Kelas::get_tahun_list');
@@ -151,6 +152,7 @@ $routes->get('asesmen/downloadlaporan', 'Asesmen::downloadLaporan');
 
 // start tujuan pembelajaran
 // start tujuan pembelajaran
+$routes->post('tujuanpembelajaran/salindata', 'TujuanPembelajaran::salindata');
 $routes->get('tujuanpembelajaran', 'TujuanPembelajaran::index', ['filter' => 'auth']);
 $routes->post('tujuanpembelajaran/ambil_data_capaianpembelajaran', 'TujuanPembelajaran::ambil_data_capaianpembelajaran', ['filter' => 'auth']);
 $routes->post('tujuanpembelajaran/simpandata', 'TujuanPembelajaran::simpandata', ['filter' => 'auth']);
@@ -169,6 +171,7 @@ $routes->post('tujuanpembelajaran/tp/hapusdata_soft', 'TujuanPembelajaran::hapus
 
 // start dimensi profil lulusan
 // start dimensi profil lulusan
+$routes->post('dimensiprofil/salindata', 'DimensiProfilLulusan::salindata');
 $routes->get('dimensiprofil', 'DimensiProfilLulusan::index', ['filter' => 'auth']);
 $routes->post('dimensiprofil/ambil_data', 'DimensiProfilLulusan::ambil_data', ['filter' => 'auth']);
 $routes->post('dimensiprofil/simpandata', 'DimensiProfilLulusan::simpandata', ['filter' => 'auth']);
@@ -180,6 +183,7 @@ $routes->post('dimensiprofil/hapusdata_soft', 'DimensiProfilLulusan::hapusdata_s
 
 // start kurikulum cinta
 // start kurikulum cinta
+$routes->post('kurikulumcinta/salindata', 'KurikulumCinta::salindata');
 $routes->get('kurikulumcinta', 'KurikulumCinta::index', ['filter' => 'auth']);
 $routes->post('kurikulumcinta/ambil_data', 'KurikulumCinta::ambil_data', ['filter' => 'auth']);
 $routes->post('kurikulumcinta/simpandata', 'KurikulumCinta::simpandata', ['filter' => 'auth']);

@@ -137,6 +137,13 @@ class Kelas extends CustomController
     return $this->response->setJSON(['data' => $data]);
   }
 
+  public function get_kelas_by_tahun()
+  {
+    $tahun = $this->request->getPost('tahun');
+    $data = $this->kelasModel->where('tahun', $tahun)->findAll();
+    return $this->response->setJSON(['data' => $data]);
+  }
+
   public function get_tahun_by_kelas()
   {
     $id = $this->request->getPost('id');

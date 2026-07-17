@@ -188,6 +188,84 @@ class TujuanPembelajaran extends CustomController
     }
   }
 
+  public function salindata()
+  {
+    $tahunAsal   = $this->request->getPost('tahun_asal');
+    $tahunTujuan = $this->request->getPost('tahun_tujuan');
+
+    if (!$tahunAsal || !$tahunTujuan) {
+      return $this->response->setJSON([
+        'status'  => 'gagal',
+        'message' => 'Tahun asal dan tahun tujuan wajib dipilih'
+      ]);
+    }
+
+    if ($tahunAsal === $tahunTujuan) {
+      return $this->response->setJSON([
+        'status'  => 'gagal',
+        'message' => 'Tahun asal dan tujuan tidak boleh sama'
+      ]);
+    }
+
+    $capaianAsal = $this->capaianPembelajaranModel
+      ->where('deleted', 0)
+      ->where('setting', $tahunAsal)
+      ->findAll();
+
+    if (empty($capaianAsal)) {
+      return $this->response->setJSON([
+        'status'  => 'gagal',
+        'message' => 'Tidak ada data pada tahun ajar asal'
+      ]);
+    }
+
+    foreach ($capaianAsal as $capaian) {
+      // Cek apakah capaian dengan nama sama sudah ada di tahun tujuan
+      $capaianBaru = $this->capaianPembelajaranModel
+        ->where('deleted', 0)
+        ->where('setting', $tahunTujuan)
+        ->where('nama', $capaian['nama'])
+        ->first();
+
+      if (!$capaianBaru) {
+        $idCapaianBaru = $this->capaianPembelajaranModel->insert([
+          'nama'    => $capaian['nama'],
+          'urut'    => $capaian['urut'],
+          'setting' => $tahunTujuan,
+        ], true); // true supaya dapat insert id
+      } else {
+        $idCapaianBaru = $capaianBaru['id'];
+      }
+
+      // Salin Tujuan Pembelajaran anak dari capaian ini
+      $tujuanAsal = $this->tujuanPembelajaranModel
+        ->where('deleted', 0)
+        ->where('capaian', $capaian['id'])
+        ->findAll();
+
+      foreach ($tujuanAsal as $tujuan) {
+        $sudahAda = $this->tujuanPembelajaranModel
+          ->where('deleted', 0)
+          ->where('capaian', $idCapaianBaru)
+          ->where('nama', $tujuan['nama'])
+          ->first();
+
+        if (!$sudahAda) {
+          $this->tujuanPembelajaranModel->insert([
+            'nama'    => $tujuan['nama'],
+            'urut'    => $tujuan['urut'],
+            'capaian' => $idCapaianBaru,
+          ]);
+        }
+      }
+    }
+
+    return $this->response->setJSON([
+      'status'  => 'sukses',
+      'message' => 'Data berhasil disalin dari tahun ajar ' . $tahunAsal
+    ]);
+  }
+
   public function hapusdata_softTP()
   {
     $id = $this->request->getPost('delIdtujuanpembelajaran');
@@ -216,12 +294,20 @@ class TujuanPembelajaran extends CustomController
 
   public function index()
   {
+    $tahunList = [
+      '2025/2026',
+      '2026/2027',
+      '2027/2028',
+    ];
+
     $data = [
       'title' => 'Capaian Pembelajaran | KBRA Islamic Center',
       'nav' => 'tujuanpembelajaran',
-      'username' => $this->session->get('username')
+      'username' => $this->session->get('username'),
+      'tahun_list' => $tahunList,
+      'tahun_aktif' => $this->session->get('tahun'),
     ];
-    return $this->render('admin/v_capaianPembelajaran', $data); // pakai render() dari CustomController
+    return $this->render('admin/v_capaianPembelajaran', $data);
   }
 
   public function indexTP($cpid)
@@ -237,14 +323,14 @@ class TujuanPembelajaran extends CustomController
 
   public function ambil_data_capaianpembelajaran()
   {
+    $tahun = $this->request->getPost('tahun') ?: $this->session->get('tahun');
+
     $data = $this->capaianPembelajaranModel
       ->where('deleted', 0)
-      ->where('setting', $this->session->get('tahun'))
-      ->orderBy('urut', 'ASC') // Urutkan pertama berdasarkan kategori
-      ->orderBy('nama', 'ASC') // Kemudian berdasarkan nama_capaian dalam setiap kategori
+      ->where('setting', $tahun)
+      ->orderBy('urut', 'ASC')
+      ->orderBy('nama', 'ASC')
       ->findAll();
-
-    // dd($data);
 
     $result = [
       "data" => $data

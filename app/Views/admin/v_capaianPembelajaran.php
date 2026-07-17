@@ -21,10 +21,24 @@
         <div class="col-sm-12">
           <div class="card-body">
 
-            <div class="d-flex justify-content-end">
-              <button type="button" id="btn-tambah-capaianpembelajaran" class="btn btn-success mb-10">
-                <i class="ri-add-line"></i> &nbsp;Tambah Data
-              </button>
+            <div class="d-flex justify-content-between mb-10">
+              <div class="d-flex align-items-center gap-2">
+                <label for="filter-tahun-ajar" class="mb-0 me-2">Tahun Ajar:</label>
+                <select id="filter-tahun-ajar" class="form-select" style="width:auto">
+                  <?php foreach ($tahun_list as $t): ?>
+                    <option value="<?= esc($t) ?>" <?= ($t == $tahun_aktif ? 'selected' : '') ?>><?= esc($t) ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+
+              <div class="d-flex gap-2">
+                <button type="button" id="btn-salin-capaianpembelajaran" class="btn btn-outline-primary">
+                  <i class="ri-file-copy-line"></i> &nbsp;Salin dari Tahun Sebelumnya
+                </button>
+                <button type="button" id="btn-tambah-capaianpembelajaran" class="btn btn-success">
+                  <i class="ri-add-line"></i> &nbsp;Tambah Data
+                </button>
+              </div>
             </div>
 
             <div class="d-flex align-items-start row">
@@ -151,7 +165,40 @@
   </div>
 </div>
 
-
+<!-- Modal Salin Data -->
+<div class="modal fade" id="modalSalinCapaianPembelajaran" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Salin Data dari Tahun Ajar Sebelumnya</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted small">Tujuan Pembelajaran dari tiap Capaian juga akan ikut disalin.</p>
+        <div class="mb-3">
+          <label class="form-label">Salin dari Tahun Ajar</label>
+          <select id="tahun_asal" class="form-select">
+            <?php foreach ($tahun_list as $t): ?>
+              <option value="<?= esc($t) ?>"><?= esc($t) ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Ke Tahun Ajar</label>
+          <select id="tahun_tujuan" class="form-select">
+            <?php foreach ($tahun_list as $t): ?>
+              <option value="<?= esc($t) ?>" <?= ($t == $tahun_aktif ? 'selected' : '') ?>><?= esc($t) ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary" id="btn-proses-salin">Salin</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- jQuery & DataTables JS -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -212,8 +259,11 @@
       responsive: true,
       scrollX: true,
       ajax: {
-        url: ajaxUrl, // URL API server
+        url: ajaxUrl,
         type: "POST",
+        data: function(d) {
+          d.tahun = $('#filter-tahun-ajar').val();
+        }
       },
       columns: [
 
@@ -298,6 +348,48 @@
       submitButton_capaianpembelajaran.data('action', 'add'); // Tandai sebagai Add
 
       modal_capaianpembelajaran.modal('show');
+    });
+
+    $('#filter-tahun-ajar').on('change', function() {
+      dataTable_capaianpembelajaran.ajax.reload();
+    });
+
+    $('#btn-salin-capaianpembelajaran').on('click', function() {
+      $('#modalSalinCapaianPembelajaran').modal('show');
+    });
+
+    $('#btn-proses-salin').on('click', function() {
+      var tahunAsal = $('#tahun_asal').val();
+      var tahunTujuan = $('#tahun_tujuan').val();
+
+      var btn = $(this);
+      var originalText = btn.text();
+      btn.prop('disabled', true).text('Menyalin...');
+
+      $.ajax({
+        url: "<?= site_url('tujuanpembelajaran/salindata'); ?>",
+        type: 'POST',
+        data: {
+          tahun_asal: tahunAsal,
+          tahun_tujuan: tahunTujuan
+        },
+        dataType: 'json',
+        success: function(res) {
+          if (res.status === 'sukses') {
+            Swal.fire('Berhasil', res.message, 'success');
+            $('#modalSalinCapaianPembelajaran').modal('hide');
+            dataTable_capaianpembelajaran.ajax.reload();
+          } else {
+            Swal.fire('Gagal', res.message, 'warning');
+          }
+        },
+        error: function(xhr) {
+          Swal.fire('Peringatan', 'Gagal menyalin data.', 'warning');
+        },
+        complete: function() {
+          btn.prop('disabled', false).text(originalText);
+        }
+      });
     });
 
     $(document).on('click', '#btn-hapus-capaianpembelajaran', function() { // Ketika tombol simpan di klik

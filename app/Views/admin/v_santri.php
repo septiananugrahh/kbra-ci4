@@ -23,6 +23,23 @@
 
 
             <?php if (array_intersect(['3'], session('roles'))) : ?>
+
+              <div class="d-flex gap-2 mb-3">
+                <select id="filter-tahun-santri" class="form-select" style="width:auto;">
+                  <option value="">-- Semua Tahun --</option>
+                </select>
+                <select id="filter-kelas-santri" class="form-select" style="width:auto;">
+                  <option value="">-- Semua Kelas --</option>
+                </select>
+                <select id="filter-jenjang-santri" class="form-select" style="width:auto;">
+                  <option value="">-- Semua Jenjang --</option>
+                  <option value="KB">KB</option>
+                  <option value="RA">RA</option>
+                  <option value="LULUS">LULUS</option>
+                  <option value="KELUAR">KELUAR</option>
+                </select>
+              </div>
+
               <div class="d-flex justify-content-end">
                 <button type="button" id="btn-tambah-santri" class="btn btn-success mb-10 me-5">
                   <i class="ri-add-line"></i> &nbsp;Tambah Data
@@ -541,6 +558,11 @@
       ajax: {
         url: ajaxUrl, // URL API server
         type: "POST",
+        data: function(d) {
+          d.tahun = $('#filter-tahun-santri').val();
+          d.kelas_id = $('#filter-kelas-santri').val();
+          d.jenjang = $('#filter-jenjang-santri').val();
+        }
       },
       columns: [
         ...(userRole.includes("3") ? [{
@@ -607,7 +629,18 @@
         },
         {
           data: "jenjang",
-          className: "all"
+          className: "all",
+          render: function(data, type, row) {
+            let ket = '';
+            if (!row.kelas_id && (data === 'KB' || data === 'RA')) {
+              ket = ' <span class="badge bg-warning text-dark">Belum memiliki kelas</span>';
+            } else if (data === 'LULUS') {
+              ket = ' <span class="badge bg-success">Lulus</span>';
+            } else if (data === 'KELUAR') {
+              ket = ' <span class="badge bg-secondary">Keluar</span>';
+            }
+            return data + ket;
+          }
         },
         {
           data: null,
@@ -645,6 +678,51 @@
         }
       ]
     });
+
+    if (userRole.includes("3")) {
+      // load tahun ajaran, auto pilih tertinggi
+      $.ajax({
+        url: "<?= site_url('kelas/get_tahun_list'); ?>",
+        type: "GET",
+        success: function(response) {
+          response.data.forEach(item => {
+            $('#filter-tahun-santri').append(`<option value="${item.tahun}">${item.tahun}</option>`);
+          });
+          const tahunList = response.data.map(i => i.tahun).sort();
+          if (tahunList.length > 0) {
+            $('#filter-tahun-santri').val(tahunList[tahunList.length - 1]);
+            loadKelasByTahun(tahunList[tahunList.length - 1]);
+            dataTable_santri.ajax.reload();
+          }
+        }
+      });
+
+      function loadKelasByTahun(tahun) {
+        $('#filter-kelas-santri').html('<option value="">-- Semua Kelas --</option>');
+        if (!tahun) return;
+        $.ajax({
+          url: "<?= site_url('kelas/get_kelas_by_tahun'); ?>",
+          type: "POST",
+          data: {
+            tahun: tahun
+          },
+          success: function(response) {
+            response.data.forEach(item => {
+              $('#filter-kelas-santri').append(`<option value="${item.id}">${item.nama}</option>`);
+            });
+          }
+        });
+      }
+
+      $('#filter-tahun-santri').on('change', function() {
+        loadKelasByTahun($(this).val());
+        dataTable_santri.ajax.reload();
+      });
+
+      $('#filter-kelas-santri, #filter-jenjang-santri').on('change', function() {
+        dataTable_santri.ajax.reload();
+      });
+    }
 
     // sinkronkan checkbox saat pindah/reload halaman DataTables
     dataTable_santri.on('draw', function() {

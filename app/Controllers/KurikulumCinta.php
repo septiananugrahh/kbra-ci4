@@ -104,28 +104,86 @@ class KurikulumCinta extends CustomController
     }
   }
 
+  public function salindata()
+  {
+    $tahunAsal   = $this->request->getPost('tahun_asal');
+    $tahunTujuan = $this->request->getPost('tahun_tujuan');
 
+    if (!$tahunAsal || !$tahunTujuan) {
+      return $this->response->setJSON([
+        'status'  => 'gagal',
+        'message' => 'Tahun asal dan tahun tujuan wajib dipilih'
+      ]);
+    }
+
+    if ($tahunAsal === $tahunTujuan) {
+      return $this->response->setJSON([
+        'status'  => 'gagal',
+        'message' => 'Tahun asal dan tujuan tidak boleh sama'
+      ]);
+    }
+
+    $dataAsal = $this->kurikulumCintaModel
+      ->where('deleted', 0)
+      ->where('setting', $tahunAsal)
+      ->findAll();
+
+    if (empty($dataAsal)) {
+      return $this->response->setJSON([
+        'status'  => 'gagal',
+        'message' => 'Tidak ada data pada tahun ajar asal'
+      ]);
+    }
+
+    foreach ($dataAsal as $row) {
+      $sudahAda = $this->kurikulumCintaModel
+        ->where('deleted', 0)
+        ->where('setting', $tahunTujuan)
+        ->where('nama', $row['nama'])
+        ->first();
+
+      if (!$sudahAda) {
+        $this->kurikulumCintaModel->insert([
+          'nama'    => $row['nama'],
+          'setting' => $tahunTujuan,
+        ]);
+      }
+    }
+
+    return $this->response->setJSON([
+      'status'  => 'sukses',
+      'message' => 'Data berhasil disalin dari tahun ajar ' . $tahunAsal
+    ]);
+  }
 
   public function index()
   {
+    $tahunList = [
+      '2025/2026',
+      '2026/2027',
+      '2027/2028',
+    ];
+
     $data = [
       'title' => 'Kurikulum Berbasis Cinta | KBRA Islamic Center',
       'nav' => 'kurikulumcinta',
-      'username' => $this->session->get('username')
+      'username' => $this->session->get('username'),
+      'tahun_list' => $tahunList,
+      'tahun_aktif' => $this->session->get('tahun'),
     ];
-    return $this->render('admin/v_kurikulumCinta', $data); // pakai render() dari CustomController
+    return $this->render('admin/v_kurikulumCinta', $data);
   }
 
 
   public function ambil_data()
   {
+    $tahun = $this->request->getPost('tahun') ?: $this->session->get('tahun');
+
     $data = $this->kurikulumCintaModel
       ->where('deleted', 0)
-      ->where('setting', $this->session->get('tahun'))
-      ->orderBy('nama', 'ASC') // Kemudian berdasarkan nama_capaian dalam setiap kategori
+      ->where('setting', $tahun)
+      ->orderBy('nama', 'ASC')
       ->findAll();
-
-    // dd($data);
 
     $result = [
       "data" => $data

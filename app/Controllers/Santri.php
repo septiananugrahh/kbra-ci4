@@ -114,6 +114,8 @@ class Santri extends CustomController
     ]);
   }
 
+
+
   public function ubahdata()
   {
     $data = $this->request->getPost();
@@ -249,13 +251,13 @@ class Santri extends CustomController
 
   public function ambil_data_santri()
   {
-    $data = $this->santriModel->where('deleted', 0)->findAll();
+    $tahun = $this->request->getPost('tahun');
+    $kelasId = $this->request->getPost('kelas_id');
+    $jenjang = $this->request->getPost('jenjang');
 
-    $result = [
-      "data" => $data
-    ];
+    $data = $this->santriModel->getSantriByFilter($tahun, $kelasId, $jenjang);
 
-    return $this->response->setJSON($result);
+    return $this->response->setJSON(['data' => $data]);
   }
 
   public function ambil_data_santri_by_kelas($kelasId)
