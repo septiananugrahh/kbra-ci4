@@ -693,6 +693,15 @@
 <div class="offcanvas offcanvas-end" data-bs-backdrop="static" style="max-width: 100vw; width: 700px; z-index: 1090;" tabindex="-1" id="modalmodulajar">
   <div class="offcanvas-header border-bottom">
     <h5 class="offcanvas-title" id="modalTitle-modulajar">Tambah Modul Ajar</h5>
+    <div class="dropdown">
+      <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
+        id="btnHistoriModulAjar" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="ri-history-line"></i> Histori
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end" id="historiModulAjarList" style="max-height:300px; overflow-y:auto;">
+        <li><span class="dropdown-item-text text-muted">Belum ada riwayat tersimpan</span></li>
+      </ul>
+    </div>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
 
@@ -1832,6 +1841,171 @@
       $('#delID').val(id);
       $('#delNama').text(`${tema} - ${topik}`);
       $('#Delmodalmodulajar').modal('show');
+    }
+  };
+
+  // =====================================================
+  // HISTORY MANAGER (Riwayat Input Lokal - localStorage)
+  // =====================================================
+  const HistoryManager = {
+    KEY: 'riwayat_modulajar',
+    MAX_HISTORY: 5,
+
+    captureSnapshot() {
+      const simpleFields = {};
+      $('#dataForm-modulajar').find('input[name], select[name], textarea[name]').each(function() {
+        const $el = $(this);
+        const name = $el.attr('name');
+        if (!name || name.endsWith('[]') || $el.attr('type') === 'file' || $el.attr('type') === 'hidden') return;
+        simpleFields[name] = $el.val();
+      });
+
+      const tujuan = [];
+      $('#tujuan-container .tujuan-item').each(function() {
+        const id = $(this).find('.tujuan-hidden-id').val();
+        const text = $(this).find('.tujuan-text-input').val();
+        if (id) tujuan.push({
+          id,
+          text
+        });
+      });
+
+      const dimensi = [];
+      $('select[name="dimensi_profil_lulusan[]"]').each(function() {
+        const val = $(this).val();
+        if (val) dimensi.push(val);
+      });
+
+      const kurikulum = [];
+      $('select[name="kurikulum_cinta[]"]').each(function() {
+        const val = $(this).val();
+        if (val) kurikulum.push(val);
+      });
+
+      const days = {};
+      for (let i = 1; i <= CONFIG.days; i++) {
+        days[i] = {
+          pembukaan: Utils.safeJsonParse($(`#pembukaan_json_${i}`).val()) || [],
+          inti: Utils.safeJsonParse($(`#inti_json_${i}`).val()) || [],
+          pemantik: Utils.safeJsonParse($(`#pemantik_json_${i}`).val()) || [],
+          merefleksi: Utils.safeJsonParse($(`#merefleksi_json_${i}`).val()) || [],
+          pembukaanSelect: Utils.safeJsonParse($(`#pembukaan_select_json_${i}`).val()) || [],
+          intiSelect: Utils.safeJsonParse($(`#inti_select_json_${i}`).val()) || [],
+          merefleksiSelect: Utils.safeJsonParse($(`#merefleksi_select_json_${i}`).val()) || [],
+        };
+      }
+
+      return {
+        simpleFields,
+        tujuan,
+        dimensi,
+        kurikulum,
+        days,
+        savedAt: new Date().toISOString()
+      };
+    },
+
+    save() {
+      try {
+        const snapshot = this.captureSnapshot();
+        const list = this.getAll();
+        list.unshift(snapshot);
+        while (list.length > this.MAX_HISTORY) list.pop();
+        localStorage.setItem(this.KEY, JSON.stringify(list));
+      } catch (e) {
+        console.error('Gagal menyimpan riwayat lokal:', e);
+      }
+    },
+
+    getAll() {
+      try {
+        return JSON.parse(localStorage.getItem(this.KEY) || '[]');
+      } catch (e) {
+        return [];
+      }
+    },
+
+    renderMenu() {
+      const list = this.getAll();
+      const $menu = $('#historiModulAjarList').empty();
+
+      if (!list.length) {
+        $menu.append('<li><span class="dropdown-item-text text-muted">Belum ada riwayat tersimpan</span></li>');
+        return;
+      }
+
+      list.forEach((snap, idx) => {
+        const topik = snap.simpleFields.topik_pembelajaran || '(tanpa topik)';
+        const waktu = new Date(snap.savedAt).toLocaleString('id-ID');
+        $menu.append(`<li><a class="dropdown-item histori-modulajar-item" href="#" data-index="${idx}">${Utils.escapeHtml(topik)} <br><small class="text-muted">${waktu}</small></a></li>`);
+      });
+    },
+
+    async restore(index) {
+      const list = this.getAll();
+      const snap = list[index];
+      if (!snap) return;
+
+      SwalHelper.loading('Memuat riwayat...', 'Mohon tunggu');
+
+      // Bersihkan container tanpa generate default (mirip DataLoader.loadEditData)
+      $('#tujuan-container .select2-tujuan, #dimensi-container .dimensi-select, #kurikulumcinta-container .kurikulumcinta-select')
+        .each(function() {
+          if ($(this).hasClass('select2-hidden-accessible')) $(this).select2('destroy');
+        });
+      $('#tujuan-container, #dimensi-container, #kurikulumcinta-container').empty();
+      for (let i = 1; i <= CONFIG.days; i++) {
+        $(`#pembukaan-wrapper-${i}, #inti-wrapper-${i}, #pemantik-wrapper-${i}, #merefleksi-wrapper-${i}`).empty();
+      }
+
+      // Isi field sederhana (tanggal, semester, topik, pedagogik, alat bahan, dll)
+      Object.entries(snap.simpleFields).forEach(([name, val]) => {
+        $(`[name="${name}"]`).val(val);
+      });
+
+      // Restore tujuan pembelajaran
+      if (snap.tujuan.length) {
+        snap.tujuan.forEach(item => {
+          const html = `
+          <div class="row mb-2 tujuan-item">
+            <div class="col-sm-10">
+              <div class="tujuan-custom-input has-value">
+                <input type="text" class="form-control tujuan-text-input" readonly
+                       value="${Utils.escapeHtml(item.text)}" data-id="${item.id}">
+                <span class="clear-btn"><i class="ri-close-circle-fill"></i></span>
+                <input type="hidden" class="tujuan-hidden-id" value="${item.id}">
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <button type="button" class="btn btn-danger w-100 btn-remove"><i class="ri-delete-bin-line"></i></button>
+            </div>
+          </div>`;
+          $('#tujuan-container').append(html);
+        });
+      } else {
+        const $tmp = $('<div></div>');
+        FormManager.initializeDefaultSelects.call($tmp); // fallback aman: 1 tujuan kosong
+      }
+
+      // Restore dimensi & kurikulum (reuse fungsi mode edit yang sudah ada)
+      await Promise.all([
+        DataLoader.renderDimensi(JSON.stringify(snap.dimensi)),
+        DataLoader.renderKurikulum(JSON.stringify(snap.kurikulum))
+      ]);
+
+      // Restore input harian (pembukaan/inti/pemantik/merefleksi tiap hari)
+      for (let i = 1; i <= CONFIG.days; i++) {
+        const d = snap.days[i];
+        await Promise.all([
+          DynamicInputManager.renderInputsOnEdit(d.pembukaan, `pembukaan-wrapper-${i}`, `pembukaan_${i}`, 'pembukaan-item', CONFIG.maxPembukaan, 1, d.pembukaanSelect),
+          DynamicInputManager.renderInputsOnEdit(d.inti, `inti-wrapper-${i}`, `inti_${i}`, 'inti-item', CONFIG.maxInti, 1, d.intiSelect),
+          DynamicInputManager.renderInputsOnEdit(d.pemantik, `pemantik-wrapper-${i}`, `pemantik_${i}`, 'pemantik-item', CONFIG.maxPemantik, 0, []),
+          DynamicInputManager.renderInputsOnEdit(d.merefleksi, `merefleksi-wrapper-${i}`, `merefleksi_${i}`, 'merefleksi-item', CONFIG.maxRefleksi, 0, []),
+        ]);
+      }
+
+      SwalHelper.close();
+      SwalHelper.success('Riwayat berhasil dimuat ke form. Silakan periksa lagi sebelum menyimpan.');
     }
   };
 
@@ -3023,6 +3197,20 @@
           $(this).hide();
         });
 
+      // Render daftar histori saat dropdown dibuka
+      $(document).off('show.bs.dropdown.modulajar', '#btnHistoriModulAjar')
+        .on('show.bs.dropdown.modulajar', '#btnHistoriModulAjar', function() {
+          HistoryManager.renderMenu();
+        });
+
+      // Klik salah satu item histori -> isi form
+      $(document).off('click.modulajar', '.histori-modulajar-item')
+        .on('click.modulajar', '.histori-modulajar-item', function(e) {
+          e.preventDefault();
+          const index = $(this).data('index');
+          HistoryManager.restore(index);
+        });
+
       // Image preview
       $(document).off('change.modulajar', '#foto_modulajar')
         .on('change.modulajar', '#foto_modulajar', function(e) {
@@ -3151,6 +3339,7 @@
       });
 
       if (result.success) {
+        HistoryManager.save();
         ModalManager.hide();
         SwalHelper.success('Data tersimpan');
         $('#progressBar').css('width', '0%').text('0%');

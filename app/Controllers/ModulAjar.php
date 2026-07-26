@@ -193,7 +193,14 @@ class ModulAjar extends CustomController
       'pembuat' => session("user_id"),
     ];
 
-    $this->modulAjarModel->insert($modulAjarData);
+    $insert = $this->modulAjarModel->insert($modulAjarData);
+    if (!$insert) {
+      log_message('error', 'Gagal insert modul ajar: ' . print_r($this->modulAjarModel->errors(), true));
+      return $this->response->setStatusCode(500)->setJSON([
+        'status'  => 'error',
+        'message' => 'Data utama modul ajar gagal disimpan ke database'
+      ]);
+    }
     $modulajar_id = $this->modulAjarModel->getInsertID();
 
     $desainPembelajaranData = [
@@ -394,7 +401,13 @@ class ModulAjar extends CustomController
 
     log_message('debug', 'Hasil save modulAjarModel: ' . ($simpan ? 'Berhasil' : 'Gagal'));
 
-
+    if (!$simpan) {
+      log_message('error', 'Gagal update modul ajar: ' . print_r($this->modulAjarModel->errors(), true));
+      return $this->response->setStatusCode(500)->setJSON([
+        'status'  => 'error',
+        'message' => 'Data modul ajar gagal diperbarui ke database'
+      ]);
+    }
     // Cek apakah data untuk modulajar_id ini sudah ada
     $existingData = $this->desainPembelajaran->where('modulajar_id_dp', $id)->first();
     $existingData2 = $this->selectKBCDPL->where('modulajar_id_select', $id)->first();
