@@ -517,7 +517,7 @@ class Asesmen extends CustomController
       'modul'                      => $modul,
       'tanggalList'                => $tanggalList,
       'santriList'                 => $santri,
-      'capaianPembelajaran'        => $this->capaianPembelajaranModel->findAll(),
+      'capaianPembelajaran'        => $this->capaianPembelajaranModel->where('setting', $this->session->get('tahun'))->findAll(),
       'tujuan_pembelajaran_detail' => $dataTujuanPembelajaranDetail,
     ];
 

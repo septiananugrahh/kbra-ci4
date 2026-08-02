@@ -428,6 +428,89 @@
     font-size: 0.75rem;
     letter-spacing: 0.5px;
   }
+
+
+  /* ============================================
+     UNDO TOAST
+============================================ */
+  #undoToastContainer {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .undo-toast {
+    background: #323232;
+    color: #fff;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    animation: undoToastIn 0.25s ease;
+    min-width: 280px;
+  }
+
+  @keyframes undoToastIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .undo-toast .undo-toast-text {
+    flex: 1;
+    font-size: 0.875rem;
+  }
+
+  .undo-toast .undo-toast-btn {
+    background: none;
+    border: none;
+    color: #4dabf7;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    white-space: nowrap;
+  }
+
+  .undo-toast .undo-toast-btn:hover {
+    text-decoration: underline;
+  }
+
+  .undo-toast-progress {
+    height: 2px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .undo-toast-progress-bar {
+    height: 100%;
+    background: #4dabf7;
+    width: 100%;
+    transform-origin: left;
+  }
+
+  .undo-toast {
+    position: relative;
+  }
 </style>
 <!-- ============================================
      DOWNLOAD SECTION
@@ -991,6 +1074,8 @@
     </form>
   </div>
 </div>
+
+<div id="undoToastContainer"></div>
 
 <!-- Progress Bar Container (Hidden by default) -->
 <div id="progressContainer" style="display: none;">
@@ -1810,6 +1895,77 @@
         if (val) ids.push(val);
       });
       $('#kurikulum_cinta_json').val(JSON.stringify(ids));
+    }
+  };
+
+
+  // =====================================================
+  // UNDO MANAGER (Toast Undo mirip Gmail)
+  // =====================================================
+  const UndoManager = {
+    TIMEOUT: 5000,
+    counter: 0,
+
+    /**
+     * Tampilkan toast undo untuk kartu kegiatan yang dihapus
+     * @param {jQuery} $card - element card yang dihapus (masih ada di memori, sudah di-detach dari DOM)
+     * @param {jQuery} $wrapper - wrapper tempat card seharusnya kembali
+     * @param {number} insertIndex - posisi index card di antara children wrapper
+     * @param {string} label - label kegiatan (misal "Pembukaan Hari 1")
+     */
+    show($card, $wrapper, insertIndex, label = 'Kegiatan') {
+      const toastId = `undo-toast-${++this.counter}`;
+      let undone = false;
+
+      const $toast = $(`
+        <div class="undo-toast" id="${toastId}">
+          <span class="undo-toast-text"><i class="ri-delete-bin-line"></i> ${Utils.escapeHtml(label)} dihapus</span>
+          <button type="button" class="undo-toast-btn">URUNGKAN</button>
+          <div class="undo-toast-progress"><div class="undo-toast-progress-bar"></div></div>
+        </div>
+      `);
+
+      $('#undoToastContainer').append($toast);
+
+      // Animasi progress bar countdown
+      requestAnimationFrame(() => {
+        $toast.find('.undo-toast-progress-bar').css({
+          transition: `transform ${this.TIMEOUT}ms linear`,
+          transform: 'scaleX(0)'
+        });
+      });
+
+      const removeToast = () => {
+        $toast.fadeOut(200, function() {
+          $(this).remove();
+        });
+      };
+
+      // Klik tombol Undo
+      $toast.find('.undo-toast-btn').on('click', () => {
+        if (undone) return;
+        undone = true;
+
+        // Kembalikan card ke posisi semula
+        const $children = $wrapper.children();
+        if (insertIndex >= $children.length) {
+          $wrapper.append($card);
+        } else {
+          $children.eq(insertIndex).before($card);
+        }
+        $card.hide().fadeIn(200);
+
+        clearTimeout(timer);
+        removeToast();
+      });
+
+      // Auto-hilang setelah timeout -> hapus permanen
+      const timer = setTimeout(() => {
+        if (!undone) {
+          $card.remove(); // benar-benar hapus dari memori
+        }
+        removeToast();
+      }, this.TIMEOUT);
     }
   };
 
@@ -3101,17 +3257,24 @@
         });
       }
 
-      // Remove dynamic input
+      // Remove dynamic input (dengan Undo Toast)
       $(document).off('click.modulajar', '.btn-remove-dynamic-input')
         .on('click.modulajar', '.btn-remove-dynamic-input', function() {
           const $card = $(this).closest('.card');
+          const $wrapper = $card.parent();
+          const insertIndex = $card.index();
 
-          // Optional: Konfirmasi sebelum hapus
-          if (confirm('Hapus item ini?')) {
-            $card.fadeOut(300, function() {
-              $(this).remove();
-            });
-          }
+          // Coba deteksi label kegiatan dari wrapper id, contoh: "pembukaan-wrapper-2"
+          const wrapperId = $wrapper.attr('id') || '';
+          const match = wrapperId.match(/^(\w+)-wrapper-(\d+)$/);
+          const label = match ?
+            `${match[1].charAt(0).toUpperCase() + match[1].slice(1)} Hari ke-${match[2]}` :
+            'Kegiatan';
+
+          // Detach (bukan remove) supaya bisa dikembalikan
+          $card.detach();
+
+          UndoManager.show($card, $wrapper, insertIndex, label);
         });
 
       // Toggle selectbox
