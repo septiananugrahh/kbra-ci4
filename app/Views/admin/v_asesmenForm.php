@@ -868,6 +868,12 @@
               <?php endforeach; ?>
 
               <button type="submit" class="d-none" id="btn-submit-hasilkarya"></button>
+
+              <div class="mt-3 text-end">
+                <button type="button" class="btn btn-outline-danger btn-hapus-asesmen" data-jenis="hasilkarya">
+                  <i class="ri-delete-bin-line me-1"></i>Hapus Data Hasil Karya
+                </button>
+              </div>
             </form>
           </div>
 
@@ -928,6 +934,12 @@
               </div>
 
               <button type="submit" class="d-none" id="btn-submit-fotoberseri"></button>
+
+              <div class="mt-3 text-end">
+                <button type="button" class="btn btn-outline-danger btn-hapus-asesmen" data-jenis="fotoberseri">
+                  <i class="ri-delete-bin-line me-1"></i>Hapus Data Foto Berseri
+                </button>
+              </div>
             </form>
           </div>
 
@@ -966,6 +978,12 @@
               <?php endforeach; ?>
 
               <button type="submit" class="d-none" id="btn-submit-anekdot"></button>
+
+              <div class="mt-3 text-end">
+                <button type="button" class="btn btn-outline-danger btn-hapus-asesmen" data-jenis="anekdot">
+                  <i class="ri-delete-bin-line me-1"></i>Hapus Data Anekdot
+                </button>
+              </div>
             </form>
           </div>
 
