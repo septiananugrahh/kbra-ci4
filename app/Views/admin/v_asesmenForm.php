@@ -811,6 +811,12 @@
               <div id="penilaian-checklist-container"></div>
 
               <button type="submit" class="d-none" id="btn-submit-checklist"></button>
+
+              <div class="mt-3 text-end">
+                <button type="button" class="btn btn-outline-danger btn-hapus-asesmen" data-jenis="checklist">
+                  <i class="ri-delete-bin-line me-1"></i>Hapus Data Checklist
+                </button>
+              </div>
             </form>
           </div>
 
@@ -1500,6 +1506,60 @@
       } finally {
         $btn.prop('disabled', false).find('i').attr('class', 'ri-save-line');
       }
+    },
+
+
+    async hapusData(jenis) {
+      const santriId = $('#santri_id').val();
+      if (!santriId) {
+        Utils.showError('Silakan pilih santri terlebih dahulu');
+        return;
+      }
+
+      const confirm = await Swal.fire({
+        icon: 'warning',
+        title: 'Hapus data ini?',
+        text: 'Data yang sudah dihapus tidak bisa dikembalikan.',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, hapus',
+        cancelButtonText: 'Batal',
+        confirmButtonColor: '#ef4444'
+      });
+
+      if (!confirm.isConfirmed) return;
+
+      Utils.showLoading('Menghapus...', 'Mohon tunggu sebentar.');
+      try {
+        const res = await fetch(CONFIG.baseUrl + 'asesmen/hapus/' + jenis, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          body: JSON.stringify({
+            santri_id: santriId,
+            modul_ajar_id: '<?= esc($modul['id']) ?>'
+          })
+        });
+        const result = await res.json();
+        Utils.closeLoading();
+
+        if (result.status === 'success') {
+          Utils.showSuccess(result.message);
+          // reset form tab terkait
+          document.getElementById('form-' + (jenis === 'hasilkarya' ? 'hasilkarya' : jenis))?.reset();
+          document.querySelectorAll(`#tab-${jenis === 'hasilkarya' ? 'hasilkarya' : jenis} .preview-container`).forEach(el => el.style.display = 'none');
+          document.querySelectorAll(`#tab-${jenis === 'hasilkarya' ? 'hasilkarya' : jenis} .preview-image`).forEach(el => el.src = '');
+          if (jenis === 'checklist') {
+            document.querySelectorAll('input[name^="penilaian_tp_"]').forEach(el => el.checked = false);
+          }
+        } else {
+          Utils.showError(result.message || 'Gagal menghapus data');
+        }
+      } catch (e) {
+        Utils.closeLoading();
+        Utils.showError('Terjadi kesalahan saat menghapus data');
+      }
     }
   };
 
@@ -1604,5 +1664,10 @@
     initGoToTop();
 
     $('#btnSimpanFloating').on('click', () => FormManager.submitActiveTab());
+
+    $(document).on('click', '.btn-hapus-asesmen', function() {
+      const jenis = $(this).data('jenis');
+      FormManager.hapusData(jenis);
+    });
   });
 </script>

@@ -635,6 +635,59 @@ class Asesmen extends CustomController
     return redirect()->to('/');
   }
 
+  public function hapusAsesmen($jenis)
+  {
+    if (!$this->request->isAJAX()) {
+      return redirect()->to('/');
+    }
+
+    $input = $this->request->getJSON();
+    $santriId = $input->santri_id ?? null;
+    $modulAjarId = $input->modul_ajar_id ?? null;
+
+    if (!$santriId || !$modulAjarId) {
+      return $this->response->setJSON(['status' => 'error', 'message' => 'Parameter tidak lengkap.']);
+    }
+
+    $modelMap = [
+      'checklist'   => $this->asesmenChecklistModel,
+      'hasilkarya'  => $this->asesmenKaryaModel,
+      'fotoberseri' => $this->asesmenFotoModel,
+      'anekdot'     => $this->asesmenAnekdotModel,
+    ];
+
+    if (!isset($modelMap[$jenis])) {
+      return $this->response->setJSON(['status' => 'error', 'message' => 'Jenis asesmen tidak dikenali.']);
+    }
+
+    $model = $modelMap[$jenis];
+    $existing = $model->where('santri', $santriId)->where('modul_ajar_id', $modulAjarId)->first();
+
+    if (!$existing) {
+      return $this->response->setJSON(['status' => 'error', 'message' => 'Data tidak ditemukan.']);
+    }
+
+    // Hapus file foto fisik terkait sebelum hapus record
+    $fotoFields = [];
+    if ($jenis === 'hasilkarya') $fotoFields = ['foto'];
+    if ($jenis === 'fotoberseri') $fotoFields = ['foto1', 'foto2', 'foto3'];
+
+    foreach ($fotoFields as $field) {
+      if (!empty($existing[$field])) {
+        $path = FCPATH . 'uploads/penilaian/' . $existing[$field];
+        if (file_exists($path)) {
+          unlink($path);
+        }
+      }
+    }
+
+    if ($model->delete($existing['id'])) {
+      return $this->response->setJSON(['status' => 'success', 'message' => 'Data berhasil dihapus.']);
+    }
+
+    return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal menghapus data.']);
+  }
+
 
   public function ambil_data_modulajar()
   {

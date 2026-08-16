@@ -143,6 +143,7 @@ $routes->get('asesmen/form/(:num)', 'Asesmen::form/$1');
 $routes->post('asesmen/simpan', 'Asesmen::simpan');
 $routes->post('asesmen/getData', 'Asesmen::getData');
 $routes->get('asesmen/downloadlaporan', 'Asesmen::downloadLaporan');
+$routes->post('asesmen/hapus/(:segment)', 'Asesmen::hapusAsesmen/$1');
 // start asesmen
 // start asesmen
 
