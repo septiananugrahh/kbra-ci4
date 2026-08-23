@@ -511,6 +511,145 @@
   .undo-toast {
     position: relative;
   }
+
+  /* ============================================
+     HISTORI (RESTORE) DROPDOWN
+============================================ */
+  .btn-histori-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #5661b3;
+    background: #eef0fe;
+    border: 1px solid #d6dcfc;
+    border-radius: 2rem;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .btn-histori-trigger:hover,
+  .btn-histori-trigger.show {
+    background: #e0e5fd;
+    color: #3f4bb5;
+    border-color: #b9c2fa;
+  }
+
+  .histori-count-badge {
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #5661b3;
+    color: #fff;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    border-radius: 1rem;
+  }
+
+  .histori-menu {
+    width: 340px;
+    max-width: calc(100vw - 32px);
+    max-height: 420px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    border: 1px solid #e6e9fb;
+    border-radius: 0.75rem;
+    box-shadow: 0 12px 28px rgba(63, 75, 181, 0.14);
+  }
+
+  .histori-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.65rem 0.65rem;
+    margin-bottom: 0.35rem;
+    border-bottom: 1px solid #eef0fe;
+    font-weight: 600;
+    color: #3f4bb5;
+    font-size: 0.8125rem;
+  }
+
+  .histori-header i {
+    font-size: 1rem;
+  }
+
+  .histori-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.55rem 0.65rem;
+    border-radius: 0.625rem;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .histori-item:hover {
+    background: #f3f4ff;
+  }
+
+  .histori-item-icon {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #eef0fe, #e6ebff);
+    color: #5661b3;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+  }
+
+  .histori-item-body {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .histori-item-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #333a56;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .histori-item-time {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.71875rem;
+    color: #8b90a7;
+    margin-top: 1px;
+  }
+
+  .histori-item-arrow {
+    color: #c3c8e8;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .histori-empty {
+    text-align: center;
+    padding: 1.5rem 0.75rem;
+    color: #8b90a7;
+  }
+
+  .histori-empty i {
+    font-size: 1.75rem;
+    display: block;
+    margin-bottom: 0.35rem;
+    color: #c3c8e8;
+  }
+
+  .histori-empty small {
+    font-size: 0.75rem;
+  }
 </style>
 <!-- ============================================
      DOWNLOAD SECTION
@@ -776,14 +915,16 @@
 <div class="offcanvas offcanvas-end" data-bs-backdrop="static" style="max-width: 100vw; width: 700px; z-index: 1090;" tabindex="-1" id="modalmodulajar">
   <div class="offcanvas-header border-bottom">
     <h5 class="offcanvas-title" id="modalTitle-modulajar">Tambah Modul Ajar</h5>
-    <div class="dropdown">
-      <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
+    <div class="dropdown histori-dropdown">
+      <button class="btn-histori-trigger" type="button"
         id="btnHistoriModulAjar" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="ri-history-line"></i> Histori
+        <i class="ri-history-line"></i>
+        <span>Histori</span>
+        <span class="histori-count-badge" id="historiCountBadge" style="display:none;">0</span>
       </button>
-      <ul class="dropdown-menu dropdown-menu-end" id="historiModulAjarList" style="max-height:300px; overflow-y:auto;">
-        <li><span class="dropdown-item-text text-muted">Belum ada riwayat tersimpan</span></li>
-      </ul>
+      <div class="dropdown-menu dropdown-menu-end histori-menu" id="historiModulAjarList">
+        <!-- diisi via JavaScript -->
+      </div>
     </div>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
@@ -2085,15 +2226,48 @@
       const list = this.getAll();
       const $menu = $('#historiModulAjarList').empty();
 
+      // Update badge jumlah riwayat pada tombol
+      const $badge = $('#historiCountBadge');
+      if ($badge.length) {
+        $badge.text(list.length).toggle(list.length > 0);
+      }
+
+      $menu.append(`
+        <div class="histori-header">
+          <i class="ri-history-line"></i> Riwayat Input Tersimpan
+        </div>
+      `);
+
       if (!list.length) {
-        $menu.append('<li><span class="dropdown-item-text text-muted">Belum ada riwayat tersimpan</span></li>');
+        $menu.append(`
+          <div class="histori-empty">
+            <i class="ri-inbox-archive-line"></i>
+            Belum ada riwayat tersimpan<br>
+            <small>Riwayat muncul otomatis setelah data disimpan</small>
+          </div>
+        `);
         return;
       }
 
       list.forEach((snap, idx) => {
         const topik = snap.simpleFields.topik_pembelajaran || '(tanpa topik)';
-        const waktu = new Date(snap.savedAt).toLocaleString('id-ID');
-        $menu.append(`<li><a class="dropdown-item histori-modulajar-item" href="#" data-index="${idx}">${Utils.escapeHtml(topik)} <br><small class="text-muted">${waktu}</small></a></li>`);
+        const waktu = new Date(snap.savedAt).toLocaleString('id-ID', {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        $menu.append(`
+          <div class="histori-item histori-modulajar-item" data-index="${idx}" role="button" title="Klik untuk memuat ke form">
+            <div class="histori-item-icon"><i class="ri-file-list-3-line"></i></div>
+            <div class="histori-item-body">
+              <div class="histori-item-title">${Utils.escapeHtml(topik)}</div>
+              <div class="histori-item-time"><i class="ri-time-line"></i> ${waktu}</div>
+            </div>
+            <i class="ri-arrow-right-s-line histori-item-arrow"></i>
+          </div>
+        `);
       });
     },
 
