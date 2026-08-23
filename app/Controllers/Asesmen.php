@@ -66,17 +66,26 @@ class Asesmen extends CustomController
     $modul_ajar_id = $this->request->getPost('modul_ajar_id');
     $tanggal = $this->request->getPost('tanggal');
 
-    // ===== ASESMEN FOTO BERSERI =====
-    $this->processFotoBerseri($santri_id, $modul_ajar_id, $tanggal, $request, $penilaianDisimpan);
+    // Hanya proses jenis asesmen yang dikirim, supaya tab lain tidak tertimpa NULL.
+    // ponytail: kalau nanti ada form gabungan multi-tab, ubah jadi array of jenis.
+    $jenis = $this->request->getPost('jenis_asesmen');
 
-    // ===== ASESMEN CHECKLIST =====
-    $this->processChecklist($santri_id, $modul_ajar_id, $tanggal, $request, $penilaianDisimpan);
-
-    // ===== ASESMEN ANEKDOT =====
-    $this->processAnekdot($santri_id, $modul_ajar_id, $tanggal, $request, $penilaianDisimpan);
-
-    // ===== ASESMEN HASIL KARYA =====
-    $this->processHasilKarya($santri_id, $modul_ajar_id, $tanggal, $request, $penilaianDisimpan);
+    switch ($jenis) {
+      case 'fotoberseri':
+        $this->processFotoBerseri($santri_id, $modul_ajar_id, $tanggal, $request, $penilaianDisimpan);
+        break;
+      case 'checklist':
+        $this->processChecklist($santri_id, $modul_ajar_id, $tanggal, $request, $penilaianDisimpan);
+        break;
+      case 'anekdot':
+        $this->processAnekdot($santri_id, $modul_ajar_id, $tanggal, $request, $penilaianDisimpan);
+        break;
+      case 'hasilkarya':
+        $this->processHasilKarya($santri_id, $modul_ajar_id, $tanggal, $request, $penilaianDisimpan);
+        break;
+      default:
+        return $response->setJSON(['status' => 'error', 'message' => 'Jenis asesmen tidak valid.']);
+    }
 
     return $this->response->setJSON([
       'status' => 'success',

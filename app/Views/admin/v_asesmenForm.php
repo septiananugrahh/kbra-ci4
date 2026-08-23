@@ -1492,6 +1492,7 @@
       if (!formEl) return;
 
       const formData = new FormData(formEl);
+      formData.append('jenis_asesmen', activeTab);
 
       // Untuk checklist, tambahkan JSON data
       if (activeTab === 'checklist') {
