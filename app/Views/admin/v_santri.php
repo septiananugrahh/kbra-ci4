@@ -45,8 +45,12 @@
                   <i class="ri-add-line"></i> &nbsp;Tambah Data
                 </button>
 
-                <button type="button" id="btn-upload-santri" class="btn btn-success mb-10">
+                <button type="button" id="btn-upload-santri" class="btn btn-success mb-10 me-5">
                   <i class="ri-upload-2-line"></i> &nbsp;Upload Data
+                </button>
+
+                <button type="button" id="btn-bulk-tambah-santri" class="btn btn-success mb-10">
+                  <i class="ri-plus-line"></i> &nbsp;Bulk Tambah
                 </button>
               </div>
 
@@ -55,6 +59,54 @@
                 <div>
                   <button type="button" id="btn-batal-pilih" class="btn btn-sm btn-outline-secondary me-2">Batal Pilih</button>
                   <button type="button" id="btn-ubah-jenjang-massal" class="btn btn-sm btn-primary">Ubah Jenjang</button>
+                </div>
+              </div>
+
+              <!-- Bulk Add Modal -->
+              <div class="modal fade" id="modalBulkTambah" tabindex="-1">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Bulk Tambah Santri</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form id="bulk-tambah-form">
+                        <div class="form-group">
+                          <label>File Excel</label>
+                          <input type="file" name="excel_file" class="form-control" accept=".xls,.xlsx" required>
+                        </div>
+                        <div class="form-group">
+                          <label>Pilih Kolom Data</label>
+                          <select id="kolom-mapping" class="form-select">
+                            <option value="">Pilih Kolom</option>
+                            <option value="nama">Nama Santri</option>
+                            <option value="nisn">NISN</option>
+                            <option value="jenis_kelamin">Jenis Kelamin</option>
+                            <option value="tempat_lahir">Tempat Lahir</option>
+                            <option value="tanggal_lahir">Tanggal Lahir</option>
+                            <option value="telp">Telepon</option>
+                            <option value="alamat">Alamat</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label>Jumlah Maksimal</label>
+                          <input type="number" id="max-jumlah" class="form-control" min="1" max="100" value="10">
+                        </div>
+                        <div class="form-group">
+                          <label>Filter Santri (Opsional)</label>
+                          <input type="text" id="filter-nama" class="form-control" placeholder="Cari nama santri...">
+                        </div>
+                        <div class="form-group">
+                          <button type="button" id="btn-proses-excel" class="btn btn-primary">Proses Data</button>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                      <button type="button" id="btn-simpan-bulk-tambah" class="btn btn-primary">Simpan Semua</button>
+                    </div>
+                  </div>
                 </div>
               </div>
 
