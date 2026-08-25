@@ -73,6 +73,11 @@
     border-color: #ef5350 !important;
     background-color: #fff5f5 !important;
   }
+
+  /* Swal di atas modal */
+  .swal2-container {
+    z-index: 9999 !important;
+  }
 </style>
 
 <div class="row">
@@ -1004,7 +1009,7 @@
 
         try {
           const res = await $.ajax({
-            url: CONFIG.baseUrl + 'santri/simpan_bulk',
+            url: '<?= site_url('santri/simpan_bulk'); ?>',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
