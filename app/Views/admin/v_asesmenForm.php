@@ -716,48 +716,9 @@
             </div>
 
             <!-- Tombol Download -->
-            <div class="download-dropdown dropdown">
-              <button class="btn btn-download-main dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="ri-download-cloud-line me-2"></i>Download
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li>
-                  <div class="dropdown-divider-label">Download Semua</div>
-                </li>
-                <?php foreach (['checklist' => ['ri-checkbox-multiple-line', 'Checklist'], 'fotoseri' => ['ri-image-line', 'Foto Berseri'], 'hastakarya' => ['ri-palette-line', 'Hasil Karya'], 'anekdot' => ['ri-chat-quote-line', 'Anekdot']] as $jenis => $info): ?>
-                  <li>
-                    <a class="dropdown-item" href="<?= site_url('asesmen/download/' . $modul['id'] . '/0/' . $jenis) ?>">
-                      <span class="download-type-icon"><i class="<?= $info[0] ?>"></i></span>
-                      <?= $info[1] ?> — Semua
-                    </a>
-                  </li>
-                <?php endforeach; ?>
-
-                <?php if (!empty($tanggalList)): ?>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li>
-                    <div class="dropdown-divider-label">Download Per Tanggal</div>
-                  </li>
-                  <?php foreach ($tanggalList as $tgl): ?>
-                    <?php foreach (['checklist' => ['ri-checkbox-multiple-line', 'Checklist'], 'fotoseri' => ['ri-image-line', 'Foto Berseri'], 'hastakarya' => ['ri-palette-line', 'Hasil Karya'], 'anekdot' => ['ri-chat-quote-line', 'Anekdot']] as $jenis => $info): ?>
-                      <li>
-                        <a class="dropdown-item" href="<?= site_url('asesmen/download/' . $modul['id'] . '/' . $tgl['index'] . '/' . $jenis) ?>">
-                          <span class="download-type-icon"><i class="<?= $info[0] ?>"></i></span>
-                          <?= $info[1] ?> — <?= esc($tgl['tanggal']) ?>
-                        </a>
-                      </li>
-                    <?php endforeach; ?>
-                    <?php if (!($tgl === end($tanggalList))): ?>
-                      <li>
-                        <hr class="dropdown-divider my-1">
-                      </li>
-                    <?php endif; ?>
-                  <?php endforeach; ?>
-                <?php endif; ?>
-              </ul>
-            </div>
+            <button type="button" class="btn btn-download-main" data-bs-toggle="modal" data-bs-target="#modalDownload">
+              <i class="ri-download-cloud-line me-2"></i>Download
+            </button>
           </div>
         </div>
 
@@ -1043,6 +1004,43 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="ri-close-line"></i> Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalDownload" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="ri-download-cloud-line me-2"></i>Download Dokumen</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">Jenis Dokumen</label>
+          <select id="dlJenis" class="form-select">
+            <option value="checklist">Checklist</option>
+            <option value="fotoseri">Foto Berseri</option>
+            <option value="hastakarya">Hasil Karya</option>
+            <option value="anekdot">Anekdot</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Tanggal</label>
+          <select id="dlTanggal" class="form-select">
+            <option value="0">Semua Tanggal</option>
+            <?php foreach ($tanggalList as $tgl): ?>
+              <option value="<?= $tgl['index'] ?>"><?= esc($tgl['tanggal']) ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-success" id="btnDownloadNow">
+          <i class="ri-download-2-line me-1"></i>Download
+        </button>
       </div>
     </div>
   </div>
@@ -1687,6 +1685,14 @@
     $(document).on('click', '.btn-hapus-asesmen', function() {
       const jenis = $(this).data('jenis');
       FormManager.hapusData(jenis);
+    });
+
+    $('#btnDownloadNow').on('click', function() {
+      const jenis = $('#dlJenis').val();
+      const tanggal = $('#dlTanggal').val();
+      const modulId = '<?= esc($modul['id']) ?>';
+      window.open(CONFIG.baseUrl + 'asesmen/download/' + modulId + '/' + tanggal + '/' + jenis, '_blank');
+      $('#modalDownload').modal('hide');
     });
   });
 </script>

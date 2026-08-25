@@ -847,8 +847,10 @@ class Asesmen extends CustomController
       $dompdf->setPaper('A4', 'landscape');
       $dompdf->render();
 
+      header('Cache-Control: no-cache, no-store, must-revalidate');
+      header('Pragma: no-cache');
+      header('Expires: 0');
       $filename = 'fotoseri_modul_' . $modulId . '_tanggal_' . $tanggalUrut . '.pdf';
-
       $dompdf->stream($filename, ['Attachment' => 0]); // 1 untuk download, 0 untuk display di browser
 
     } else if ($jenisDokumen === 'hastakarya') {
@@ -947,7 +949,9 @@ class Asesmen extends CustomController
       $dompdf->setPaper('A4', 'portrait');
       $dompdf->render();
 
-
+      header('Cache-Control: no-cache, no-store, must-revalidate');
+      header('Pragma: no-cache');
+      header('Expires: 0');
       // Nama file PDF
       $filename = 'hastakarya_modul_' . $modulId . '_tanggal_' . $tanggalUrut . '.pdf';
 
@@ -1046,7 +1050,9 @@ class Asesmen extends CustomController
       $dompdf->setPaper('A4', 'landscape');
       $dompdf->render();
 
-
+      header('Cache-Control: no-cache, no-store, must-revalidate');
+      header('Pragma: no-cache');
+      header('Expires: 0');
       // Nama file PDF
       $filename = 'anekdot_modul_' . $modulId . '_tanggal_' . $tanggalUrut . '.pdf';
 
@@ -1155,7 +1161,9 @@ class Asesmen extends CustomController
       $dompdf->setPaper('A4', 'landscape');
       $dompdf->render();
 
-
+      header('Cache-Control: no-cache, no-store, must-revalidate');
+      header('Pragma: no-cache');
+      header('Expires: 0');
       // Nama file PDF
       $filename = 'checklist_modul_' . $modulId . '_tanggal_' . $tanggalUrut . '.pdf';
 
@@ -1387,6 +1395,9 @@ class Asesmen extends CustomController
     $dompdf->setPaper('A4', 'landscape');
     $dompdf->render();
 
+    header('Cache-Control: no-cache, no-store, must-revalidate');
+    header('Pragma: no-cache');
+    header('Expires: 0');
     // Download PDF
     // $dompdf->stream("laporan_bulan_" . $bulanNama . ".pdf", ["Attachment" => 0]);
     $pdfFileName = 'laporan_bulanan_' . $bulan . '.pdf';
