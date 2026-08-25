@@ -793,6 +793,7 @@
                         data-nama_ibu="${row.nama_ibu}"
                         data-pekerjaan_ibu="${row.pekerjaan_ibu}"
                         data-foto_santri="${row.foto_santri}"
+                        data-jenjang="${row.jenjang}"
                       > <i class="ri-pencil-line"></i></button>`;
 
             // Cek apakah user memiliki role 3
@@ -880,6 +881,7 @@
       $('#pekerjaan_ayah').val($(this).data('pekerjaan_ayah'));
       $('#nama_ibu').val($(this).data('nama_ibu'));
       $('#pekerjaan_ibu').val($(this).data('pekerjaan_ibu'));
+      $('#jenjang').val($(this).data('jenjang'));
 
       // Optional: preview foto santri jika ada elemen img di modal
       const foto = $(this).data('foto_santri');
