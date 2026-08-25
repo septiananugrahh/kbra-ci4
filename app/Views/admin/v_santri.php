@@ -12,6 +12,67 @@
     text-align: center;
     color: white;
   }
+
+  /* Bulk Grid */
+  #table-bulk-grid thead th {
+    background: #e8eaf6 !important;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    color: #37474f;
+    white-space: nowrap;
+    padding: 0.5rem 0.4rem;
+  }
+
+  #table-bulk-grid tbody td {
+    padding: 0.2rem 0.25rem;
+    vertical-align: middle;
+  }
+
+  #table-bulk-grid .bulk-row-num {
+    width: 40px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: #78909c;
+  }
+
+  #table-bulk-grid .form-control,
+  #table-bulk-grid .form-select {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.85rem;
+    border-radius: 0.35rem;
+    border: 1px solid #e0e0e0;
+    transition: border-color 0.15s;
+  }
+
+  #table-bulk-grid .form-control:focus,
+  #table-bulk-grid .form-select:focus {
+    border-color: #90caf9;
+    box-shadow: 0 0 0 2px rgba(144, 202, 249, 0.25);
+  }
+
+  #table-bulk-grid .btn-remove-row {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    padding: 0;
+  }
+
+  #table-bulk-grid tbody tr:hover {
+    background-color: #f5f7ff;
+  }
+
+  .bulk-validation-error .form-control,
+  .bulk-validation-error .form-select {
+    border-color: #ef5350 !important;
+    background-color: #fff5f5 !important;
+  }
 </style>
 
 <div class="row">
@@ -62,49 +123,58 @@
                 </div>
               </div>
 
-              <!-- Bulk Add Modal -->
-              <div class="modal fade" id="modalBulkTambah" tabindex="-1">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
+              <!-- Bulk Add Modal (Excel-like Grid) -->
+              <div class="modal fade" id="modalBulkTambah" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+                <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title">Bulk Tambah Santri</h5>
+                      <h5 class="modal-title"><i class="ri-table-line me-2"></i>Bulk Input Data Santri (Model Excel)</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                      <form id="bulk-tambah-form">
-                        <div class="form-group">
-                          <label>File Excel</label>
-                          <input type="file" name="excel_file" class="form-control" accept=".xls,.xlsx" required>
+                    <div class="modal-body p-3">
+                      <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                          <button type="button" id="btn-add-row-bulk" class="btn btn-sm btn-primary">
+                            <i class="ri-add-line me-1"></i> Tambah Baris
+                          </button>
+                          <button type="button" id="btn-add-5rows-bulk" class="btn btn-sm btn-outline-primary ms-1">
+                            +5 Baris
+                          </button>
                         </div>
-                        <div class="form-group">
-                          <label>Pilih Kolom Data</label>
-                          <select id="kolom-mapping" class="form-select">
-                            <option value="">Pilih Kolom</option>
-                            <option value="nama">Nama Santri</option>
-                            <option value="nisn">NISN</option>
-                            <option value="jenis_kelamin">Jenis Kelamin</option>
-                            <option value="tempat_lahir">Tempat Lahir</option>
-                            <option value="tanggal_lahir">Tanggal Lahir</option>
-                            <option value="telp">Telepon</option>
-                            <option value="alamat">Alamat</option>
-                          </select>
-                        </div>
-                        <div class="form-group">
-                          <label>Jumlah Maksimal</label>
-                          <input type="number" id="max-jumlah" class="form-control" min="1" max="100" value="10">
-                        </div>
-                        <div class="form-group">
-                          <label>Filter Santri (Opsional)</label>
-                          <input type="text" id="filter-nama" class="form-control" placeholder="Cari nama santri...">
-                        </div>
-                        <div class="form-group">
-                          <button type="button" id="btn-proses-excel" class="btn btn-primary">Proses Data</button>
-                        </div>
-                      </form>
+                        <small class="text-muted"><i class="ri-information-line"></i> Isi baris langsung seperti di spreadsheet. Baris kosong akan diabaikan saat disimpan.</small>
+                      </div>
+
+                      <div class="table-responsive" style="max-height: 450px;">
+                        <table class="table table-bordered table-sm align-middle" id="table-bulk-grid" style="min-width: 1200px;">
+                          <thead class="table-light sticky-top" style="z-index: 1;">
+                            <tr class="text-center align-middle">
+                              <th style="width: 40px;">#</th>
+                              <th style="min-width: 180px;">Nama <span class="text-danger">*</span></th>
+                              <th style="width: 110px;">JK <span class="text-danger">*</span></th>
+                              <th style="min-width: 130px;">NISN</th>
+                              <th style="min-width: 120px;">NIS Lokal</th>
+                              <th style="min-width: 130px;">NIK</th>
+                              <th style="min-width: 120px;">Tempat Lahir</th>
+                              <th style="min-width: 130px;">Tgl Lahir</th>
+                              <th style="min-width: 120px;">Jenjang</th>
+                              <th style="min-width: 120px;">No. Telp</th>
+                              <th style="min-width: 150px;">Alamat</th>
+                              <th style="width: 50px;">Aksi</th>
+                            </tr>
+                          </thead>
+                          <tbody id="tbody-bulk-grid">
+                            <!-- Rows generated by JS -->
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                      <button type="button" id="btn-simpan-bulk-tambah" class="btn btn-primary">Simpan Semua</button>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="ri-close-line me-1"></i> Batal
+                      </button>
+                      <button type="button" id="btn-simpan-bulk-grid" class="btn btn-success">
+                        <i class="ri-save-line me-1"></i> Simpan Semua Data
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -836,8 +906,132 @@
     });
 
     $('#btn-bulk-tambah-santri').on('click', function() {
+      BulkGrid.init();
       $('#modalBulkTambah').modal('show');
     });
+
+    // =====================================================
+    // BULK GRID MANAGER (Excel-like form input)
+    // =====================================================
+    const BulkGrid = {
+      rowCounter: 0,
+      BULK_URL: '<?= site_url('santri/simpan_bulk'); ?>',
+
+      init() {
+        if ($('#tbody-bulk-grid').children().length === 0) {
+          this.addRows(5);
+        }
+      },
+
+      template(rowNum) {
+        return `
+        <tr id="bulk-row-${rowNum}">
+          <td class="bulk-row-num">${rowNum}</td>
+          <td><input type="text" name="row[${rowNum}][nama]" class="form-control" placeholder="Nama Lengkap"></td>
+          <td><select name="row[${rowNum}][jenis_kelamin]" class="form-select">
+            <option value="L">L</option>
+            <option value="P">P</option>
+          </select></td>
+          <td><input type="text" name="row[${rowNum}][nisn]" class="form-control" placeholder="NISN"></td>
+          <td><input type="text" name="row[${rowNum}][nis_lokal]" class="form-control" placeholder="NIS Lokal"></td>
+          <td><input type="text" name="row[${rowNum}][nik]" class="form-control" placeholder="NIK"></td>
+          <td><input type="text" name="row[${rowNum}][tempat_lahir]" class="form-control" placeholder="Kota/Kab"></td>
+          <td><input type="date" name="row[${rowNum}][tanggal_lahir]" class="form-control"></td>
+          <td><select name="row[${rowNum}][jenjang]" class="form-select">
+            <option value="KB">KB</option>
+            <option value="RA">RA</option>
+          </select></td>
+          <td><input type="text" name="row[${rowNum}][telp]" class="form-control" placeholder="08..."></td>
+          <td><input type="text" name="row[${rowNum}][alamat]" class="form-control" placeholder="Alamat"></td>
+          <td class="text-center">
+            <button type="button" class="btn btn-outline-danger btn-sm btn-remove-row" title="Hapus baris" onclick="BulkGrid.removeRow(${rowNum})">
+              <i class="ri-close-line"></i>
+            </button>
+          </td>
+        </tr>`;
+      },
+
+      addRows(count) {
+        const $tbody = $('#tbody-bulk-grid');
+        for (let i = 0; i < count; i++) {
+          this.rowCounter++;
+          $tbody.append(this.template(this.rowCounter));
+        }
+      },
+
+      removeRow(num) {
+        $(`#bulk-row-${num}`).remove();
+      },
+
+      collectData() {
+        const rows = [];
+        $('#tbody-bulk-grid tr').each(function() {
+          const $inputs = $(this).find('input, select');
+          const item = {};
+          $inputs.each(function() {
+            const name = $(this).attr('name');
+            if (!name) return;
+            const key = name.match(/\[(\w+)\]/);
+            if (key) item[key[1]] = $(this).val().trim();
+          });
+          // Skip baris kosong
+          if (item.nama) rows.push(item);
+        });
+        return rows;
+      },
+
+      async saveAll() {
+        const data = this.collectData();
+        if (!data.length) {
+          Swal.fire('Info', 'Tidak ada data yang diisi.', 'info');
+          return;
+        }
+
+        const confirm = await Swal.fire({
+          icon: 'question',
+          title: `Simpan ${data.length} santri?`,
+          showCancelButton: true,
+          confirmButtonText: 'Ya, simpan',
+          cancelButtonText: 'Batal'
+        });
+        if (!confirm.isConfirmed) return;
+
+        Swal.fire({
+          title: 'Menyimpan...',
+          allowOutsideClick: false,
+          didOpen: () => Swal.showLoading()
+        });
+
+        try {
+          const res = await $.ajax({
+            url: CONFIG.baseUrl + 'santri/simpan_bulk',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+              santri_list: data
+            })
+          });
+          Swal.close();
+          if (res.status === 'success') {
+            Swal.fire('Berhasil', res.message || 'Data berhasil disimpan.', 'success');
+            $('#modalBulkTambah').modal('hide');
+            $('#tbody-bulk-grid').empty();
+            BulkGrid.rowCounter = 0;
+            if (typeof dataTable_santri !== 'undefined') dataTable_santri.ajax.reload(null, false);
+          } else {
+            Swal.fire('Gagal', res.message || 'Terjadi kesalahan.', 'error');
+          }
+        } catch (e) {
+          Swal.close();
+          Swal.fire('Gagal', 'Terjadi kesalahan jaringan.', 'error');
+        }
+      }
+    };
+
+    // Bulk grid event bindings
+    $(document).on('click', '#btn-add-row-bulk', () => BulkGrid.addRows(1));
+    $(document).on('click', '#btn-add-5rows-bulk', () => BulkGrid.addRows(5));
+    $(document).on('click', '#btn-simpan-bulk-grid', () => BulkGrid.saveAll());
 
     $('#btn-tambah-santri').on('click', function() {
       resetModalSantri();

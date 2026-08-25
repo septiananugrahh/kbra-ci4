@@ -326,4 +326,46 @@ class Santri extends CustomController
 
     return redirect()->back()->with('message', 'Import berhasil.');
   }
+
+  public function simpan_bulk()
+  {
+    $json = $this->request->getJSON(true);
+    $list = $json['santri_list'] ?? [];
+
+    if (empty($list)) {
+      return $this->response->setJSON([
+        'status'  => 'error',
+        'message' => 'Tidak ada data untuk disimpan.'
+      ]);
+    }
+
+    $saved = 0;
+    foreach ($list as $item) {
+      if (empty($item['nama'])) continue;
+
+      $this->santriModel->save([
+        'nama'           => $item['nama'],
+        'nis_lokal'      => $item['nis_lokal'] ?? null,
+        'nisn'           => $item['nisn'] ?? null,
+        'nik'            => $item['nik'] ?? null,
+        'jenis_kelamin'  => $item['jenis_kelamin'] ?? 'L',
+        'tempat_lahir'   => $item['tempat_lahir'] ?? null,
+        'tanggal_lahir'  => $item['tanggal_lahir'] ?? null,
+        'telp'           => $item['telp'] ?? null,
+        'alamat'         => $item['alamat'] ?? null,
+        'nama_ayah'      => $item['nama_ayah'] ?? null,
+        'pekerjaan_ayah' => $item['pekerjaan_ayah'] ?? null,
+        'nama_ibu'       => $item['nama_ibu'] ?? null,
+        'pekerjaan_ibu'  => $item['pekerjaan_ibu'] ?? null,
+        'jenjang'        => $item['jenjang'] ?? 'KB',
+        'foto_santri'    => null,
+      ]);
+      $saved++;
+    }
+
+    return $this->response->setJSON([
+      'status'  => 'success',
+      'message' => $saved . ' santri berhasil disimpan.'
+    ]);
+  }
 }
