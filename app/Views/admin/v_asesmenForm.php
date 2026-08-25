@@ -558,7 +558,8 @@
   /* ========================================
      MODAL SANTRI
   ======================================== */
-  #modalPilihSantri {
+  #modalPilihSantri,
+  #modalDownload {
     z-index: 1100;
   }
 
@@ -604,9 +605,6 @@
     color: #6c757d;
   }
 
-  .modal-backdrop.show {
-    z-index: 1095;
-  }
 
   /* ========================================
      MOBILE
