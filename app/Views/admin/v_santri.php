@@ -835,6 +835,10 @@
       modal_upload_santri.modal('show');
     });
 
+    $('#btn-bulk-tambah-santri').on('click', function() {
+      $('#modalBulkTambah').modal('show');
+    });
+
     $('#btn-tambah-santri').on('click', function() {
       resetModalSantri();
       $('#modalTitle-santri').text('Tambah Data Santri'); // Judul Modal
