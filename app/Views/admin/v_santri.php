@@ -159,6 +159,10 @@
                               <th style="min-width: 130px;">NISN</th>
                               <th style="min-width: 120px;">NIS Lokal</th>
                               <th style="min-width: 130px;">NIK</th>
+                              <th style="min-width: 130px;">Nama Ayah</th>
+                              <th style="min-width: 130px;">Pekerjaan Ayah</th>
+                              <th style="min-width: 130px;">Nama Ibu</th>
+                              <th style="min-width: 130px;">Pekerjaan Ibu</th>
                               <th style="min-width: 120px;">Tempat Lahir</th>
                               <th style="min-width: 130px;">Tgl Lahir</th>
                               <th style="min-width: 120px;">Jenjang</th>
@@ -759,7 +763,7 @@
           className: "all",
           render: function(data, type, row) {
             let ket = '';
-            if (!row.kelas_id && (data === 'KB' || data === 'RA')) {
+            if (userRole.includes("3") && !row.kelas_id && (data === 'KB' || data === 'RA')) {
               ket = ' <span class="badge bg-warning text-dark">Belum memiliki kelas</span>';
             } else if (data === 'LULUS') {
               ket = ' <span class="badge bg-success">Lulus</span>';
@@ -939,6 +943,10 @@
           </select></td>
           <td><input type="text" name="row[${rowNum}][nisn]" class="form-control" placeholder="NISN"></td>
           <td><input type="text" name="row[${rowNum}][nis_lokal]" class="form-control" placeholder="NIS Lokal"></td>
+          <td><input type="text" name="row[${rowNum}][nama_ayah]" class="form-control" placeholder="Nama Ayah"></td>
+          <td><input type="text" name="row[${rowNum}][pekerjaan_ayah]" class="form-control" placeholder="Pekerjaan Ayah"></td>
+          <td><input type="text" name="row[${rowNum}][nama_ibu]" class="form-control" placeholder="Nama Ibu"></td>
+          <td><input type="text" name="row[${rowNum}][pekerjaan_ibu]" class="form-control" placeholder="Pekerjaan Ibu"></td>
           <td><input type="text" name="row[${rowNum}][nik]" class="form-control" placeholder="NIK"></td>
           <td><input type="text" name="row[${rowNum}][tempat_lahir]" class="form-control" placeholder="Kota/Kab"></td>
           <td><input type="date" name="row[${rowNum}][tanggal_lahir]" class="form-control"></td>
@@ -949,7 +957,7 @@
           <td><input type="text" name="row[${rowNum}][telp]" class="form-control" placeholder="08..."></td>
           <td><input type="text" name="row[${rowNum}][alamat]" class="form-control" placeholder="Alamat"></td>
           <td class="text-center">
-            <button type="button" class="btn btn-outline-danger btn-sm btn-remove-row" title="Hapus baris" onclick="BulkGrid.removeRow(${rowNum})">
+            <button type="button" class="btn btn-outline-danger btn-sm btn-remove-row" data-row="${rowNum}" title="Hapus baris">
               <i class="ri-close-line"></i>
             </button>
           </td>
@@ -976,7 +984,7 @@
           $inputs.each(function() {
             const name = $(this).attr('name');
             if (!name) return;
-            const key = name.match(/\[(\w+)\]/);
+            const key = name.match(/\[(\w+)\]$/);
             if (key) item[key[1]] = $(this).val().trim();
           });
           // Skip baris kosong
@@ -1037,6 +1045,11 @@
     $(document).on('click', '#btn-add-row-bulk', () => BulkGrid.addRows(1));
     $(document).on('click', '#btn-add-5rows-bulk', () => BulkGrid.addRows(5));
     $(document).on('click', '#btn-simpan-bulk-grid', () => BulkGrid.saveAll());
+
+    // tambahkan di deretan bindings bawah (dekat #btn-add-row-bulk):
+    $(document).on('click', '.btn-remove-row', function() {
+      BulkGrid.removeRow($(this).data('row'));
+    });
 
     $('#btn-tambah-santri').on('click', function() {
       resetModalSantri();
