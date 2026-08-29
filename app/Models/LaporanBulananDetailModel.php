@@ -126,13 +126,37 @@ class LaporanBulananDetailModel extends Model
 
   public function getDetailForSingleSantri($laporan_id, $santri_id)
   {
-    return $this->select('laporan_bulanan_detail.*, santri.nama as santri_nama, capaian_pembelajaran.id as capaian_id, capaian_pembelajaran.nama as capaian_nama')
+    $details = $this->select('laporan_bulanan_detail.*, santri.nama as santri_nama, capaian_pembelajaran.id as capaian_id, capaian_pembelajaran.nama as capaian_nama')
       ->join('santri', 'santri.id = laporan_bulanan_detail.santri_id')
       ->join('capaian_pembelajaran', 'capaian_pembelajaran.id = laporan_bulanan_detail.capaian_pembelajaran_id')
       ->where('laporan_bulanan_detail.laporan_bulanan_id', $laporan_id)
       ->where('laporan_bulanan_detail.santri_id', $santri_id)
       ->orderBy('laporan_bulanan_detail.urutan', 'ASC')
       ->findAll();
+
+    // ✅ Return struktur grouping sama dengan getDetailGroupedForPDF()
+    // supaya template bulanan_pdf_template.php bisa baca
+    // $laporan_data[$santri_id]['capaian'][$capaian_id] = [keterangan, ...]
+    $grouped = [];
+    foreach ($details as $detail) {
+      $sid = $detail['santri_id'];
+      $cid = $detail['capaian_pembelajaran_id'] ?? $detail['capaian_id'];
+
+      if (!isset($grouped[$sid])) {
+        $grouped[$sid] = [
+          'nama' => $detail['santri_nama'],
+          'capaian' => []
+        ];
+      }
+      if (!isset($grouped[$sid]['capaian'][$cid])) {
+        $grouped[$sid]['capaian'][$cid] = [];
+      }
+      if (!empty($detail['keterangan'])) {
+        $grouped[$sid]['capaian'][$cid][] = $detail['keterangan'];
+      }
+    }
+
+    return $grouped;
   }
 
   /**
