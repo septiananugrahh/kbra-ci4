@@ -111,6 +111,32 @@
     return 'data:image/' . $type . ';base64,' . base64_encode($data);
   }
   $logoBase64 = imageToBase64(FCPATH . 'logo-200px.png');
+
+  // ✅ $columnWidths dikirim dari controller, format: { "santri_id": [w1, w2, ...] }
+  // Kalau tidak ada key untuk santri tersebut (atau jumlah elemen tidak cocok
+  // dengan jumlah capaian_list), fallback ke pembagian rata (equal split).
+  $columnWidths = $columnWidths ?? [];
+  $totalKolom = count($capaian_list);
+
+  function getColumnWidthsForSantri($santriId, $columnWidths, $totalKolom)
+  {
+    if (
+      isset($columnWidths[$santriId]) &&
+      is_array($columnWidths[$santriId]) &&
+      count($columnWidths[$santriId]) === $totalKolom
+    ) {
+      return $columnWidths[$santriId];
+    }
+
+    // Default: equal split
+    if ($totalKolom === 0) return [];
+    $equal = round(100 / $totalKolom, 2);
+    $widths = array_fill(0, $totalKolom, $equal);
+    // Koreksi pembulatan supaya total tetap 100
+    $total = array_sum($widths);
+    $widths[$totalKolom - 1] += round(100 - $total, 2);
+    return $widths;
+  }
   ?>
 
   <?php foreach ($listSantris as $indexSantri => $santri):
@@ -125,6 +151,9 @@
       $data_per_kolom[$id_capaian] = $items;
       $max_rows = max($max_rows, count($items));
     }
+
+    // ✅ Ambil lebar kolom khusus untuk santri ini (atau default equal split)
+    $widthsSantriIni = getColumnWidthsForSantri($lookup_id, $columnWidths, $totalKolom);
   ?>
 
     <!-- {{-- KOP - di luar tabel --}} -->
@@ -161,7 +190,7 @@
       <thead>
         <tr>
           <?php foreach ($capaian_list as $idx => $nama): ?>
-            <th style="width: <?= 100 / count($capaian_list) ?>%; background-color: <?= $capaian_list_warna[$idx] ?? '#f2f2f2' ?>;">
+            <th style="width: <?= $widthsSantriIni[$idx] ?? (100 / max($totalKolom, 1)) ?>%; background-color: <?= $capaian_list_warna[$idx] ?? '#f2f2f2' ?>;">
               <?= esc($nama) ?>
             </th>
           <?php endforeach; ?>
@@ -170,17 +199,19 @@
 
       <tbody>
         <?php if ($max_rows > 0): ?>
-          <?php for ($i = 0; $i < $max_rows; $i++): ?>
-            <tr>
-              <?php foreach ($capaian_list_id as $id_capaian): ?>
-                <td>
-                  <?php if (isset($data_per_kolom[$id_capaian][$i])): ?>
-                    <div class="keterangan-item">• <?= esc($data_per_kolom[$id_capaian][$i]) ?></div>
-                  <?php endif; ?>
-                </td>
-              <?php endforeach; ?>
-            </tr>
-          <?php endfor; ?>
+          <tr>
+            <?php foreach ($capaian_list_id as $id_capaian): ?>
+              <td>
+                <?php if (!empty($data_per_kolom[$id_capaian])): ?>
+                  <ul style="margin:0; padding-left:1.2em;">
+                    <?php foreach ($data_per_kolom[$id_capaian] as $item): ?>
+                      <li class="keterangan-item"><?= esc($item) ?></li>
+                    <?php endforeach; ?>
+                  </ul>
+                <?php endif; ?>
+              </td>
+            <?php endforeach; ?>
+          </tr>
         <?php else: ?>
           <tr>
             <td colspan="<?= count($capaian_list) ?>" style="text-align:center; padding: 20px;">Data Belum Tersedia</td>

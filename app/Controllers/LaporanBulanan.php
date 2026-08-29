@@ -34,6 +34,9 @@ class LaporanBulanan extends CustomController
   protected $asesmenKaryaModel;
   protected $asesmenFotoModel;
 
+  // Debug logging untuk filterDataByMonth() - matikan di production
+  private $debugFilterLog = false;
+
   public function __construct()
   {
     $this->laporanModel = new LaporanBulananModel();
@@ -61,10 +64,7 @@ class LaporanBulanan extends CustomController
     $semester = session()->get('semester');
     $guru_id = session()->get('user_id');
 
-    // Ambil daftar laporan yang sudah dibuat
     $laporanList = $this->laporanModel->getLaporanByKelas($kelas_id, $tahun, $semester);
-
-    // Ambil data kelas
     $kelas = $this->kelasModel->find($kelas_id);
 
     $bulanList = [
@@ -123,7 +123,6 @@ class LaporanBulanan extends CustomController
       "12" => "Desember"
     ];
 
-    // Cek apakah laporan sudah ada
     $existingLaporan = $this->laporanModel->isLaporanExist($kelas_id, $bulan, $tahun, $semester);
     if ($existingLaporan) {
       return $this->response->setJSON([
@@ -132,13 +131,11 @@ class LaporanBulanan extends CustomController
       ]);
     }
 
-    // Ambil data asesmen
     $dataLaporanChecklist = $this->asesmenChecklistModel->getChecklistDetailWithSantri($kelas_id);
     $dataLaporanAnekdot = $this->asesmenAnekdotModel->getAnekdotDetailWithSantri($kelas_id);
     $dataLaporanHastaKarya = $this->asesmenKaryaModel->getHastaKaryaDetailWithSantri($kelas_id);
     $dataLaporanFotoBerseri = $this->asesmenFotoModel->getFotoBerseriDetailWithSantri($kelas_id);
 
-    // Filter data berdasarkan bulan
     $filteredData = $this->filterDataByMonth(
       $bulanIndo[$bulan],
       $dataLaporanChecklist,
@@ -146,10 +143,6 @@ class LaporanBulanan extends CustomController
       $dataLaporanHastaKarya,
       $dataLaporanFotoBerseri
     );
-    // echo '<pre>';
-    // var_dump($filteredData);
-    // echo '</pre>';
-    // die;
 
     if (
       empty($filteredData['checklist']) && empty($filteredData['anekdot']) &&
@@ -161,7 +154,6 @@ class LaporanBulanan extends CustomController
       ]);
     }
 
-    // Buat laporan baru
     $laporanData = [
       'kelas_id' => $kelas_id,
       'bulan' => $bulan,
@@ -175,7 +167,6 @@ class LaporanBulanan extends CustomController
     $this->laporanModel->insert($laporanData);
     $laporan_id = $this->laporanModel->getInsertID();
 
-    // Proses dan simpan detail laporan
     $this->saveDetailFromAsesmen($laporan_id, $filteredData);
 
     return $this->response->setJSON([
@@ -187,234 +178,45 @@ class LaporanBulanan extends CustomController
 
   /**
    * Filter data asesmen berdasarkan bulan
+   * Logging debug dibungkus flag $this->debugFilterLog supaya tidak membebani
+   * proses generate saat production (ratusan log_message() per generate itu mahal).
    */
   private function filterDataByMonth($bulanNama, $dataChecklist, $dataAnekdot, $dataHastaKarya, $dataFotoBerseri)
   {
     $result = ['checklist' => [], 'anekdot' => [], 'hastakarya' => [], 'fotoberseri' => []];
 
-    // ============================================
-    // LOG AWAL: Cek data yang masuk
-    // ============================================
-    log_message('debug', '========== MULAI FILTER BULAN ==========');
-    log_message('debug', 'Target Bulan: ' . $bulanNama);
-    log_message('debug', 'Total data checklist: ' . count($dataChecklist));
-    log_message('debug', 'Total data anekdot: ' . count($dataAnekdot));
-    log_message('debug', 'Total data hastakarya: ' . count($dataHastaKarya));
-    log_message('debug', 'Total data fotoberseri: ' . count($dataFotoBerseri));
-    log_message('debug', '========================================');
+    $sources = [
+      'checklist'   => $dataChecklist,
+      'anekdot'     => $dataAnekdot,
+      'hastakarya'  => $dataHastaKarya,
+      'fotoberseri' => $dataFotoBerseri,
+    ];
 
-    // ============================================
-    // FILTER CHECKLIST
-    // ============================================
-    log_message('debug', '');
-    log_message('debug', '--- PROSES FILTER CHECKLIST ---');
-    $checklistCounter = 0;
-
-    foreach ($dataChecklist as $index => $laporan) {
-      $checklistCounter++;
-      $tanggal = $laporan['tanggal'] ?? 'NULL';
-      $santriNama = $laporan['santri_nama'] ?? 'Unknown';
-
-      log_message('debug', "Checklist #{$checklistCounter} - Santri: {$santriNama}");
-      log_message('debug', "  Tanggal Raw: {$tanggal}");
-
-      if (isset($laporan['tanggal']) && !empty($laporan['tanggal'])) {
-        $parts = explode(",", $laporan['tanggal']);
-        log_message('debug', "  Explode koma, parts count: " . count($parts));
-        log_message('debug', "  Parts: " . json_encode($parts));
-
-        if (count($parts) > 1) {
-          $bulanTeks = trim($parts[1]);
-          log_message('debug', "  Bulan Teks (setelah trim): '{$bulanTeks}'");
-
-          $dateArray = explode(" ", $bulanTeks);
-          log_message('debug', "  Explode spasi, array count: " . count($dateArray));
-          log_message('debug', "  Date Array: " . json_encode($dateArray));
-
-          $bulanNamaDB = $dateArray[1] ?? '';
-          log_message('debug', "  Bulan Extracted: '{$bulanNamaDB}'");
-          log_message('debug', "  Perbandingan: '{$bulanNamaDB}' == '{$bulanNama}' ? " . ($bulanNamaDB == $bulanNama ? 'TRUE' : 'FALSE'));
-
-          if ($bulanNamaDB == $bulanNama) {
-            $result['checklist'][] = $laporan;
-            log_message('debug', "  ✓ MATCH! Data ditambahkan ke result");
-          } else {
-            log_message('debug', "  ✗ TIDAK MATCH!");
-          }
-        } else {
-          log_message('debug', "  ✗ Format tanggal tidak ada koma atau parts < 2");
-        }
-      } else {
-        log_message('debug', "  ✗ Tanggal kosong atau null");
-      }
-      log_message('debug', '');
+    if ($this->debugFilterLog) {
+      log_message('debug', '========== MULAI FILTER BULAN: ' . $bulanNama . ' ==========');
     }
 
-    log_message('debug', "HASIL FILTER CHECKLIST: " . count($result['checklist']) . " dari " . $checklistCounter . " data");
-    log_message('debug', '========================================');
+    foreach ($sources as $key => $rows) {
+      $counter = 0;
+      foreach ($rows as $laporan) {
+        $counter++;
+        if (empty($laporan['tanggal'])) continue;
 
-    // ============================================
-    // FILTER ANEKDOT
-    // ============================================
-    log_message('debug', '');
-    log_message('debug', '--- PROSES FILTER ANEKDOT ---');
-    $anekdotCounter = 0;
+        $parts = explode(',', $laporan['tanggal']);
+        if (count($parts) < 2) continue;
 
-    foreach ($dataAnekdot as $index => $laporan) {
-      $anekdotCounter++;
-      $tanggal = $laporan['tanggal'] ?? 'NULL';
-      $santriNama = $laporan['santri_nama'] ?? 'Unknown';
+        $dateArray = explode(' ', trim($parts[1]));
+        $bulanNamaDB = $dateArray[1] ?? '';
 
-      log_message('debug', "Anekdot #{$anekdotCounter} - Santri: {$santriNama}");
-      log_message('debug', "  Tanggal Raw: {$tanggal}");
-
-      if (isset($laporan['tanggal']) && !empty($laporan['tanggal'])) {
-        $parts = explode(",", $laporan['tanggal']);
-        log_message('debug', "  Explode koma, parts count: " . count($parts));
-        log_message('debug', "  Parts: " . json_encode($parts));
-
-        if (count($parts) > 1) {
-          $bulanTeks = trim($parts[1]);
-          log_message('debug', "  Bulan Teks (setelah trim): '{$bulanTeks}'");
-
-          $dateArray = explode(" ", $bulanTeks);
-          log_message('debug', "  Explode spasi, array count: " . count($dateArray));
-          log_message('debug', "  Date Array: " . json_encode($dateArray));
-
-          $bulanNamaDB = $dateArray[1] ?? '';
-          log_message('debug', "  Bulan Extracted: '{$bulanNamaDB}'");
-          log_message('debug', "  Perbandingan: '{$bulanNamaDB}' == '{$bulanNama}' ? " . ($bulanNamaDB == $bulanNama ? 'TRUE' : 'FALSE'));
-
-          if ($bulanNamaDB == $bulanNama) {
-            $result['anekdot'][] = $laporan;
-            log_message('debug', "  ✓ MATCH! Data ditambahkan ke result");
-          } else {
-            log_message('debug', "  ✗ TIDAK MATCH!");
-          }
-        } else {
-          log_message('debug', "  ✗ Format tanggal tidak ada koma atau parts < 2");
+        if ($bulanNamaDB === $bulanNama) {
+          $result[$key][] = $laporan;
         }
-      } else {
-        log_message('debug', "  ✗ Tanggal kosong atau null");
       }
-      log_message('debug', '');
-    }
 
-    log_message('debug', "HASIL FILTER ANEKDOT: " . count($result['anekdot']) . " dari " . $anekdotCounter . " data");
-    log_message('debug', '========================================');
-
-    // ============================================
-    // FILTER HASTA KARYA
-    // ============================================
-    log_message('debug', '');
-    log_message('debug', '--- PROSES FILTER HASTA KARYA ---');
-    $hastaCounter = 0;
-
-    foreach ($dataHastaKarya as $index => $laporan) {
-      $hastaCounter++;
-      $tanggal = $laporan['tanggal'] ?? 'NULL';
-      $santriNama = $laporan['santri_nama'] ?? 'Unknown';
-
-      log_message('debug', "Hasta Karya #{$hastaCounter} - Santri: {$santriNama}");
-      log_message('debug', "  Tanggal Raw: {$tanggal}");
-
-      if (isset($laporan['tanggal']) && !empty($laporan['tanggal'])) {
-        $parts = explode(",", $laporan['tanggal']);
-        log_message('debug', "  Explode koma, parts count: " . count($parts));
-        log_message('debug', "  Parts: " . json_encode($parts));
-
-        if (count($parts) > 1) {
-          $bulanTeks = trim($parts[1]);
-          log_message('debug', "  Bulan Teks (setelah trim): '{$bulanTeks}'");
-
-          $dateArray = explode(" ", $bulanTeks);
-          log_message('debug', "  Explode spasi, array count: " . count($dateArray));
-          log_message('debug', "  Date Array: " . json_encode($dateArray));
-
-          $bulanNamaDB = $dateArray[1] ?? '';
-          log_message('debug', "  Bulan Extracted: '{$bulanNamaDB}'");
-          log_message('debug', "  Perbandingan: '{$bulanNamaDB}' == '{$bulanNama}' ? " . ($bulanNamaDB == $bulanNama ? 'TRUE' : 'FALSE'));
-
-          if ($bulanNamaDB == $bulanNama) {
-            $result['hastakarya'][] = $laporan;
-            log_message('debug', "  ✓ MATCH! Data ditambahkan ke result");
-          } else {
-            log_message('debug', "  ✗ TIDAK MATCH!");
-          }
-        } else {
-          log_message('debug', "  ✗ Format tanggal tidak ada koma atau parts < 2");
-        }
-      } else {
-        log_message('debug', "  ✗ Tanggal kosong atau null");
+      if ($this->debugFilterLog) {
+        log_message('debug', "HASIL FILTER {$key}: " . count($result[$key]) . " dari {$counter} data");
       }
-      log_message('debug', '');
     }
-
-    log_message('debug', "HASIL FILTER HASTA KARYA: " . count($result['hastakarya']) . " dari " . $hastaCounter . " data");
-    log_message('debug', '========================================');
-
-    // ============================================
-    // FILTER FOTO BERSERI
-    // ============================================
-    log_message('debug', '');
-    log_message('debug', '--- PROSES FILTER FOTO BERSERI ---');
-    $fotoBerseriCounter = 0;
-
-    foreach ($dataFotoBerseri as $index => $laporan) {
-      $fotoBerseriCounter++;
-      $tanggal = $laporan['tanggal'] ?? 'NULL';
-      $santriNama = $laporan['santri_nama'] ?? 'Unknown';
-
-      log_message('debug', "Foto Berseri #{$fotoBerseriCounter} - Santri: {$santriNama}");
-      log_message('debug', "  Tanggal Raw: {$tanggal}");
-
-      if (isset($laporan['tanggal']) && !empty($laporan['tanggal'])) {
-        $parts = explode(",", $laporan['tanggal']);
-        log_message('debug', "  Explode koma, parts count: " . count($parts));
-        log_message('debug', "  Parts: " . json_encode($parts));
-
-        if (count($parts) > 1) {
-          $bulanTeks = trim($parts[1]);
-          log_message('debug', "  Bulan Teks (setelah trim): '{$bulanTeks}'");
-
-          $dateArray = explode(" ", $bulanTeks);
-          log_message('debug', "  Explode spasi, array count: " . count($dateArray));
-          log_message('debug', "  Date Array: " . json_encode($dateArray));
-
-          $bulanNamaDB = $dateArray[1] ?? '';
-          log_message('debug', "  Bulan Extracted: '{$bulanNamaDB}'");
-          log_message('debug', "  Perbandingan: '{$bulanNamaDB}' == '{$bulanNama}' ? " . ($bulanNamaDB == $bulanNama ? 'TRUE' : 'FALSE'));
-
-          if ($bulanNamaDB == $bulanNama) {
-            $result['fotoberseri'][] = $laporan;
-            log_message('debug', "  ✓ MATCH! Data ditambahkan ke result");
-          } else {
-            log_message('debug', "  ✗ TIDAK MATCH!");
-          }
-        } else {
-          log_message('debug', "  ✗ Format tanggal tidak ada koma atau parts < 2");
-        }
-      } else {
-        log_message('debug', "  ✗ Tanggal kosong atau null");
-      }
-      log_message('debug', '');
-    }
-
-    log_message('debug', "HASIL FILTER FOTO BERSERI: " . count($result['fotoberseri']) . " dari " . $fotoBerseriCounter . " data");
-    log_message('debug', '========================================');
-
-    // ============================================
-    // RINGKASAN AKHIR
-    // ============================================
-    log_message('debug', '');
-    log_message('debug', '========== RINGKASAN HASIL FILTER ==========');
-    log_message('debug', "Bulan Target: {$bulanNama}");
-    log_message('debug', "Checklist   : " . count($result['checklist']) . " / {$checklistCounter}");
-    log_message('debug', "Anekdot     : " . count($result['anekdot']) . " / {$anekdotCounter}");
-    log_message('debug', "Hasta Karya : " . count($result['hastakarya']) . " / {$hastaCounter}");
-    log_message('debug', "Foto Berseri: " . count($result['fotoberseri']) . " / {$fotoBerseriCounter}");
-    log_message('debug', '============================================');
-    log_message('debug', '');
 
     return $result;
   }
@@ -428,7 +230,6 @@ class LaporanBulanan extends CustomController
     $tahun = session()->get('tahun');
     $semester = session()->get('semester');
 
-    // Ambil daftar laporan yang sudah dibuat
     $laporanList = $this->laporanModel->getLaporanByKelas($kelas_id, $tahun, $semester);
 
     return $this->response->setJSON($laporanList);
@@ -446,12 +247,10 @@ class LaporanBulanan extends CustomController
         $santri_id = $laporan['santri_id'];
         $keterangan = [];
 
-        // Decode keterangan sesuai jenis asesmen
         if ($key === 'checklist' && isset($laporan['kejadian']) && isset($laporan['isi'])) {
           $kejadian = json_decode($laporan['kejadian'], true) ?: [];
           $isi = json_decode($laporan['isi'], true) ?: [];
 
-          // Filter kejadian berdasarkan status 'sudah_muncul' di kolom isi
           $keterangan = [];
           foreach ($kejadian as $index => $item) {
             if (isset($isi[$index]) && $isi[$index]['status'] === 'sudah_muncul') {
@@ -466,12 +265,10 @@ class LaporanBulanan extends CustomController
           $keterangan = json_decode($laporan['keterangan'], true) ?: [];
         }
 
-        // Proses setiap keterangan
         foreach ($keterangan as $urutan => $item) {
           if (is_array($item) && isset($item['id_capaian'])) {
             $id_capaian = $item['id_capaian'];
 
-            // Ambil isi keterangan
             $item_keterangan = $item['keterangan'] ??
               $item['analisis'] ??
               $item['catatan'] ??
@@ -507,7 +304,6 @@ class LaporanBulanan extends CustomController
       throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
-    // Cek apakah user berhak mengedit
     $guru_id = session()->get('user_id');
     $roles = session()->get('roles');
 
@@ -515,10 +311,7 @@ class LaporanBulanan extends CustomController
       return redirect()->back()->with('error', 'Anda tidak memiliki akses untuk mengedit laporan ini');
     }
 
-    // Ambil detail laporan
     $details = $this->detailModel->getDetailGroupedBySantri($laporan_id);
-
-    // Ambil daftar capaian pembelajaran
     $capaianList = $this->capaianModel->where('setting', session()->get('tahun'))->findAll();
 
     $data = [
@@ -573,7 +366,6 @@ class LaporanBulanan extends CustomController
       return $this->response->setJSON(['success' => false, 'message' => 'Anda tidak memiliki akses']);
     }
 
-    // Ambil urutan terakhir
     $lastUrutan = $this->detailModel
       ->where(['laporan_bulanan_id' => $laporan_id, 'santri_id' => $santri_id, 'capaian_pembelajaran_id' => $capaian_id])
       ->orderBy('urutan', 'DESC')
@@ -581,7 +373,7 @@ class LaporanBulanan extends CustomController
 
     $urutan = $lastUrutan ? ($lastUrutan['urutan'] + 1) : 0;
 
-    $newId = $this->detailModel->insert([
+    $this->detailModel->insert([
       'laporan_bulanan_id'      => $laporan_id,
       'santri_id'               => $santri_id,
       'capaian_pembelajaran_id' => $capaian_id,
@@ -613,7 +405,6 @@ class LaporanBulanan extends CustomController
       ]);
     }
 
-    // Cek kepemilikan
     $laporan = $this->laporanModel->find($detail['laporan_bulanan_id']);
     $guru_id = session()->get('user_id');
     $roles = session()->get('roles');
@@ -647,7 +438,6 @@ class LaporanBulanan extends CustomController
       ]);
     }
 
-    // Cek kepemilikan
     $guru_id = session()->get('user_id');
     $roles = session()->get('roles');
 
@@ -658,7 +448,6 @@ class LaporanBulanan extends CustomController
       ]);
     }
 
-    // Delete akan otomatis menghapus detail karena CASCADE
     $this->laporanModel->delete($laporan_id);
 
     return $this->response->setJSON([
@@ -668,173 +457,45 @@ class LaporanBulanan extends CustomController
   }
 
   /**
-   * Download/Print PDF laporan per santri
+   * Download/Print PDF laporan per santri (non-custom, dipakai di tempat lain)
    */
   public function downloadPDFPerSantri($laporan_id, $santri_id)
   {
     $laporan = $this->laporanModel->find($laporan_id);
-
     if (!$laporan) {
       throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
-    // Ambil data santri
     $santri = $this->santriModel->find($santri_id);
     if (!$santri) {
       throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
-    // Ambil data yang diperlukan
-    $kelas = $this->kelasModel->find($laporan['kelas_id']);
-    $semester = $this->semesterModel
-      ->where('tingkat', $kelas['jenjang'])
-      ->where('tahun', $laporan['tahun'])
-      ->where('semester', $laporan['semester'])
-      ->first();
+    $data = $this->_buildPdfData($laporan, 'single', $santri_id);
+    $data['print_mode'] = 'single';
+    $data['selected_santri_id'] = $santri_id;
 
-    $kepala = $this->guruModel->find($semester['kepala']);
-    $wali = $this->guruModel->find($kelas['wali']);
-
-    // Ambil detail laporan untuk santri tertentu
-    $laporan_data = $this->detailModel->getDetailForSingleSantri($laporan_id, $santri_id);
-
-    // Ambil capaian pembelajaran
-    $capaian_pembelajaran = $this->capaianModel->where('setting', $laporan['tahun'])->findAll();
-
-    $capaian_list = [];
-    $capaian_list_id = [];
-    $capaian_list_warna = [];
-
-    foreach ($capaian_pembelajaran as $item) {
-      $capaian_list[] = $item['nama'];
-      $capaian_list_id[] = $item['id'];
-      $capaian_list_warna[] = $item['warna'];
-    }
-
-    // Tentukan nama tingkat
-    if ($kelas['jenjang'] == 'RA') {
-      $nama_tingkat = "RA ISLAMIC CENTER ABDULLAH GHANIM AS SAMAIL";
-      $nama_kepala = "Kepala Sekolah";
-    } else {
-      $nama_tingkat = "KB IT ISLAMIC CENTER PONOROGO";
-      $nama_kepala = "Kepala KB IT Islamic Center";
-    }
-
-    $data = [
-      'kepala' => $kepala['nama'],
-      'wali' => $wali['nama'],
-      'capaian_pembelajaran' => $capaian_pembelajaran,
-      'semester' => $laporan['semester'],
-      'tahun' => $laporan['tahun'],
-      'nama_tingkat' => $nama_tingkat,
-      'nama_kepala' => $nama_kepala,
-      'bulan' => $laporan['nama_bulan'],
-      'santri' => $santri,
-      'capaian_list' => $capaian_list,
-      'capaian_list_id' => $capaian_list_id,
-      'capaian_list_warna' => $capaian_list_warna,
-      'laporan_data' => $laporan_data,
-    ];
-
-    // Generate PDF
-    $options = new Options();
-    $options->setIsRemoteEnabled(true);
-    $dompdf = new Dompdf($options);
-    $dompdf->set_option('isHtml5ParserEnabled', true);
-    $dompdf->set_option('isRemoteEnabled', true);
-    $dompdf->set_option('defaultFont', 'Times New Roman');
-    $data['print_mode'] = 'single'; // tambahkan ini
-    $data['selected_santri_id'] = $santri_id; // tambahkan ini
     $html = view('admin/pdf/bulanan_pdf_template', $data);
-    $dompdf->loadHtml($html);
-    $dompdf->setPaper('A4', 'portrait');
-    $dompdf->render();
-
     $pdfFileName = 'laporan_' . strtolower(str_replace(' ', '_', $santri['nama'])) . '_' . $laporan['bulan'] . '_' . str_replace('/', '-', $laporan['tahun']) . '.pdf';
-    $dompdf->stream($pdfFileName, ['Attachment' => 0]);
+    $this->_streamPdf($html, $pdfFileName);
   }
 
   /**
-   * Download/Print PDF laporan
+   * Download/Print PDF laporan (non-custom)
    */
   public function downloadPDF($laporan_id)
   {
     $laporan = $this->laporanModel->find($laporan_id);
-
     if (!$laporan) {
       throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
-    // Ambil data yang diperlukan
-    $kelas = $this->kelasModel->find($laporan['kelas_id']);
-    $semester = $this->semesterModel
-      ->where('tingkat', $kelas['jenjang'])
-      ->where('tahun', $laporan['tahun'])
-      ->where('semester', $laporan['semester'])
-      ->first();
-
-    $kepala = $this->guruModel->find($semester['kepala']);
-    $wali = $this->guruModel->find($kelas['wali']);
-
-    // Ambil detail laporan - gunakan method khusus untuk PDF
-    $laporan_data = $this->detailModel->getDetailGroupedForPDF($laporan_id);
-
-    // Ambil capaian pembelajaran
-    $capaian_pembelajaran = $this->capaianModel->where('setting', $laporan['tahun'])->findAll();
-
-    $capaian_list = [];
-    $capaian_list_id = [];
-    $capaian_list_warna = [];
-
-    foreach ($capaian_pembelajaran as $item) {
-      $capaian_list[] = $item['nama'];
-      $capaian_list_id[] = $item['id'];
-      $capaian_list_warna[] = $item['warna'];
-    }
-
-    // Ambil list santri
-    $listSantri = $this->ruangKelasModel->getSantriByKelas($laporan['kelas_id']);
-
-    // Tentukan nama tingkat
-    if ($kelas['jenjang'] == 'RA') {
-      $nama_tingkat = "RA ISLAMIC CENTER ABDULLAH GHANIM AS SAMAIL";
-      $nama_kepala = "Kepala Sekolah";
-    } else {
-      $nama_tingkat = "KB IT ISLAMIC CENTER PONOROGO";
-      $nama_kepala = "Kepala KB IT Islamic Center";
-    }
-
-    $data = [
-      'kepala' => $kepala['nama'],
-      'wali' => $wali['nama'],
-      'capaian_pembelajaran' => $capaian_pembelajaran,
-      'semester' => $laporan['semester'],
-      'tahun' => $laporan['tahun'],
-      'nama_tingkat' => $nama_tingkat,
-      'nama_kepala' => $nama_kepala,
-      'bulan' => $laporan['nama_bulan'],
-      'listSantris' => $listSantri,
-      'capaian_list' => $capaian_list,
-      'capaian_list_id' => $capaian_list_id,
-      'capaian_list_warna' => $capaian_list_warna,
-      'laporan_data' => $laporan_data,
-    ];
-
-    // Generate PDF
-    $options = new Options();
-    $options->setIsRemoteEnabled(true);
-    $dompdf = new Dompdf($options);
-    $dompdf->set_option('isHtml5ParserEnabled', true);
-    $dompdf->set_option('isRemoteEnabled', true);
-    $dompdf->set_option('defaultFont', 'Times New Roman');
+    $data = $this->_buildPdfData($laporan, 'all');
     $data['print_mode'] = 'all';
-    $html = view('admin/pdf/bulanan_pdf_template', $data);
-    $dompdf->loadHtml($html);
-    $dompdf->setPaper('A4', 'landscape');
-    $dompdf->render();
 
+    $html = view('admin/pdf/bulanan_pdf_template', $data);
     $pdfFileName = 'laporan_bulanan_' . $laporan['bulan'] . '_' . str_replace('/', '-', $laporan['tahun']) . '.pdf';
-    $dompdf->stream($pdfFileName, ['Attachment' => 0]);
+    $this->_streamPdf($html, $pdfFileName);
   }
 
   /**
@@ -897,6 +558,7 @@ class LaporanBulanan extends CustomController
       $customSettings = $this->_getCustomSettings();
       $data = $this->_buildPdfData($laporan, 'all');
       $data['customSettings'] = $customSettings;
+      $data['columnWidths']   = $this->_getColumnWidths();
       $data['print_mode'] = 'all';
 
       return $this->_renderPdf($data);
@@ -922,6 +584,7 @@ class LaporanBulanan extends CustomController
       $customSettings = $this->_getCustomSettings();
       $data = $this->_buildPdfData($laporan, 'single', $santri_id);
       $data['customSettings'] = $customSettings;
+      $data['columnWidths']   = $this->_getColumnWidths();
       $data['print_mode'] = 'single';
       $data['selected_santri_id'] = $santri_id;
 
@@ -943,6 +606,7 @@ class LaporanBulanan extends CustomController
 
     $data = $this->_buildPdfData($laporan, 'all');
     $data['customSettings'] = $customSettings;
+    $data['columnWidths']   = $this->_getColumnWidths();
     $data['print_mode'] = 'all';
 
     $html = view('admin/pdf/bulanan_pdf_template', $data);
@@ -963,6 +627,7 @@ class LaporanBulanan extends CustomController
 
     $data = $this->_buildPdfData($laporan, 'single', $santri_id);
     $data['customSettings'] = $customSettings;
+    $data['columnWidths']   = $this->_getColumnWidths();
     $data['print_mode'] = 'single';
     $data['selected_santri_id'] = $santri_id;
 
@@ -994,7 +659,47 @@ class LaporanBulanan extends CustomController
   }
 
   /**
+   * Ambil & decode column_widths_json dari POST.
+   * Format: { "santri_id": [30, 30, 40], ... }
+   * Santri yang tidak ada di dalamnya akan pakai lebar default (equal split) di template.
+   */
+  private function _getColumnWidths(): array
+  {
+    $json = $this->request->getPost('column_widths_json');
+    if (!$json) {
+      return [];
+    }
+
+    $decoded = json_decode($json, true);
+    if (!is_array($decoded)) {
+      return [];
+    }
+
+    // Validasi ringan: pastikan tiap value berupa array angka
+    $clean = [];
+    foreach ($decoded as $santriId => $widths) {
+      if (is_array($widths)) {
+        $clean[$santriId] = array_map('floatval', $widths);
+      }
+    }
+
+    return $clean;
+  }
+
+  /**
+   * Sanitasi cache key: CodeIgniter cache menolak karakter khusus
+   * seperti {}()/\@: — ganti dengan underscore.
+   */
+  private function _safeCacheKey(string $key): string
+  {
+    return preg_replace('/[^a-zA-Z0-9_.-]/', '_', $key);
+  }
+
+  /**
    * Build data array untuk PDF (dipakai bersama oleh semua method)
+   * Query capaian_pembelajaran & listSantri di-cache singkat karena
+   * dipanggil berulang kali saat user mengubah setting di halaman customize
+   * (preview di-trigger tiap kali slider digeser).
    */
   private function _buildPdfData(array $laporan, string $print_mode, $santri_id = null): array
   {
@@ -1008,27 +713,39 @@ class LaporanBulanan extends CustomController
     $kepala = $this->guruModel->find($semester['kepala']);
     $wali   = $this->guruModel->find($kelas['wali']);
 
-    // Ambil laporan_data sesuai mode
     if ($print_mode === 'single' && $santri_id) {
       $laporan_data = $this->detailModel->getDetailForSingleSantri($laporan['id'], $santri_id);
-      $listSantri   = $this->ruangKelasModel->getSantriByKelas($laporan['kelas_id']);
     } else {
       $laporan_data = $this->detailModel->getDetailGroupedForPDF($laporan['id']);
-      $listSantri   = $this->ruangKelasModel->getSantriByKelas($laporan['kelas_id']);
     }
 
-    // Capaian pembelajaran
-    $capaian_pembelajaran = $this->capaianModel->where('setting', $laporan['tahun'])->findAll();
-    $capaian_list   = [];
-    $capaian_list_id    = [];
-    $capaian_list_warna = [];
+    // ✅ Cache listSantri per kelas - jarang berubah selama sesi edit/customize
+    // Key di-sanitize karena cache key CodeIgniter menolak karakter {}()/\@:
+    $cacheKeySantri = $this->_safeCacheKey('santri_kelas_' . $laporan['kelas_id']);
+    $listSantri = cache($cacheKeySantri);
+    if ($listSantri === null) {
+      $listSantri = $this->ruangKelasModel->getSantriByKelas($laporan['kelas_id']);
+      cache()->save($cacheKeySantri, $listSantri, 300);
+    }
+
+    // ✅ Cache capaian pembelajaran per tahun ajaran - jarang berubah
+    // $laporan['tahun'] biasanya berformat "2024/2025" -> karakter "/" harus disanitize dulu
+    $cacheKeyCapaian = $this->_safeCacheKey('capaian_' . $laporan['tahun']);
+    $capaian_pembelajaran = cache($cacheKeyCapaian);
+    if ($capaian_pembelajaran === null) {
+      $capaian_pembelajaran = $this->capaianModel->where('setting', $laporan['tahun'])->findAll();
+      cache()->save($cacheKeyCapaian, $capaian_pembelajaran, 300);
+    }
+
+    $capaian_list        = [];
+    $capaian_list_id     = [];
+    $capaian_list_warna  = [];
     foreach ($capaian_pembelajaran as $item) {
       $capaian_list[]       = $item['nama'];
       $capaian_list_id[]    = $item['id'];
       $capaian_list_warna[] = $item['warna'];
     }
 
-    // Nama tingkat
     if ($kelas['jenjang'] == 'RA') {
       $nama_tingkat = "RA ISLAMIC CENTER ABDULLAH GHANIM AS SAMAIL";
       $nama_kepala  = "Kepala Sekolah";
@@ -1052,7 +769,26 @@ class LaporanBulanan extends CustomController
       'capaian_list_warna' => $capaian_list_warna,
       'laporan_data'       => $laporan_data,
       'selected_santri_id' => $santri_id,
+      'columnWidths'       => [], // default kosong, di-override di method publik yang butuh
     ];
+  }
+
+  /**
+   * Buat instance Dompdf dengan opsi yang sudah dituning untuk kecepatan.
+   * - isRemoteEnabled: false karena logo sudah base64 (tidak fetch network)
+   * - isFontSubsettingEnabled: true supaya output lebih kecil & cepat di-stream
+   * - isPhpEnabled: false karena template tidak eval PHP inline (dan lebih aman)
+   */
+  private function _createDompdf(): Dompdf
+  {
+    $options = new Options();
+    $options->set('isHtml5ParserEnabled', true);
+    $options->set('isRemoteEnabled', false);
+    $options->set('isFontSubsettingEnabled', true);
+    $options->set('isPhpEnabled', false);
+    $options->set('defaultFont', 'Times New Roman');
+
+    return new Dompdf($options);
   }
 
   /**
@@ -1061,28 +797,22 @@ class LaporanBulanan extends CustomController
   private function _renderPdf(array $data)
   {
     $html = view('admin/pdf/bulanan_pdf_template', $data);
-
-    $options = new Options();
-    $options->set('isHtml5ParserEnabled', true);
-    $options->set('isRemoteEnabled', true);
-    $options->set('defaultFont', 'Times New Roman');
-
-    $dompdf = new Dompdf($options);
     $html = preg_replace('/>\s+</', '><', $html);
+
+    $dompdf = $this->_createDompdf();
     $dompdf->loadHtml($html);
     $dompdf->setPaper('A4', 'landscape');
     $dompdf->render();
 
     $canvas     = $dompdf->getCanvas();
     $totalPages = $canvas->get_page_count();
-    $pdfOutput  = $dompdf->output();
 
     return $this->response
       ->setHeader('Content-Type', 'application/pdf')
       ->setHeader('Content-Disposition', 'inline; filename="preview.pdf"')
       ->setHeader('Cache-Control', 'no-cache, no-store, must-revalidate')
       ->setHeader('X-Total-Pages', $totalPages)
-      ->setBody($pdfOutput);
+      ->setBody($dompdf->output());
   }
 
   /**
@@ -1090,13 +820,9 @@ class LaporanBulanan extends CustomController
    */
   private function _streamPdf(string $html, string $filename)
   {
-    $options = new Options();
-    $options->set('isHtml5ParserEnabled', true);
-    $options->set('isRemoteEnabled', true);
-    $options->set('defaultFont', 'Times New Roman');
-
-    $dompdf = new Dompdf($options);
     $html = preg_replace('/>\s+</', '><', $html);
+
+    $dompdf = $this->_createDompdf();
     $dompdf->loadHtml($html);
     $dompdf->setPaper('A4', 'landscape');
     $dompdf->render();
