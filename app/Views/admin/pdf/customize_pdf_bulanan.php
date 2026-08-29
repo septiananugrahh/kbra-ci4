@@ -598,7 +598,9 @@
             if (currentPdfUrl) URL.revokeObjectURL(currentPdfUrl);
             currentPdfUrl = URL.createObjectURL(blob);
             const iframe = document.getElementById('previewFrame');
-            iframe.src = currentPdfUrl;
+            const santriSelector = document.getElementById('santriSelector');
+            const page = PRINT_MODE === 'all' && santriSelector ? santriSelector.selectedIndex + 1 : 1;
+            iframe.src = `${currentPdfUrl}#page=${page}`;
             iframe.onload = function() {
               setTimeout(() => {
                 if (loadingOverlay) loadingOverlay.style.display = 'none';

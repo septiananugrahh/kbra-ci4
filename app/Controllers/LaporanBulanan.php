@@ -786,7 +786,7 @@ class LaporanBulanan extends CustomController
     $options->set('isRemoteEnabled', false);
     $options->set('isFontSubsettingEnabled', true);
     $options->set('isPhpEnabled', false);
-    $options->set('defaultFont', 'Times New Roman');
+    $options->set('defaultFont', 'DejaVu Sans');
 
     return new Dompdf($options);
   }

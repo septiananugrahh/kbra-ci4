@@ -2,6 +2,7 @@
 <html>
 
 <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>Laporan Bulanan <?= esc($bulan) ?></title>
   <style>
     @page {
@@ -169,7 +170,7 @@
     <table class="info-table" style="margin-bottom: 5px;">
       <tr>
         <td style="width: 100px;">Nama Santri</td>
-        <td>: <strong><?= esc($santri['nama']) ?></strong></td>
+        <td>: <strong><?= esc(str_replace(["’", "‘", "“", "”"], ["'", "'", '"', '"'], $santri['nama'])) ?></strong></td>
       </tr>
       <tr>
         <td>Kelas</td>
