@@ -431,11 +431,17 @@
       let tanggal = $(this).data('tanggal');
       const alamat = $(this).data('alamat');
 
-      // Konversi format tanggal ke YYYY-MM-DD jika perlu
-      if (tanggal && tanggal.includes('/')) {
-        // Asumsikan format DD/MM/YYYY dari database
-        const parts = tanggal.split('/');
-        if (parts.length === 3) {
+      // Konversi format tanggal ke YYYY-MM-DD jika dari database bentuknya DD-MM-YYYY atau DD/MM/YYYY
+      if (tanggal) {
+        let parts = [];
+        if (tanggal.includes('-')) {
+          parts = tanggal.split('-');
+        } else if (tanggal.includes('/')) {
+          parts = tanggal.split('/');
+        }
+
+        // Jika formatnya DD-MM-YYYY (parts[2] adalah tahun dengan 4 digit)
+        if (parts.length === 3 && parts[2].length === 4) {
           tanggal = `${parts[2]}-${parts[1]}-${parts[0]}`; // YYYY-MM-DD
         }
       }
