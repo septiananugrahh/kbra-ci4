@@ -395,20 +395,58 @@
 
   .preview-image {
     max-height: 200px;
+    max-width: 100%;
+    object-fit: contain;
     border-radius: 0.5rem;
     margin-top: 1rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
   }
 
   .preview-container {
     position: relative;
     display: inline-block;
     margin-top: 1rem;
+    max-width: 100%;
   }
 
   .preview-container .preview-image {
     margin-top: 0;
   }
+
+  .rotate-btn-group {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    background: white;
+    padding: 0.25rem;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+  }
+
+  .rotate-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    color: #495057;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .rotate-btn:hover {
+    background: #e2e8f0;
+    color: #1a202c;
+  }
+
 
   .remove-preview-btn {
     position: absolute;
@@ -844,11 +882,16 @@
                   </label>
                   <input type="file" name="foto_hasil_karya" id="foto_hasil_karya_input" class="image-upload" accept="image/*">
                 </div>
-                <div class="preview-container" id="preview_container_hk" style="display:none;">
-                  <img src="" class="preview-image" id="thumb_hk">
+                <div class="preview-container" id="preview_container_hk" style="display:none; margin-bottom: 40px;">
+                  <img src="" class="preview-image" id="thumb_hk" data-rotation="0">
+                  <input type="hidden" name="rotation_hasil_karya" id="rotation_hk" value="0">
                   <button type="button" class="remove-preview-btn" onclick="removePreview('foto_hasil_karya_input', 'thumb_hk', 'preview_container_hk')">
                     <i class="ri-close-line"></i>
                   </button>
+                  <div class="rotate-btn-group">
+                    <button type="button" class="rotate-btn" onclick="rotateImage('thumb_hk', 'rotation_hk', -90)" title="Putar Kiri"><i class="ri-anticlockwise-2-line"></i></button>
+                    <button type="button" class="rotate-btn" onclick="rotateImage('thumb_hk', 'rotation_hk', 90)" title="Putar Kanan"><i class="ri-clockwise-2-line"></i></button>
+                  </div>
                 </div>
               </div>
 
@@ -898,11 +941,16 @@
                         </label>
                         <input type="file" name="foto_<?= $i ?>" id="foto_<?= $i ?>_input" class="image-upload" accept="image/*">
                       </div>
-                      <div class="preview-container" id="preview_container_<?= $i ?>" style="display:none;">
-                        <img src="" class="preview-image" id="thumb_<?= $i ?>">
+                      <div class="preview-container" id="preview_container_<?= $i ?>" style="display:none; margin-bottom: 40px;">
+                        <img src="" class="preview-image" id="thumb_<?= $i ?>" data-rotation="0">
+                        <input type="hidden" name="rotation_foto_<?= $i ?>" id="rotation_<?= $i ?>" value="0">
                         <button type="button" class="remove-preview-btn" onclick="removePreview('foto_<?= $i ?>_input', 'thumb_<?= $i ?>', 'preview_container_<?= $i ?>')">
                           <i class="ri-close-line"></i>
                         </button>
+                        <div class="rotate-btn-group">
+                          <button type="button" class="rotate-btn" onclick="rotateImage('thumb_<?= $i ?>', 'rotation_<?= $i ?>', -90)" title="Putar Kiri"><i class="ri-anticlockwise-2-line"></i></button>
+                          <button type="button" class="rotate-btn" onclick="rotateImage('thumb_<?= $i ?>', 'rotation_<?= $i ?>', 90)" title="Putar Kanan"><i class="ri-clockwise-2-line"></i></button>
+                        </div>
                       </div>
                     </div>
                     <div class="mb-3">
@@ -1654,12 +1702,36 @@
   };
 
   // =====================================================
-  // IMAGE PREVIEW
+  // IMAGE PREVIEW & ROTATION
   // =====================================================
+  function rotateImage(imgId, inputId, angle) {
+    const img = document.getElementById(imgId);
+    const input = document.getElementById(inputId);
+    if (!img || !input) return;
+
+    let currentRotation = parseInt(img.dataset.rotation || '0');
+    currentRotation = (currentRotation + angle) % 360;
+    
+    img.dataset.rotation = currentRotation;
+    input.value = currentRotation;
+    img.style.transform = `rotate(${currentRotation}deg)`;
+  }
+
+  function resetRotation(imgId, inputId) {
+    const img = document.getElementById(imgId);
+    const input = document.getElementById(inputId);
+    if (img) {
+      img.dataset.rotation = '0';
+      img.style.transform = 'rotate(0deg)';
+    }
+    if (input) input.value = '0';
+  }
+
   function removePreview(inputId, previewId, containerId) {
     document.getElementById(inputId).value = '';
     document.getElementById(containerId).style.display = 'none';
     document.getElementById(previewId).src = '';
+    resetRotation(previewId, previewId.replace('thumb_', 'rotation_'));
   }
 
   function initImagePreviews() {
@@ -1668,15 +1740,19 @@
         const file = this.files[0];
         const inputId = this.id;
 
-        let previewId, containerId;
+        let previewId, containerId, rotationInputId;
         if (inputId === 'foto_hasil_karya_input') {
           previewId = 'thumb_hk';
           containerId = 'preview_container_hk';
+          rotationInputId = 'rotation_hk';
         } else if (inputId.match(/^foto_(\d+)_input$/)) {
           const num = inputId.match(/\d+/)[0];
           previewId = 'thumb_' + num;
           containerId = 'preview_container_' + num;
+          rotationInputId = 'rotation_' + num;
         } else return;
+
+        resetRotation(previewId, rotationInputId);
 
         if (!file) {
           document.getElementById(containerId).style.display = 'none';
