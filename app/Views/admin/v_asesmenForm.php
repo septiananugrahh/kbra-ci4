@@ -605,6 +605,40 @@
     color: #6c757d;
   }
 
+  .badge-asesmen {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.45rem;
+    border-radius: 0.25rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .badge-asesmen-checklist {
+    background-color: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #bae6fd;
+  }
+
+  .badge-asesmen-hasilkarya {
+    background-color: #fef3c7;
+    color: #b45309;
+    border: 1px solid #fde68a;
+  }
+
+  .badge-asesmen-fotoberseri {
+    background-color: #f3e8ff;
+    color: #7e22ce;
+    border: 1px solid #e9d5ff;
+  }
+
+  .badge-asesmen-anekdot {
+    background-color: #dcfce7;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+  }
+
 
   /* ========================================
      MOBILE
@@ -1047,6 +1081,7 @@
 <script>
   const tujuanPembelajaranData = <?= json_encode($tujuan_pembelajaran_detail) ?>;
   const TANGGAL_LIST = <?= json_encode($tanggalList) ?>;
+  const ASESMEN_BADGES = <?= json_encode($asesmenBadges ?? []) ?>;
 </script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -1198,13 +1233,27 @@
 
       this.filteredData.forEach(santri => {
         const initial = santri.nama.charAt(0).toUpperCase();
+
+        // Buat HTML badge asesmen dari data global ASESMEN_BADGES
+        let badgesHtml = '';
+        const sBadges = ASESMEN_BADGES[santri.id] || [];
+        if (sBadges.length > 0) {
+          badgesHtml = '<div class="mt-1 d-flex flex-wrap gap-1">';
+          sBadges.forEach(b => {
+            let label = b.jenis === 'hasilkarya' ? 'hasil karya' : b.jenis;
+            badgesHtml += `<span class="badge-asesmen badge-asesmen-${b.jenis}"><i class="ri-checkbox-circle-fill"></i> ${label} -${b.hari}</span>`;
+          });
+          badgesHtml += '</div>';
+        }
+
         $container.append(`
         <a href="#" class="list-group-item list-group-item-action santri-list-item" data-id="${santri.id}" data-nama="${santri.nama}">
           <div class="d-flex align-items-center">
             <div class="santri-avatar">${initial}</div>
-            <div>
+            <div class="flex-grow-1">
               <div class="santri-name">${santri.nama}</div>
               ${santri.kelas ? `<span class="santri-badge">Kelas: ${santri.kelas}</span>` : ''}
+              ${badgesHtml}
             </div>
           </div>
         </a>

@@ -526,11 +526,52 @@ class Asesmen extends CustomController
       'modul'                      => $modul,
       'tanggalList'                => $tanggalList,
       'santriList'                 => $santri,
+      'asesmenBadges'              => $this->_getAsesmenBadges($modulAjarId, $tanggalList),
       'capaianPembelajaran'        => $this->capaianPembelajaranModel->where('setting', $this->session->get('tahun'))->findAll(),
       'tujuan_pembelajaran_detail' => $dataTujuanPembelajaranDetail,
     ];
 
     return $this->render('admin/v_asesmenForm', $data);
+  }
+
+  /**
+   * Ambil daftar asesmen yang sudah terisi per santri untuk modul ajar ini.
+   * Return: { santri_id: [ ['jenis' => 'checklist', 'hari' => 1], ... ], ... }
+   * "hari" = index tanggal di $tanggalList (hari ke-N pembelajaran).
+   */
+  private function _getAsesmenBadges($modulAjarId, array $tanggalList): array
+  {
+    // Map tanggal -> index hari, supaya badge bisa tampil "checklist -3"
+    $tanggalToHari = [];
+    foreach ($tanggalList as $tgl) {
+      $tanggalToHari[$tgl['tanggal']] = $tgl['index'];
+    }
+
+    $sources = [
+      'checklist'   => $this->asesmenChecklistModel,
+      'hasilkarya'  => $this->asesmenKaryaModel,
+      'fotoberseri' => $this->asesmenFotoModel,
+      'anekdot'     => $this->asesmenAnekdotModel,
+    ];
+
+    $badges = [];
+    foreach ($sources as $jenis => $model) {
+      $rows = $model->select('santri, tanggal')
+        ->where('modul_ajar_id', $modulAjarId)
+        ->findAll();
+
+      foreach ($rows as $row) {
+        $santriId = $row['santri'] ?? null;
+        if (!$santriId) continue;
+
+        $hari = $tanggalToHari[$row['tanggal']] ?? null;
+        if ($hari === null) continue;
+
+        $badges[$santriId][] = ['jenis' => $jenis, 'hari' => $hari];
+      }
+    }
+
+    return $badges;
   }
 
 
