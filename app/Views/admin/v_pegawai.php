@@ -428,19 +428,48 @@
       const nama = $(this).data('nama');
       const username = $(this).data('username');
       const tempat = $(this).data('tempat');
-      const tanggal = $(this).data('tanggal');
+      let tanggal = $(this).data('tanggal');
       const alamat = $(this).data('alamat');
 
-      // alert(nama)
+      // Konversi format tanggal ke YYYY-MM-DD jika perlu
+      if (tanggal && tanggal.includes('/')) {
+        // Asumsikan format DD/MM/YYYY dari database
+        const parts = tanggal.split('/');
+        if (parts.length === 3) {
+          tanggal = `${parts[2]}-${parts[1]}-${parts[0]}`; // YYYY-MM-DD
+        }
+      }
 
       $('#id').val(id);
       $('#nama').val(nama);
       $('#username').val(username);
-      // $('#password').val(password);
-      // $('#re-password').val(password);
       $('#tempat').val(tempat);
       $('#tanggal').val(tanggal);
       $('#alamat').val(alamat);
+
+      // Password kosongkan & buat optional (hanya diisi jika mau ganti)
+      $('#password').val('').prop('required', false);
+      $('#re_password').val('').prop('required', false);
+
+      // Update validasi: password optional saat edit
+      validasiPegawai.removeField('#password');
+      validasiPegawai.removeField('#re_password');
+      validasiPegawai.addField('#password', [{
+        validator: (value) => {
+          // Jika password diisi, minimal 6 karakter
+          if (value && value.length < 6) return false;
+          return true;
+        },
+        errorMessage: 'Password minimal 6 karakter (kosongkan jika tidak ingin mengganti)',
+      }]).addField('#re_password', [{
+        validator: (value, fields) => {
+          const pass = fields['#password'].elem.value;
+          // Jika password diisi, re_password harus sama
+          if (pass && value !== pass) return false;
+          return true;
+        },
+        errorMessage: 'Konfirmasi password tidak cocok',
+      }]);
 
       $('#modalTitle-pegawai').text('Ubah Data Pegawai'); // Judul Modal
 
@@ -453,6 +482,29 @@
 
     $('#btn-tambah-pegawai').on('click', function() {
       resetModalPegawai();
+
+      // Password wajib diisi saat tambah data baru
+      $('#password').prop('required', true);
+      $('#re_password').prop('required', true);
+
+      // Reset validasi password ke mode required
+      validasiPegawai.removeField('#password');
+      validasiPegawai.removeField('#re_password');
+      validasiPegawai.addField('#password', [{
+        rule: 'required',
+        errorMessage: 'Password wajib diisi!',
+      }]).addField('#re_password', [{
+          rule: 'required',
+          errorMessage: 'Konfirmasi password wajib diisi',
+        },
+        {
+          validator: (value, fields) => {
+            return value === fields['#password'].elem.value;
+          },
+          errorMessage: 'Password tidak cocok',
+        }
+      ]);
+
       $('#modalTitle-pegawai').text('Tambah Data Pegawai'); // Judul Modal
       submitButton_pegawai.text('Tambah Pegawai'); // Tombol Save
       submitButton_pegawai.data('action', 'add'); // Tandai sebagai Add
