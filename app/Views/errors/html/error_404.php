@@ -505,27 +505,17 @@
                     <!-- Content wrapper -->
                     <div class="content-wrapper">
 
-                        <center>
-
-                            <!-- Content -->
-                            <div class="container-xxl flex-grow-1 container-p-y">
-                                <div class="container-xxl container-p-y">
-                                    <div class="misc-wrapper">
-                                        <h1 class="mb-2 mx-2" style="line-height: 6rem; font-size: 6rem">404</h1>
-                                        <h4 class="mb-2 mx-2">Halaman Tidak Tersedia ⚠️</h4>
-                                        <p class="mb-6 mx-2">Halaman/Fitur yang anda akses tidak tersedia</p>
-                                        <a href="<?= base_url('') ?>" class="btn btn-primary">kembali ke beranda</a>
-                                        <div class="mt-6">
-                                            <img
-                                                src="<?= base_url('') ?>assets/img/illustrations/page-misc-error-light.png"
-                                                alt="page-misc-error-light"
-                                                width="500"
-                                                class="img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
+                        <!-- Content -->
+                        <div class="container-xxl flex-grow-1 container-p-y text-center d-flex flex-column justify-content-center align-items-center">
+                            <h1 class="mb-2" style="line-height: 6rem; font-size: 6rem">404</h1>
+                            <h4 class="mb-2">Halaman Tidak Tersedia ⚠️</h4>
+                            <p class="mb-4 text-muted">Halaman/Fitur yang Anda akses tidak ditemukan atau telah dipindahkan.</p>
+                            <a href="<?= base_url('dashboard') ?>" class="btn btn-primary mb-4">Kembali ke Beranda</a>
+                            <div>
+                                <img src="<?= base_url('assets/img/illustrations/page-misc-error-light.png') ?>" alt="page-misc-error-light" width="500" class="img-fluid" />
                             </div>
-                        </center>
+                        </div>
+                        <!-- / Content -->
 
                         <!-- Bottom Navigation Bar (Mobile Only) -->
                         <nav class="d-block d-md-none bg-light border-top shadow-sm fixed-bottom">
