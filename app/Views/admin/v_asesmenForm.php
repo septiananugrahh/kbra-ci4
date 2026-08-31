@@ -1711,7 +1711,7 @@
 
     let currentRotation = parseInt(img.dataset.rotation || '0');
     currentRotation = (currentRotation + angle) % 360;
-    
+
     img.dataset.rotation = currentRotation;
     input.value = currentRotation;
     img.style.transform = `rotate(${currentRotation}deg)`;
