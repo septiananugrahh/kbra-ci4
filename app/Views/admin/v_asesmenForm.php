@@ -1715,6 +1715,22 @@
     img.dataset.rotation = currentRotation;
     input.value = currentRotation;
     img.style.transform = `rotate(${currentRotation}deg)`;
+
+    // Sesuaikan margin agar tidak nabrak saat rotasi 90 atau 270 derajat
+    const isVertical = Math.abs(currentRotation) === 90 || Math.abs(currentRotation) === 270;
+    if (isVertical) {
+      const diff = (img.offsetWidth - img.offsetHeight) / 2;
+      if (diff > 0) {
+        img.style.marginTop = `${diff}px`;
+        img.style.marginBottom = `${diff}px`;
+      } else {
+        img.style.marginTop = '0';
+        img.style.marginBottom = '0';
+      }
+    } else {
+      img.style.marginTop = '0';
+      img.style.marginBottom = '0';
+    }
   }
 
   function resetRotation(imgId, inputId) {
@@ -1723,6 +1739,8 @@
     if (img) {
       img.dataset.rotation = '0';
       img.style.transform = 'rotate(0deg)';
+      img.style.marginTop = '0';
+      img.style.marginBottom = '0';
     }
     if (input) input.value = '0';
   }
