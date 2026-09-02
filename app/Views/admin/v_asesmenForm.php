@@ -1539,7 +1539,7 @@
       const hkKegiatan = document.getElementById('kegiatan_hasil_karya');
       if (hkKegiatan) hkKegiatan.value = data.kegiatan || '';
       if (data.foto_hk) {
-        document.getElementById('thumb_hk').src = CONFIG.uploadPath + data.foto_hk;
+        document.getElementById('thumb_hk').src = CONFIG.uploadPath + data.foto_hk + '?t=' + Date.now();
         document.getElementById('preview_container_hk').style.display = 'inline-block';
       }
       Utils.safeJsonParse(data.catatan_hasil_karya_json).forEach(item => {
@@ -1550,7 +1550,7 @@
       // Foto berseri
       for (let i = 1; i <= 3; i++) {
         if (data['foto' + i]) {
-          document.getElementById('thumb_' + i).src = CONFIG.uploadPath + data['foto' + i];
+          document.getElementById('thumb_' + i).src = CONFIG.uploadPath + data['foto' + i] + '?t=' + Date.now();
           document.getElementById('preview_container_' + i).style.display = 'inline-block';
         }
         const ket = document.getElementById('foto_ket' + i);
