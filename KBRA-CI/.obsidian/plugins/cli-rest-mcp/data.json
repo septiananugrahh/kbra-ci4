@@ -1,0 +1,13 @@
+{
+  "autoStart": true,
+  "port": 27124,
+  "bindAddress": "127.0.0.1",
+  "apiKey": "8a293a244697d5bf50b47e4d33c9972795e05154bb11e6d72ed1f6583b824962",
+  "requestTimeout": 30000,
+  "enableRestApi": true,
+  "enableMcp": true,
+  "allowDangerousCommands": false,
+  "blockedCommands": [],
+  "enableCors": false,
+  "defaultVault": ""
+}

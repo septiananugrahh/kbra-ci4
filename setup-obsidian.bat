@@ -1,11 +1,11 @@
 @echo off
 setlocal EnableExtensions
 
-title SIAM - Obsidian + MCP + GitHub Copilot Setup
+title KBRA - Obsidian + MCP + GitHub Copilot Setup
 
 echo.
 echo ============================================================
-echo       SIAM - OBSIDIAN + MCP + GITHUB COPILOT SETUP
+echo       KBRA - OBSIDIAN + MCP + GITHUB COPILOT SETUP
 echo ============================================================
 echo.
 
@@ -44,21 +44,21 @@ echo [2/7] Membuat file utama Obsidian...
 
 if not exist ".ai\PROJECT.md" (
     (
-        echo # SIAM Project
+        echo # KBRA Project
         echo.
         echo ## Project
-        echo SIAM - Sistem Informasi Administrasi Madrasah
+        echo KBRA - KB / RA Islamic Center
         echo.
         echo ## Purpose
-        echo Dokumentasi dan persistent AI memory untuk project SIAM.
+        echo Dokumentasi dan persistent AI memory untuk aplikasi administrasi TK (KB/RA Islamic Center) dan asesmen.
         echo.
         echo ## Stack
-        echo - Laravel
-        echo - Vue 3
-        echo - Inertia.js
-        echo - Vite
-        echo - MariaDB
-        echo - Redis
+        echo - PHP 8
+        echo - CodeIgniter 4
+        echo - MySQL / MariaDB
+        echo - Bootstrap 5 + Sneat Template
+        echo - jQuery
+        echo - DomPDF
         echo.
         echo ## AI Memory
         echo Knowledge base project disimpan di folder `.ai`.
@@ -76,31 +76,34 @@ if not exist ".ai\ARCHITECTURE.md" (
         echo # Architecture
         echo.
         echo ## Overview
+        echo Aplikasi administrasi TK (KB/RA Islamic Center): santri, pegawai, modul ajar, asesmen, laporan.
         echo.
         echo ## Backend
-        echo Laravel
+        echo CodeIgniter 4 (MVC, PHP 8)
         echo.
         echo ## Frontend
-        echo Vue 3 + Inertia.js
+        echo Bootstrap 5 + Sneat Template + jQuery
         echo.
         echo ## Database
-        echo MariaDB
+        echo MySQL / MariaDB (file skema: new_kbra.sql)
         echo.
-        echo ## Cache / Queue
-        echo Redis
+        echo ## PDF
+        echo DomPDF (laporan, rapor, asesmen)
         echo.
         echo ## Modules
-        echo - [[modules/SPP]]
-        echo - [[modules/PAYMENT]]
-        echo - [[modules/FINANCE]]
-        echo - [[modules/RAPOR]]
-        echo - [[modules/TAHSIDZ]]
+        echo - [[modules/SANTRI]]
+        echo - [[modules/KELAS]]
+        echo - [[modules/PEGAWAI]]
+        echo - [[modules/MODUL_AJAR]]
+        echo - [[modules/ASESMEN]]
+        echo - [[modules/TUJUAN_PEMBELAJARAN]]
+        echo - [[modules/LAPORAN_BULANAN]]
+        echo - [[modules/KURIKULUM_CINTA]]
         echo.
         echo ## Infrastructure
         echo - [[infrastructure/SERVER]]
-        echo - [[infrastructure/DOCKER]]
-        echo - [[infrastructure/NGINX]]
-        echo - [[infrastructure/REVERB]]
+        echo - [[infrastructure/DATABASE]]
+        echo - [[infrastructure/LARAGON]]
     ) > ".ai\ARCHITECTURE.md"
 )
 
@@ -108,7 +111,7 @@ if not exist ".ai\DECISIONS.md" (
     (
         echo # Architecture Decisions
         echo.
-        echo Dokumentasi keputusan penting dalam pengembangan SIAM.
+        echo Dokumentasi keputusan penting dalam pengembangan KBRA.
         echo.
         echo ## Decisions
         echo.
@@ -176,11 +179,14 @@ REM ============================================================
 
 echo [3/7] Membuat module memory...
 
-call :CREATE_MODULE ".ai\modules\SPP.md" "SPP"
-call :CREATE_MODULE ".ai\modules\PAYMENT.md" "Payment"
-call :CREATE_MODULE ".ai\modules\FINANCE.md" "Finance"
-call :CREATE_MODULE ".ai\modules\RAPOR.md" "Rapor"
-call :CREATE_MODULE ".ai\modules\TAHSIDZ.md" "Tahfidz"
+call :CREATE_MODULE ".ai\modules\SANTRI.md" "Santri"
+call :CREATE_MODULE ".ai\modules\KELAS.md" "Kelas"
+call :CREATE_MODULE ".ai\modules\PEGAWAI.md" "Pegawai"
+call :CREATE_MODULE ".ai\modules\MODUL_AJAR.md" "Modul Ajar"
+call :CREATE_MODULE ".ai\modules\ASESMEN.md" "Asesmen"
+call :CREATE_MODULE ".ai\modules\TUJUAN_PEMBELAJARAN.md" "Tujuan Pembelajaran"
+call :CREATE_MODULE ".ai\modules\LAPORAN_BULANAN.md" "Laporan Bulanan"
+call :CREATE_MODULE ".ai\modules\KURIKULUM_CINTA.md" "Kurikulum Cinta"
 
 echo       OK
 echo.
@@ -192,9 +198,8 @@ REM ============================================================
 echo [4/7] Membuat infrastructure memory...
 
 call :CREATE_MODULE ".ai\infrastructure\SERVER.md" "Server"
-call :CREATE_MODULE ".ai\infrastructure\DOCKER.md" "Docker"
-call :CREATE_MODULE ".ai\infrastructure\NGINX.md" "Nginx"
-call :CREATE_MODULE ".ai\infrastructure\REVERB.md" "Laravel Reverb"
+call :CREATE_MODULE ".ai\infrastructure\DATABASE.md" "Database"
+call :CREATE_MODULE ".ai\infrastructure\LARAGON.md" "Laragon"
 
 echo       OK
 echo.
@@ -229,7 +234,7 @@ REM ============================================================
 echo [6/7] Membuat GitHub Copilot instructions...
 
 (
-    echo # SIAM - GitHub Copilot Instructions
+    echo # KBRA - GitHub Copilot Instructions
     echo.
     echo ## Project Memory
     echo.
@@ -276,12 +281,12 @@ echo [6/7] Membuat GitHub Copilot instructions...
     echo.
     echo ## Project Stack
     echo.
-    echo - Laravel
-    echo - Vue 3
-    echo - Inertia.js
-    echo - Vite
-    echo - MariaDB
-    echo - Redis
+    echo - PHP 8
+    echo - CodeIgniter 4
+    echo - MySQL / MariaDB
+    echo - Bootstrap 5 + Sneat Template
+    echo - jQuery
+    echo - DomPDF
     echo.
     echo ## AI Workflow
     echo.
@@ -364,7 +369,7 @@ echo.
 echo 10. Gunakan Agent Mode dan test:
 echo.
 echo    "Gunakan MCP Obsidian dan baca PROJECT.md.
-echo     Jelaskan project SIAM yang kamu pahami."
+echo     Jelaskan project KBRA yang kamu pahami."
 echo.
 echo ============================================================
 echo.

@@ -22,7 +22,10 @@ class AsesmenFotoBerseriModel extends Model
     'ket_foto3',
     'analisis_guru',
     'umpan_balik',
-    'created_at',    // ✅ TAMBAH INI
+    'rotation_foto1',
+    'rotation_foto2',
+    'rotation_foto3',
+    'created_at',
     'updated_at'
   ];
 

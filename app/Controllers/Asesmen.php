@@ -14,7 +14,6 @@ use App\Models\SantriModel;
 use App\Models\SemesterModel;
 use App\Models\TujuanPembelajaranModel;
 use App\Models\UserModel;
-use CodeIgniter\Database\RawSql;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
@@ -194,6 +193,10 @@ class Asesmen extends CustomController
         'ket_foto3' => $foto_ket3 ?: null,
         'analisis_guru' => !empty($result_analisis_guru) ? json_encode($result_analisis_guru) : null,
         'umpan_balik' => $umpan_balik ?: null,
+        // Simpan rotasi ke database
+        'rotation_foto1' => $request->getPost('rotation_foto_1') ?? 0,
+        'rotation_foto2' => $request->getPost('rotation_foto_2') ?? 0,
+        'rotation_foto3' => $request->getPost('rotation_foto_3') ?? 0,
       ];
 
       if ($existingAsesmenFoto) {
@@ -392,6 +395,7 @@ class Asesmen extends CustomController
         'foto' => $foto_hasil_karya_name,
         'kegiatan' => $kegiatan_hasil_karya,
         'catatan' => json_encode($result_hasil_karya_catatan),
+        'rotation_foto' => $rotation,
       ];
 
       if ($existingAsesmenKarya) {
@@ -647,6 +651,9 @@ class Asesmen extends CustomController
         'ket_foto2' => null,
         'foto3' => null,
         'ket_foto3' => null,
+        'rotation_foto1' => 0,
+        'rotation_foto2' => 0,
+        'rotation_foto3' => 0,
         'analisis_guru_json' => null,
         'umpan_balik' => null,
         'tempat' => null,
@@ -654,6 +661,7 @@ class Asesmen extends CustomController
         'keterangan_anekdot_json' => null,
         'kegiatan' => null,
         'foto_hk' => null,
+        'rotation_foto_hk' => 0,
         'catatan_hasil_karya_json' => null,
         'hasil_penilaian_decoded' => [],
         'kejadian_checklist_json' => null,
@@ -681,6 +689,9 @@ class Asesmen extends CustomController
         $finalData['ket_foto1'] = $fotoberseriData['ket_foto1'] ?? null;
         $finalData['ket_foto2'] = $fotoberseriData['ket_foto2'] ?? null;
         $finalData['ket_foto3'] = $fotoberseriData['ket_foto3'] ?? null;
+        $finalData['rotation_foto1'] = $fotoberseriData['rotation_foto1'] ?? 0;
+        $finalData['rotation_foto2'] = $fotoberseriData['rotation_foto2'] ?? 0;
+        $finalData['rotation_foto3'] = $fotoberseriData['rotation_foto3'] ?? 0;
         $finalData['analisis_guru_json'] = $fotoberseriData['analisis_guru'] ?? null;
         $finalData['umpan_balik'] = $fotoberseriData['umpan_balik'] ?? null;
         $finalData['tanggal_fotoberseri'] = $fotoberseriData['tanggal'] ?? null;
@@ -706,6 +717,7 @@ class Asesmen extends CustomController
       if ($hasilkaryaData) {
         $finalData['kegiatan'] = $hasilkaryaData['kegiatan'] ?? null;
         $finalData['foto_hk'] = $hasilkaryaData['foto'] ?? null;
+        $finalData['rotation_foto_hk'] = $hasilkaryaData['rotation_foto'] ?? 0;
         $finalData['catatan_hasil_karya_json'] = $hasilkaryaData['catatan'] ?? null;
         $finalData['tanggal_hasilkarya'] = $hasilkaryaData['tanggal'] ?? null;
       }
