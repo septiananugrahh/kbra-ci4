@@ -127,7 +127,6 @@ class Asesmen extends CustomController
       $foto = $request->getFile("foto_$i");
       $fieldName = "foto$i"; // ✅ Konsisten dengan nama kolom di database (foto1, foto2, foto3)
       $oldFotoName = $existingAsesmenFoto[$fieldName] ?? null;
-      $rotation = $request->getPost("rotation_foto_$i") ?? 0;
 
       if ($foto && $foto->isValid() && !$foto->hasMoved()) {
         // Delete old file if exists
@@ -146,8 +145,8 @@ class Asesmen extends CustomController
         // Upload ke temporary path dulu
         $foto->move(FCPATH . 'uploads/penilaian', 'temp_' . $newName);
 
-        // COMPRESS & RESIZE IMAGE (sekalian terapkan rotasi)
-        if ($this->compressImage($tempPath, $finalPath, 1920, 75, $rotation)) {
+        // COMPRESS & RESIZE IMAGE (tanpa rotasi fisik; rotasi disimpan di DB & diterapkan saat render)
+        if ($this->compressImage($tempPath, $finalPath, 1920, 75, 0)) {
           // Hapus file temporary setelah kompresi berhasil
           if (file_exists($tempPath)) {
             unlink($tempPath);
@@ -158,13 +157,10 @@ class Asesmen extends CustomController
           if (file_exists($tempPath)) {
             rename($tempPath, $finalPath);
           }
-          $this->_rotateExistingImage($newName, $rotation);
           $fotoPaths[$fieldName] = $newName;
         }
       } else {
-        // ✅ PENTING: Keep old file name if no new file uploaded
-        // Rotasi tetap diterapkan kalau user memutar gambar lama (tanpa upload ulang)
-        $this->_rotateExistingImage($oldFotoName, $rotation);
+        // Keep old file name if no new file uploaded
         if ($oldFotoName) {
           $fotoPaths[$fieldName] = $oldFotoName;
         }
@@ -342,7 +338,6 @@ class Asesmen extends CustomController
     // Handle file upload
     $foto_hk = $request->getFile("foto_hasil_karya");
     $foto_hasil_karya_name = null;
-    $rotation = $request->getPost('rotation_hasil_karya') ?? 0;
 
     if ($foto_hk && $foto_hk->isValid() && !$foto_hk->hasMoved()) {
       // Delete old file if exists
@@ -361,8 +356,8 @@ class Asesmen extends CustomController
       // Upload ke temporary path dulu
       $foto_hk->move(FCPATH . 'uploads/penilaian', 'temp_' . $newName_hk);
 
-      // COMPRESS & RESIZE IMAGE (sekalian terapkan rotasi)
-      if ($this->compressImage($tempPath, $finalPath, 1920, 75, $rotation)) {
+      // COMPRESS & RESIZE IMAGE (tanpa rotasi fisik; rotasi disimpan di DB & diterapkan saat render)
+      if ($this->compressImage($tempPath, $finalPath, 1920, 75, 0)) {
         // Hapus file temporary setelah kompresi berhasil
         if (file_exists($tempPath)) {
           unlink($tempPath);
@@ -373,15 +368,11 @@ class Asesmen extends CustomController
         if (file_exists($tempPath)) {
           rename($tempPath, $finalPath);
         }
-        $this->_rotateExistingImage($newName_hk, $rotation);
         $foto_hasil_karya_name = $newName_hk;
       }
     } else {
       // Keep old file name if no new file uploaded
-      // Rotasi tetap diterapkan kalau user memutar gambar lama (tanpa upload ulang)
-      $oldName = $existingAsesmenKarya['foto'] ?? null;
-      $this->_rotateExistingImage($oldName, $rotation);
-      $foto_hasil_karya_name = $oldName;
+      $foto_hasil_karya_name = $existingAsesmenKarya['foto'] ?? null;
     }
 
     // Save data if any content exists
@@ -395,7 +386,7 @@ class Asesmen extends CustomController
         'foto' => $foto_hasil_karya_name,
         'kegiatan' => $kegiatan_hasil_karya,
         'catatan' => json_encode($result_hasil_karya_catatan),
-        'rotation_foto' => $rotation,
+        'rotation_foto' => $request->getPost('rotation_hasil_karya') ?? 0,
       ];
 
       if ($existingAsesmenKarya) {
@@ -408,28 +399,20 @@ class Asesmen extends CustomController
     }
   }
 
-  private function compressImage($sourcePath, $destinationPath, $maxWidth = 1920, $quality = 75, $rotation = 0)
+  private function compressImage($sourcePath, $destinationPath, $maxWidth = 1920, $quality = 75)
   {
     try {
       $image = \Config\Services::image()->withFile($sourcePath);
 
-      // Cek apakah gambar perlu di-resize
+      // Resize if needed
       if ($image->getWidth() > $maxWidth) {
         $ratio = $maxWidth / $image->getWidth();
         $newHeight = (int)($image->getHeight() * $ratio);
-
         $image->resize($maxWidth, $newHeight, true, 'height');
       }
 
-      // Terapkan rotasi kalau user memutar gambar di form
-      $rotation = $this->_normalizeRotation($rotation);
-      if ($rotation !== 0) {
-        $image->rotate($rotation);
-      }
-
-      // Save dengan kompresi
+      // Save with compression
       $image->save($destinationPath, $quality);
-
       return true;
     } catch (\Exception $e) {
       log_message('error', 'Image compression failed: ' . $e->getMessage());
@@ -437,41 +420,12 @@ class Asesmen extends CustomController
     }
   }
 
-  /**
-   * Normalisasi derajat rotasi ke nilai yang didukung CI Image: 0/90/180/270.
-   * Form mengirim -90 untuk putar kiri, jadi perlu dikonversi ke positif.
-   */
-  private function _normalizeRotation($rotation): int
-  {
-    $deg = ((int) $rotation % 360 + 360) % 360;
-    return in_array($deg, [90, 180, 270], true) ? $deg : 0;
-  }
+  // Normalisasi rotasi tidak lagi diperlukan karena rotasi tidak diproses di sini
+  // private function _normalizeRotation($rotation): int {}
 
-  /**
-   * Rotasi file yang sudah tersimpan (kasus: user hanya memutar gambar lama,
-   * tanpa upload file baru). Rotasi dilakukan in-place.
-   */
-  private function _rotateExistingImage(?string $filename, $rotation): void
-  {
-    $rotation = $this->_normalizeRotation($rotation);
-    if (!$filename || $rotation === 0) {
-      return;
-    }
+  // Rotasi file yang sudah tersimpan tidak lagi dipanggil
+  // private function _rotateExistingImage(?string $filename, $rotation): void {}
 
-    $path = FCPATH . 'uploads/penilaian/' . $filename;
-    if (!is_file($path)) {
-      return;
-    }
-
-    try {
-      \Config\Services::image()
-        ->withFile($path)
-        ->rotate($rotation)
-        ->save($path);
-    } catch (\Exception $e) {
-      log_message('error', 'Image rotation failed: ' . $e->getMessage());
-    }
-  }
 
   public function hapusdata_soft()
   {

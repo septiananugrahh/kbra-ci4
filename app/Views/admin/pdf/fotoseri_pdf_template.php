@@ -299,7 +299,7 @@
                 <table class="inner-table">
                   <tr>
                     <td style="width: auto; text-align: right;">
-                      <img src="<?= FCPATH . 'uploads/penilaian/' . $record['foto1'] ?>" alt="Foto 1">
+                      <img src="<?= FCPATH . 'uploads/penilaian/' . $record['foto1'] ?>" alt="Foto 1" style="transform: rotate(<?= $record['rotation_foto1'] ?? 0 ?>deg);">
                     </td>
                     <td style="text-align: left;">
                       <div class="photo-caption"><?= esc($record['ket_foto1']) ?: 'Tanpa Keterangan' ?></div>
@@ -314,7 +314,7 @@
                 <table class="inner-table">
                   <tr>
                     <td style="width: auto; text-align: right;">
-                      <img src="<?= FCPATH . 'uploads/penilaian/' . $record['foto2'] ?>" alt="Foto 2">
+                      <img src="<?= FCPATH . 'uploads/penilaian/' . $record['foto2'] ?>" alt="Foto 2" style="transform: rotate(<?= $record['rotation_foto2'] ?? 0 ?>deg);">
                     </td>
                     <td style="text-align: left;">
                       <div class="photo-caption"><?= esc($record['ket_foto2']) ?: 'Tanpa Keterangan' ?></div>
@@ -329,7 +329,7 @@
                 <table class="inner-table">
                   <tr>
                     <td style="width: auto; text-align: right;">
-                      <img src="<?= FCPATH . 'uploads/penilaian/' . $record['foto3'] ?>" alt="Foto 3">
+                      <img src="<?= FCPATH . 'uploads/penilaian/' . $record['foto3'] ?>" alt="Foto 3" style="transform: rotate(<?= $record['rotation_foto3'] ?? 0 ?>deg);">
                     </td>
                     <td style="text-align: left;">
                       <div class="photo-caption"><?= esc($record['ket_foto3']) ?: 'Tanpa Keterangan' ?></div>
