@@ -1545,7 +1545,11 @@
         document.getElementById('preview_container_hk').style.display = 'inline-block';
         // reset rotation hidden input (file already rotated)
         const hkRot = document.getElementById('rotation_hk');
-        if (hkRot) hkRot.value = 0;
+        if (hkRot) {
+          hkRot.value = 0;
+          hkImg.dataset.rotation = '0';
+          hkImg.style.transform = '';
+        }
       }
       Utils.safeJsonParse(data.catatan_hasil_karya_json).forEach(item => {
         const el = document.getElementById('hasil_karya_catatan_' + item.id_capaian);
@@ -1559,6 +1563,13 @@
           img.src = '';
           img.src = CONFIG.uploadPath + data['foto' + i] + '?t=' + Date.now();
           document.getElementById('preview_container_' + i).style.display = 'inline-block';
+          // reset rotation hidden input (file already rotated)
+          const rotInput = document.getElementById('rotation_' + i);
+          if (rotInput) {
+            rotInput.value = 0;
+            img.dataset.rotation = '0';
+            img.style.transform = '';
+          }
         }
         const ket = document.getElementById('foto_ket' + i);
         if (ket) ket.value = data['ket_foto' + i] || '';
