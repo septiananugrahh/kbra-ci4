@@ -17,7 +17,7 @@ class AsesmenHasilKaryaModel extends Model
     'kegiatan',
     'foto',
     'catatan',
-    'rotation_foto',
+
     'created_at',    // ✅ TAMBAH INI
     'updated_at'
   ];

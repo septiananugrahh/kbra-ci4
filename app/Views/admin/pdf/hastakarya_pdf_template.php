@@ -214,7 +214,7 @@
           </tr>
           <tr>
             <td style="text-align: center;">
-              <img src="<?= FCPATH . 'uploads/penilaian/' . $record['foto'] ?>" alt="Foto Hasil Karya" style="transform: rotate(<?= $record['rotation_foto'] ?? 0 ?>deg);">
+              <img src="<?= FCPATH . 'uploads/penilaian/' . $record['foto'] ?>" alt="Foto Hasil Karya">
             </td>
           </tr>
         </table>

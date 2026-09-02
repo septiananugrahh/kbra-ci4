@@ -145,8 +145,9 @@ class Asesmen extends CustomController
         // Upload ke temporary path dulu
         $foto->move(FCPATH . 'uploads/penilaian', 'temp_' . $newName);
 
-        // COMPRESS & RESIZE IMAGE (tanpa rotasi fisik; rotasi disimpan di DB & diterapkan saat render)
-        if ($this->compressImage($tempPath, $finalPath, 1920, 75, 0)) {
+        // COMPRESS & RESIZE IMAGE (fisik; rotasi diterapkan langsung ke file)
+        $rotation = (int)($request->getPost('rotation_foto_' . $i) ?? 0);
+        if ($this->compressImage($tempPath, $finalPath, 1920, 75, $rotation)) {
           // Hapus file temporary setelah kompresi berhasil
           if (file_exists($tempPath)) {
             unlink($tempPath);
@@ -162,6 +163,11 @@ class Asesmen extends CustomController
       } else {
         // Keep old file name if no new file uploaded
         if ($oldFotoName) {
+          $rotation = (int)($request->getPost('rotation_foto_' . $i) ?? 0);
+          if ($rotation != 0) {
+            // Rotasi file lama sesuai perubahan
+            $this->_rotateExistingImage($oldFotoName, $rotation);
+          }
           $fotoPaths[$fieldName] = $oldFotoName;
         }
       }
@@ -189,10 +195,7 @@ class Asesmen extends CustomController
         'ket_foto3' => $foto_ket3 ?: null,
         'analisis_guru' => !empty($result_analisis_guru) ? json_encode($result_analisis_guru) : null,
         'umpan_balik' => $umpan_balik ?: null,
-        // Simpan rotasi ke database
-        'rotation_foto1' => $request->getPost('rotation_foto_1') ?? 0,
-        'rotation_foto2' => $request->getPost('rotation_foto_2') ?? 0,
-        'rotation_foto3' => $request->getPost('rotation_foto_3') ?? 0,
+
       ];
 
       if ($existingAsesmenFoto) {
@@ -356,8 +359,8 @@ class Asesmen extends CustomController
       // Upload ke temporary path dulu
       $foto_hk->move(FCPATH . 'uploads/penilaian', 'temp_' . $newName_hk);
 
-      // COMPRESS & RESIZE IMAGE (tanpa rotasi fisik; rotasi disimpan di DB & diterapkan saat render)
-      if ($this->compressImage($tempPath, $finalPath, 1920, 75, 0)) {
+      // COMPRESS & RESIZE IMAGE (fisik; rotasi diterapkan langsung ke file)
+      if ($this->compressImage($tempPath, $finalPath, 1920, 75, (int)($request->getPost('rotation_hasil_karya') ?? 0))) {
         // Hapus file temporary setelah kompresi berhasil
         if (file_exists($tempPath)) {
           unlink($tempPath);
@@ -372,7 +375,16 @@ class Asesmen extends CustomController
       }
     } else {
       // Keep old file name if no new file uploaded
-      $foto_hasil_karya_name = $existingAsesmenKarya['foto'] ?? null;
+      if ($existingAsesmenKarya && !empty($existingAsesmenKarya['foto'])) {
+        $rotation = (int)($request->getPost('rotation_hasil_karya') ?? 0);
+        if ($rotation != 0) {
+          // Rotasi file lama sesuai perubahan
+          $this->_rotateExistingImage($existingAsesmenKarya['foto'], $rotation);
+        }
+        $foto_hasil_karya_name = $existingAsesmenKarya['foto'];
+      } else {
+        $foto_hasil_karya_name = null;
+      }
     }
 
     // Save data if any content exists
@@ -386,7 +398,6 @@ class Asesmen extends CustomController
         'foto' => $foto_hasil_karya_name,
         'kegiatan' => $kegiatan_hasil_karya,
         'catatan' => json_encode($result_hasil_karya_catatan),
-        'rotation_foto' => $request->getPost('rotation_hasil_karya') ?? 0,
       ];
 
       if ($existingAsesmenKarya) {
@@ -399,10 +410,15 @@ class Asesmen extends CustomController
     }
   }
 
-  private function compressImage($sourcePath, $destinationPath, $maxWidth = 1920, $quality = 75)
+  private function compressImage($sourcePath, $destinationPath, $maxWidth = 1920, $quality = 75, $rotation = 0)
   {
     try {
       $image = \Config\Services::image()->withFile($sourcePath);
+
+      // Apply rotation first (before resize)
+      if ($rotation != 0) {
+        $image->rotate($rotation);
+      }
 
       // Resize if needed
       if ($image->getWidth() > $maxWidth) {
@@ -420,12 +436,31 @@ class Asesmen extends CustomController
     }
   }
 
-  // Normalisasi rotasi tidak lagi diperlukan karena rotasi tidak diproses di sini
-  // private function _normalizeRotation($rotation): int {}
+  /**
+   * Rotasi file gambar yang sudah tersimpan di-tempat.
+   * Mengubah file original secara fisik dengan rotasi yang diterapkan.
+   */
+  private function _rotateExistingImage(?string $filename, int $rotation): void
+  {
+    if (empty($filename) || $rotation == 0) {
+      return;
+    }
 
-  // Rotasi file yang sudah tersimpan tidak lagi dipanggil
-  // private function _rotateExistingImage(?string $filename, $rotation): void {}
+    $filePath = FCPATH . 'uploads/penilaian/' . $filename;
+    if (!file_exists($filePath)) {
+      log_message('warning', 'File not found for rotation: ' . $filename);
+      return;
+    }
 
+    try {
+      $image = \Config\Services::image()->withFile($filePath);
+      $image->rotate($rotation);
+      $image->save($filePath);
+      log_message('info', 'Image rotated: ' . $filename . ' by ' . $rotation . ' degrees');
+    } catch (\Exception $e) {
+      log_message('error', 'Image rotation failed for ' . $filename . ': ' . $e->getMessage());
+    }
+  }
 
   public function hapusdata_soft()
   {
@@ -605,9 +640,6 @@ class Asesmen extends CustomController
         'ket_foto2' => null,
         'foto3' => null,
         'ket_foto3' => null,
-        'rotation_foto1' => 0,
-        'rotation_foto2' => 0,
-        'rotation_foto3' => 0,
         'analisis_guru_json' => null,
         'umpan_balik' => null,
         'tempat' => null,
@@ -615,7 +647,6 @@ class Asesmen extends CustomController
         'keterangan_anekdot_json' => null,
         'kegiatan' => null,
         'foto_hk' => null,
-        'rotation_foto_hk' => 0,
         'catatan_hasil_karya_json' => null,
         'hasil_penilaian_decoded' => [],
         'kejadian_checklist_json' => null,
@@ -643,9 +674,6 @@ class Asesmen extends CustomController
         $finalData['ket_foto1'] = $fotoberseriData['ket_foto1'] ?? null;
         $finalData['ket_foto2'] = $fotoberseriData['ket_foto2'] ?? null;
         $finalData['ket_foto3'] = $fotoberseriData['ket_foto3'] ?? null;
-        $finalData['rotation_foto1'] = $fotoberseriData['rotation_foto1'] ?? 0;
-        $finalData['rotation_foto2'] = $fotoberseriData['rotation_foto2'] ?? 0;
-        $finalData['rotation_foto3'] = $fotoberseriData['rotation_foto3'] ?? 0;
         $finalData['analisis_guru_json'] = $fotoberseriData['analisis_guru'] ?? null;
         $finalData['umpan_balik'] = $fotoberseriData['umpan_balik'] ?? null;
         $finalData['tanggal_fotoberseri'] = $fotoberseriData['tanggal'] ?? null;
@@ -671,7 +699,6 @@ class Asesmen extends CustomController
       if ($hasilkaryaData) {
         $finalData['kegiatan'] = $hasilkaryaData['kegiatan'] ?? null;
         $finalData['foto_hk'] = $hasilkaryaData['foto'] ?? null;
-        $finalData['rotation_foto_hk'] = $hasilkaryaData['rotation_foto'] ?? 0;
         $finalData['catatan_hasil_karya_json'] = $hasilkaryaData['catatan'] ?? null;
         $finalData['tanggal_hasilkarya'] = $hasilkaryaData['tanggal'] ?? null;
       }
