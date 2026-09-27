@@ -1563,7 +1563,7 @@
           img.src = '';
           img.src = CONFIG.uploadPath + data['foto' + i] + '?t=' + Date.now();
           document.getElementById('preview_container_' + i).style.display = 'inline-block';
-          // reset rotation hidden input (file already rotated)
+          // File sudah diputar di server; jangan tambah rotate CSS (nanti dobel).
           const rotInput = document.getElementById('rotation_' + i);
           if (rotInput) {
             rotInput.value = 0;
@@ -1628,6 +1628,18 @@
         const result = await res.json();
         if (res.ok && result.message) {
           Utils.showSuccess(result.message);
+          // Rotasi sudah dipanggang ke file saat simpan -> reset supaya
+          // submit kedua tanpa reload tidak memutar file dua kali.
+          document.querySelectorAll('input[name^="rotation_"]').forEach(inp => {
+            inp.value = '0';
+            const img = document.getElementById(inp.id.replace('rotation_', 'thumb_'));
+            if (img) {
+              img.dataset.rotation = '0';
+              img.style.transform = '';
+              img.style.marginTop = '0';
+              img.style.marginBottom = '0';
+            }
+          });
         } else {
           Utils.showError(result.message || 'Terjadi kesalahan');
         }

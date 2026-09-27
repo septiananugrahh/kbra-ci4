@@ -144,9 +144,10 @@ class Asesmen extends CustomController
 
         // Upload ke temporary path dulu
         $foto->move(FCPATH . 'uploads/penilaian', 'temp_' . $newName);
-
         // COMPRESS & RESIZE IMAGE (fisik; rotasi diterapkan langsung ke file)
         $rotation = (int)($request->getPost('rotation_foto_' . $i) ?? 0);
+        // GD rotate CCW, CSS rotate CW -> invert. Normalize to 90/180/270.
+        $rotation = (360 - (($rotation % 360 + 360) % 360)) % 360;
         if ($this->compressImage($tempPath, $finalPath, 1920, 75, $rotation)) {
           // Hapus file temporary setelah kompresi berhasil
           if (file_exists($tempPath)) {
@@ -164,8 +165,9 @@ class Asesmen extends CustomController
         // Keep old file name if no new file uploaded
         if ($oldFotoName) {
           $rotation = (int)($request->getPost('rotation_foto_' . $i) ?? 0);
+          $rotation = (360 - (($rotation % 360 + 360) % 360)) % 360;
           if ($rotation != 0) {
-            // Rotasi file lama sesuai perubahan
+            // Rotasi file lama sesuai perubahan (disamakan arahnya dengan preview CSS)
             $this->_rotateExistingImage($oldFotoName, $rotation);
           }
           $fotoPaths[$fieldName] = $oldFotoName;
@@ -360,7 +362,9 @@ class Asesmen extends CustomController
       $foto_hk->move(FCPATH . 'uploads/penilaian', 'temp_' . $newName_hk);
 
       // COMPRESS & RESIZE IMAGE (fisik; rotasi diterapkan langsung ke file)
-      if ($this->compressImage($tempPath, $finalPath, 1920, 75, (int)($request->getPost('rotation_hasil_karya') ?? 0))) {
+      $rotation = (int)($request->getPost('rotation_hasil_karya') ?? 0);
+      $rotation = (360 - (($rotation % 360 + 360) % 360)) % 360;
+      if ($this->compressImage($tempPath, $finalPath, 1920, 75, $rotation)) {
         // Hapus file temporary setelah kompresi berhasil
         if (file_exists($tempPath)) {
           unlink($tempPath);
@@ -377,8 +381,8 @@ class Asesmen extends CustomController
       // Keep old file name if no new file uploaded
       if ($existingAsesmenKarya && !empty($existingAsesmenKarya['foto'])) {
         $rotation = (int)($request->getPost('rotation_hasil_karya') ?? 0);
+        $rotation = (360 - (($rotation % 360 + 360) % 360)) % 360;
         if ($rotation != 0) {
-          // Rotasi file lama sesuai perubahan
           $this->_rotateExistingImage($existingAsesmenKarya['foto'], $rotation);
         }
         $foto_hasil_karya_name = $existingAsesmenKarya['foto'];
